@@ -1,0 +1,68 @@
+/* 显式启用；保留采购退货的旧入口，样式只跟随控件真实焦点。 */
+:is(.erp-form-focus-highlight, .purchase-document-form--focus-highlight)
+  :is(
+    [aria-invalid='true'],
+    .ant-form-item-has-error,
+    .ant-input-status-error,
+    .ant-input-affix-wrapper-status-error,
+    .ant-input-number-status-error,
+    .ant-select-status-error,
+    .ant-picker-status-error
+  ) {
+  --erp-form-focus-border: #ff4d4f;
+  --erp-form-focus-shadow: 0 0 0 2px rgb(255 77 79 / 10%);
+}
+
+:is(.erp-form-focus-highlight, .purchase-document-form--focus-highlight)
+  :is(
+    .ant-form-item-has-warning,
+    .ant-input-status-warning,
+    .ant-input-affix-wrapper-status-warning,
+    .ant-input-number-status-warning,
+    .ant-select-status-warning,
+    .ant-picker-status-warning
+  ) {
+  --erp-form-focus-border: #faad14;
+  --erp-form-focus-shadow: 0 0 0 2px rgb(250 173 20 / 10%);
+}
+
+:is(.erp-form-focus-highlight, .purchase-document-form--focus-highlight)
+  .ant-input:not(:disabled):not([readonly]):focus,
+:is(.erp-form-focus-highlight, .purchase-document-form--focus-highlight)
+  .ant-input-affix-wrapper:has(> input:not(:disabled):not([readonly]):focus),
+:is(.erp-form-focus-highlight, .purchase-document-form--focus-highlight)
+  .ant-input-number:has(
+    .ant-input-number-input:not(:disabled):not([readonly]):focus
+  ),
+:is(.erp-form-focus-highlight, .purchase-document-form--focus-highlight)
+  .ant-picker:not(.ant-picker-disabled):not(
+    [aria-disabled='true']
+  ):focus-within,
+:is(.erp-form-focus-highlight, .purchase-document-form--focus-highlight)
+  .ant-select:not(.ant-select-disabled):not([aria-disabled='true']):focus-within
+  .ant-select-selector {
+  background: #eaf3ff !important;
+  border-color: var(--erp-form-focus-border, #1677ff) !important;
+  box-shadow: var(
+    --erp-form-focus-shadow,
+    0 0 0 2px rgb(22 119 255 / 12%)
+  ) !important;
+}
+
+/* 复合控件只给外框着色；选择框的 readonly 搜索节点仍可用于选择。 */
+:is(.erp-form-focus-highlight, .purchase-document-form--focus-highlight)
+  .ant-input-affix-wrapper:has(> input:not(:disabled):not([readonly]):focus)
+  > input,
+:is(.erp-form-focus-highlight, .purchase-document-form--focus-highlight)
+  .ant-input-number:has(
+    .ant-input-number-input:not(:disabled):not([readonly]):focus
+  )
+  .ant-input-number-input,
+:is(.erp-form-focus-highlight, .purchase-document-form--focus-highlight)
+  .ant-picker:not(.ant-picker-disabled):not([aria-disabled='true']):focus-within
+  .ant-picker-input
+  > input {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}

@@ -1,0 +1,136 @@
+.member-compact-grid .vxe-grid--form-wrapper {
+  padding: 8px 12px 4px;
+  border-bottom: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+}
+
+.member-compact-grid .vxe-grid--form-wrapper .ant-form-item {
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.member-compact-grid .vxe-grid--form-wrapper .ant-form-item-label > label,
+.member-compact-grid .vxe-grid--form-wrapper .ant-input,
+.member-compact-grid .vxe-grid--form-wrapper .ant-input-number-input,
+.member-compact-grid .vxe-grid--form-wrapper .ant-select-selection-item,
+.member-compact-grid .vxe-grid--form-wrapper .ant-picker-input > input {
+  font-size: 12px;
+}
+
+.member-compact-grid .vxe-grid--form-wrapper .ant-input,
+.member-compact-grid .vxe-grid--form-wrapper .ant-input-affix-wrapper,
+.member-compact-grid .vxe-grid--form-wrapper .ant-input-number,
+.member-compact-grid .vxe-grid--form-wrapper .ant-picker,
+.member-compact-grid .vxe-grid--form-wrapper .ant-select-selector,
+.member-compact-grid .vxe-toolbar .table-actions .ant-btn,
+.member-compact-grid .vxe-toolbar .ant-btn {
+  min-height: 28px;
+  height: 28px;
+  font-size: 12px;
+}
+
+.member-compact-grid .vxe-toolbar {
+  min-height: 36px;
+  padding: 4px 8px;
+  border-bottom: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+}
+
+.member-compact-grid .vxe-toolbar .vxe-toolbar--buttons,
+.member-compact-grid .vxe-toolbar .vxe-toolbar--tools {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.member-compact-grid .vxe-table--render-default {
+  font-size: 12px;
+}
+
+.member-compact-grid .vxe-header--column .vxe-cell,
+.member-compact-grid .vxe-body--column .vxe-cell {
+  padding-right: 8px;
+  padding-left: 8px;
+}
+
+.member-compact-grid .vxe-grid--pager-wrapper {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  padding: 6px 8px;
+  border-top: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+}
+
+.member-compact-grid .table-actions {
+  gap: 4px;
+}
+
+.member-compact-grid .table-actions .ant-btn-link {
+  height: 24px;
+  padding: 0 4px;
+  font-size: 12px;
+}
+
+.member-status-tabs .ant-tabs-nav {
+  margin: 0;
+}
+
+.member-status-tabs .ant-tabs-tab {
+  padding: 8px 0;
+  font-size: 12px;
+}
+
+.member-form-card {
+  border-radius: 8px;
+}
+
+.member-edit-form {
+  width: min(100%, 980px);
+}
+
+.member-edit-form .ant-form-item {
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+
+.member-edit-form .ant-form-item-label > label,
+.member-edit-form .ant-input,
+.member-edit-form .ant-input-number-input,
+.member-edit-form .ant-select-selection-item,
+.member-edit-form .ant-picker-input > input,
+.member-edit-form .ant-radio-wrapper,
+.member-edit-form .ant-checkbox-wrapper {
+  font-size: 12px;
+}
+
+.member-edit-form .ant-input,
+.member-edit-form .ant-input-affix-wrapper,
+.member-edit-form .ant-input-number,
+.member-edit-form .ant-picker,
+.member-edit-form .ant-select-selector {
+  min-height: 28px;
+  font-size: 12px;
+}
+
+.member-form-card .ant-btn,
+.member-edit-form .ant-btn {
+  min-height: 28px;
+  height: 28px;
+  font-size: 12px;
+}
+
+.member-config-form {
+  width: min(100%, 760px);
+}
+
+.member-detail-tabs .ant-tabs-nav {
+  margin-bottom: 8px;
+}
+
+@media (max-width: 1024px) {
+  .member-edit-form,
+  .member-config-form {
+    width: 100%;
+  }
+}

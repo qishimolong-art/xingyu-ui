@@ -1,0 +1,262 @@
+@import '../../styles/form-focus.css';
+
+.purchase-document-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 100%;
+  padding: 12px;
+  color: hsl(var(--foreground));
+  background: hsl(var(--muted) / 28%);
+  font-size: 12px;
+}
+
+.purchase-document-form__content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.purchase-document-load-state {
+  display: flex;
+  min-height: 96px;
+  align-items: center;
+  justify-content: center;
+  color: hsl(var(--muted-foreground));
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 8px;
+}
+
+.purchase-document-load-state.is-error {
+  color: hsl(var(--destructive));
+}
+
+.purchase-document-section {
+  overflow: visible;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 8px;
+}
+
+.purchase-document-section__header {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 12px;
+  background: hsl(var(--muted) / 24%);
+  border-bottom: 1px solid hsl(var(--border));
+  border-radius: 8px 8px 0 0;
+}
+
+.purchase-document-section__title {
+  position: relative;
+  padding-left: 10px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.purchase-document-section__title::before {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  left: 0;
+  width: 3px;
+  background: hsl(var(--primary));
+  border-radius: 3px;
+  content: '';
+}
+
+.purchase-document-section__tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.purchase-document-section__tools .ant-btn {
+  height: 28px;
+  padding: 2px 10px;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.purchase-document-basic-grid {
+  gap: 0 12px;
+  padding: 12px;
+}
+
+.purchase-document-basic-grid > div {
+  min-width: 0;
+}
+
+.purchase-document-basic-grid > div > label {
+  margin-right: 0;
+  padding-right: 10px;
+  color: hsl(var(--muted-foreground));
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.purchase-document-basic-grid > div > .flex-auto {
+  min-width: 0;
+}
+
+.purchase-document-form .ant-input,
+.purchase-document-form .ant-picker,
+.purchase-document-form .ant-select-selector,
+.purchase-document-form .ant-tree-select .ant-select-selector {
+  min-height: 32px;
+  background: hsl(var(--muted) / 48%) !important;
+  border-color: hsl(var(--border)) !important;
+  border-radius: 6px !important;
+  font-size: 12px;
+}
+
+.purchase-document-form .ant-input,
+.purchase-document-form .ant-picker-input > input,
+.purchase-document-form .ant-select-selection-item,
+.purchase-document-form .ant-select-selection-placeholder,
+.purchase-document-form .ant-radio-button-wrapper {
+  font-size: 12px;
+}
+
+.purchase-document-form .ant-input,
+.purchase-document-form .ant-picker,
+.purchase-document-form .ant-select-single {
+  height: 32px;
+}
+
+.purchase-document-form textarea.ant-input {
+  min-height: 32px !important;
+  resize: vertical;
+}
+
+.purchase-document-form--editable .ant-input:not(:disabled),
+.purchase-document-form--editable .ant-picker:not(.ant-picker-disabled),
+.purchase-document-form--editable
+  .ant-select:not(.ant-select-disabled)
+  .ant-select-selector,
+.purchase-document-form--editable
+  .ant-upload-picture-card-wrapper
+  .ant-upload-select {
+  background: hsl(var(--background)) !important;
+}
+
+.purchase-document-form--editable .ant-input:disabled,
+.purchase-document-form--editable .ant-picker-disabled,
+.purchase-document-form--editable .ant-select-disabled .ant-select-selector,
+.purchase-document-form--editable .ant-upload-wrapper .ant-upload-disabled {
+  color: hsl(var(--muted-foreground)) !important;
+  background: hsl(var(--muted-foreground) / 14%) !important;
+  border-color: hsl(var(--muted-foreground) / 28%) !important;
+}
+
+.purchase-document-payment-summary {
+  padding: 0 12px 12px;
+}
+
+.purchase-document-payment-summary > div {
+  background: hsl(var(--primary) / 7%);
+  border-color: hsl(var(--primary) / 20%);
+  font-size: 12px;
+}
+
+.purchase-document-items {
+  padding: 10px;
+}
+
+.purchase-document-items .vxe-table {
+  font-size: 11px;
+}
+
+.purchase-document-items .vxe-header--column .vxe-cell,
+.purchase-document-items .vxe-body--column .vxe-cell {
+  padding-right: 4px;
+  padding-left: 4px;
+}
+
+.purchase-document-items .vxe-header--column .vxe-cell {
+  white-space: nowrap;
+}
+
+.purchase-document-audit .erp-audit-info {
+  padding: 12px;
+}
+
+.purchase-document-audit .erp-audit-info .text-sm {
+  font-size: 12px;
+}
+
+.purchase-document-audit .erp-audit-info > div:first-child {
+  display: none;
+}
+
+.purchase-document-form-select-dropdown .ant-select-item,
+.purchase-document-form-select-dropdown .ant-select-tree,
+.purchase-document-form-select-dropdown .ant-empty-description {
+  font-size: 12px;
+}
+
+.purchase-document-item-select-dropdown .ant-select-item,
+.purchase-document-item-select-dropdown .ant-select-tree,
+.purchase-document-item-select-dropdown .ant-empty-description {
+  font-size: 11px;
+}
+
+.purchase-invoice-document-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 420px);
+  gap: 12px;
+  align-items: start;
+}
+
+.purchase-invoice-document-layout:not(:has(.purchase-invoice-document-source)) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.purchase-invoice-document-source {
+  position: sticky;
+  top: 0;
+  min-width: 0;
+  overflow: hidden;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 8px;
+}
+
+@media (max-width: 1100px) {
+  .purchase-document-basic-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .purchase-invoice-document-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .purchase-invoice-document-source {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .purchase-document-form {
+    padding: 8px;
+  }
+
+  .purchase-document-basic-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .purchase-document-section__header {
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+}

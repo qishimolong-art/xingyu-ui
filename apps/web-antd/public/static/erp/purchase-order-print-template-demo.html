@@ -1,0 +1,3920 @@
+<meta charset="UTF-8">
+<div id="purchase-print-template-resizable-demo" class="purchase-print-template-resizable-demo">
+  <style>
+    html,
+    body {
+      height: 100%;
+      min-height: 0;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #purchase-print-template-resizable-demo {
+      --erp-bg: light-dark(#f6f8fc, #141821);
+      --erp-panel: light-dark(#ffffff, #1f2530);
+      --erp-soft: light-dark(#f3f6fb, #262d39);
+      --erp-head: light-dark(#eef3f9, #242b36);
+      --erp-line: light-dark(#d9e2ee, #3a4658);
+      --erp-line-soft: light-dark(#e8edf5, #313a49);
+      --erp-text: light-dark(#172033, #eef3fb);
+      --erp-muted: light-dark(#6b7890, #a8b4c6);
+      --erp-primary: light-dark(#3b73ff, #79a6ff);
+      --erp-primary-soft: light-dark(#eaf1ff, #1c2d52);
+      --erp-gray: light-dark(#eef0f3, #2a2f38);
+      --paper-width: 794px;
+      --paper-height: 1123px;
+      --paper-margin-top: 19px;
+      --paper-margin-right: 38px;
+      --paper-margin-bottom: 19px;
+      --paper-margin-left: 38px;
+      font: 400 var(--font-size-base) / 1.45 "Microsoft YaHei", Arial, sans-serif;
+      color: var(--erp-text);
+      height: 100%;
+      min-height: 0;
+    }
+
+    #purchase-print-template-resizable-demo * {
+      box-sizing: border-box;
+    }
+
+    #purchase-print-template-resizable-demo button,
+    #purchase-print-template-resizable-demo input,
+    #purchase-print-template-resizable-demo select {
+      font: inherit;
+    }
+
+    #purchase-print-template-resizable-demo .demo-shell {
+      background: var(--erp-bg);
+      border: 1px solid var(--erp-line);
+      height: 100%;
+      min-height: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #purchase-print-template-resizable-demo .topbar {
+      flex: 0 0 auto;
+      min-height: 56px;
+      padding: 12px 16px;
+      background: var(--erp-panel);
+      border-bottom: 1px solid var(--erp-line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+
+    #purchase-print-template-resizable-demo .title-wrap,
+    #purchase-print-template-resizable-demo .actions,
+    #purchase-print-template-resizable-demo .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #purchase-print-template-resizable-demo .title {
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    #purchase-print-template-resizable-demo .breadcrumb,
+    #purchase-print-template-resizable-demo .muted {
+      color: var(--erp-muted);
+      white-space: nowrap;
+    }
+
+    #purchase-print-template-resizable-demo .icon-btn {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--erp-line);
+      border-radius: 6px;
+      background: var(--erp-panel);
+      color: var(--erp-text);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #purchase-print-template-resizable-demo .tool-btn {
+      height: 32px;
+      border: 1px solid var(--erp-line);
+      border-radius: 6px;
+      padding: 0 12px;
+      background: var(--erp-panel);
+      color: var(--erp-text);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+    }
+
+    #purchase-print-template-resizable-demo .tool-btn.is-active {
+      border-color: var(--erp-primary);
+      background: var(--erp-primary-soft);
+      color: var(--erp-primary);
+      font-weight: 500;
+    }
+
+    #purchase-print-template-resizable-demo .text-btn,
+    #purchase-print-template-resizable-demo .primary-btn,
+    #purchase-print-template-resizable-demo .insert-btn {
+      height: 32px;
+      border: 1px solid var(--erp-line);
+      border-radius: 6px;
+      padding: 0 14px;
+      background: var(--erp-panel);
+      color: var(--erp-text);
+      white-space: nowrap;
+    }
+
+    #purchase-print-template-resizable-demo .template-select {
+      min-width: 180px;
+      max-width: 260px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    #purchase-print-template-resizable-demo .primary-btn {
+      background: var(--erp-primary);
+      border-color: var(--erp-primary);
+      color: light-dark(#ffffff, #08101f);
+    }
+
+    #purchase-print-template-resizable-demo .sheet-context-menu {
+      position: fixed;
+      z-index: 80;
+      min-width: 132px;
+      padding: 6px;
+      border: 1px solid var(--erp-line);
+      border-radius: 8px;
+      background: var(--erp-panel);
+      box-shadow: 0 12px 28px rgba(15, 23, 42, .16);
+      display: none;
+    }
+
+    #purchase-print-template-resizable-demo .sheet-context-menu.is-open {
+      display: block;
+    }
+
+    #purchase-print-template-resizable-demo .sheet-context-menu button {
+      width: 100%;
+      height: 32px;
+      padding: 0 10px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--erp-text);
+      text-align: left;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    #purchase-print-template-resizable-demo .sheet-context-menu button:hover {
+      background: var(--erp-soft);
+    }
+
+    #purchase-print-template-resizable-demo .sheet-context-menu .danger {
+      color: #dc2626;
+    }
+
+    #purchase-print-template-resizable-demo .layout {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    #purchase-print-template-resizable-demo .field-panel {
+      background: var(--erp-panel);
+      min-width: 0;
+      min-height: 0;
+      padding: 16px 14px;
+      overflow: auto;
+    }
+
+    #purchase-print-template-resizable-demo .field-panel {
+      border-right: 1px solid var(--erp-line);
+    }
+
+    #purchase-print-template-resizable-demo.is-print-mode .layout {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    #purchase-print-template-resizable-demo.is-print-mode .field-panel,
+    #purchase-print-template-resizable-demo.is-print-mode .editor-controls,
+    #purchase-print-template-resizable-demo.is-print-mode [data-template-select],
+    #purchase-print-template-resizable-demo.is-print-mode [data-set-default-button],
+    #purchase-print-template-resizable-demo.is-print-mode [data-save-as-button],
+    #purchase-print-template-resizable-demo.is-print-mode [data-save-button] {
+      display: none;
+    }
+
+    #purchase-print-template-resizable-demo.is-print-mode.is-print-preparing .layout {
+      display: none;
+    }
+
+    #purchase-print-template-resizable-demo .print-preparing {
+      display: none;
+      flex: 1;
+      min-height: 0;
+      place-items: center;
+      background: var(--erp-bg);
+      color: var(--erp-muted);
+      font-weight: 500;
+    }
+
+    #purchase-print-template-resizable-demo.is-print-mode.is-print-preparing .print-preparing {
+      display: grid;
+    }
+
+    #purchase-print-template-resizable-demo .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    #purchase-print-template-resizable-demo .panel-title {
+      font-weight: 500;
+    }
+
+    #purchase-print-template-resizable-demo .soft-tag {
+      height: 28px;
+      padding: 0 10px;
+      border-radius: 6px;
+      background: var(--erp-primary-soft);
+      color: var(--erp-primary);
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    #purchase-print-template-resizable-demo .search,
+    #purchase-print-template-resizable-demo .select,
+    #purchase-print-template-resizable-demo .formula-value {
+      height: 34px;
+      border: 1px solid var(--erp-line);
+      border-radius: 6px;
+      background: var(--erp-panel);
+      color: var(--erp-text);
+      padding: 0 10px;
+      min-width: 0;
+    }
+
+    #purchase-print-template-resizable-demo .search,
+    #purchase-print-template-resizable-demo .select {
+      width: 100%;
+    }
+
+    #purchase-print-template-resizable-demo .field-tree {
+      display: grid;
+      gap: 8px;
+    }
+
+    #purchase-print-template-resizable-demo .field-group {
+      border-bottom: 1px solid var(--erp-line-soft);
+      padding-bottom: 8px;
+    }
+
+    #purchase-print-template-resizable-demo .field-group__head {
+      width: 100%;
+      min-height: 32px;
+      border: 0;
+      background: transparent;
+      color: var(--erp-text);
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto auto;
+      align-items: center;
+      gap: 8px;
+      padding: 0;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    #purchase-print-template-resizable-demo .field-group__arrow {
+      color: var(--erp-muted);
+      transition: transform .12s ease;
+    }
+
+    #purchase-print-template-resizable-demo .field-group.is-collapsed .field-group__arrow {
+      transform: rotate(-90deg);
+    }
+
+    #purchase-print-template-resizable-demo .field-group__name,
+    #purchase-print-template-resizable-demo .field-group__hint {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #purchase-print-template-resizable-demo .field-group__hint,
+    #purchase-print-template-resizable-demo .field-group__count {
+      color: var(--erp-muted);
+    }
+
+    #purchase-print-template-resizable-demo .field-list {
+      display: grid;
+      gap: 8px;
+      padding-top: 6px;
+    }
+
+    #purchase-print-template-resizable-demo .field-group.is-collapsed .field-list {
+      display: none;
+    }
+
+    #purchase-print-template-resizable-demo .field-empty {
+      padding: 12px 4px;
+      color: var(--erp-muted);
+      text-align: center;
+    }
+
+    #purchase-print-template-resizable-demo .field-item {
+      height: 36px;
+      display: grid;
+      grid-template-columns: minmax(92px, 1fr) minmax(0, 1.1fr);
+      align-items: center;
+      gap: 8px;
+      padding: 0 10px;
+      border: 1px solid var(--erp-line);
+      border-radius: 6px;
+      background: var(--erp-soft);
+      cursor: grab;
+    }
+
+    #purchase-print-template-resizable-demo .field-name,
+    #purchase-print-template-resizable-demo .field-code {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #purchase-print-template-resizable-demo .field-code {
+      color: var(--erp-muted);
+      font-family: Consolas, "Courier New", monospace;
+    }
+
+    #purchase-print-template-resizable-demo .workspace {
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    #purchase-print-template-resizable-demo .editor-controls {
+      z-index: 25;
+      flex: 0 0 auto;
+      background: var(--erp-panel);
+      box-shadow: 0 1px 0 var(--erp-line);
+    }
+
+    #purchase-print-template-resizable-demo .toolbar {
+      min-height: 50px;
+      padding: 10px 14px;
+      background: var(--erp-panel);
+      border-bottom: 1px solid var(--erp-line);
+      flex-wrap: wrap;
+    }
+
+    #purchase-print-template-resizable-demo .paper-settings {
+      min-height: 46px;
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      background: var(--erp-panel);
+      border-bottom: 1px solid var(--erp-line);
+    }
+
+    #purchase-print-template-resizable-demo .setting-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--erp-muted);
+      white-space: nowrap;
+    }
+
+    #purchase-print-template-resizable-demo .paper-select {
+      min-width: 178px;
+    }
+
+    #purchase-print-template-resizable-demo .paper-mm-input {
+      width: 70px;
+      height: 32px;
+      border: 1px solid var(--erp-line);
+      border-radius: 6px;
+      padding: 0 8px;
+      background: var(--erp-panel);
+      color: var(--erp-text);
+    }
+
+    #purchase-print-template-resizable-demo .paper-readout {
+      color: var(--erp-muted);
+      margin-left: auto;
+      white-space: nowrap;
+    }
+
+    #purchase-print-template-resizable-demo .divider {
+      width: 1px;
+      height: 24px;
+      background: var(--erp-line);
+      margin: 0 4px;
+    }
+
+    #purchase-print-template-resizable-demo .formula {
+      display: grid;
+      grid-template-columns: 88px minmax(0, 1fr);
+      gap: 10px;
+      padding: 10px 14px;
+      background: var(--erp-panel);
+      border-bottom: 1px solid var(--erp-line);
+    }
+
+    #purchase-print-template-resizable-demo .name-box {
+      height: 34px;
+      border: 1px solid var(--erp-line);
+      border-radius: 6px;
+      background: var(--erp-soft);
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      font-weight: 500;
+    }
+
+    #purchase-print-template-resizable-demo .sheet-scroll {
+      overflow: auto;
+      padding: 0;
+      flex: 1;
+      min-height: 0;
+      background: var(--erp-gray);
+    }
+
+    #purchase-print-template-resizable-demo .paper-stage {
+      position: relative;
+      min-width: 100%;
+      min-height: calc(34px + var(--paper-height));
+      padding: 0;
+      display: inline-block;
+      box-sizing: border-box;
+    }
+
+    #purchase-print-template-resizable-demo .paper-canvas {
+      position: relative;
+      display: inline-block;
+      min-width: calc(42px + var(--paper-width));
+      min-height: calc(34px + var(--paper-height));
+    }
+
+    #purchase-print-template-resizable-demo .non-print-note {
+      position: absolute;
+      top: 54px;
+      left: calc(42px + var(--paper-width) + 42px);
+      z-index: 5;
+      color: var(--erp-muted);
+      font-size: 18px;
+      font-weight: 500;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    #purchase-print-template-resizable-demo .paper-shade {
+      position: absolute;
+      z-index: 3;
+      background: color-mix(in srgb, var(--erp-gray) 72%, transparent);
+      pointer-events: none;
+    }
+
+    #purchase-print-template-resizable-demo .paper-shade-right {
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: calc(42px + var(--paper-width));
+    }
+
+    #purchase-print-template-resizable-demo .paper-shade-bottom {
+      top: calc(34px + var(--paper-height));
+      right: 0;
+      bottom: 0;
+      left: 42px;
+    }
+
+    #purchase-print-template-resizable-demo .paper-page {
+      position: absolute;
+      top: 34px;
+      left: 42px;
+      z-index: 4;
+      width: var(--paper-width);
+      height: var(--paper-height);
+      box-sizing: border-box;
+      border: 2px solid #ff5a5f;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, .68), 0 12px 34px rgba(15, 23, 42, .12);
+      pointer-events: none;
+    }
+
+    #purchase-print-template-resizable-demo .sheet {
+      --col-a: 90px;
+      --col-b: 90px;
+      --col-c: 90px;
+      --col-d: 90px;
+      --col-e: 90px;
+      --col-f: 90px;
+      --col-g: 90px;
+      --col-h: 90px;
+      width: max-content;
+      min-width: 0;
+      display: grid;
+      grid-template-columns: 42px var(--col-a) var(--col-b) var(--col-c) var(--col-d) var(--col-e) var(--col-f) var(--col-g) var(--col-h);
+      background: var(--erp-panel);
+      border: 1px solid var(--erp-line);
+      user-select: none;
+    }
+
+    #purchase-print-template-resizable-demo .corner,
+    #purchase-print-template-resizable-demo .col-head,
+    #purchase-print-template-resizable-demo .row-head {
+      min-height: 34px;
+      background: var(--erp-head);
+      color: var(--erp-muted);
+      border-right: 1px solid var(--erp-line-soft);
+      border-bottom: 1px solid var(--erp-line-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      font-weight: 500;
+    }
+
+    #purchase-print-template-resizable-demo .col-resizer,
+    #purchase-print-template-resizable-demo .row-resizer {
+      position: absolute;
+      z-index: 4;
+      background: var(--erp-primary);
+      opacity: 0;
+      transition: opacity .12s ease;
+    }
+
+    #purchase-print-template-resizable-demo .col-resizer {
+      top: 0;
+      right: -3px;
+      width: 6px;
+      height: 100%;
+      cursor: col-resize;
+    }
+
+    #purchase-print-template-resizable-demo .row-resizer {
+      left: 0;
+      right: 0;
+      bottom: -3px;
+      height: 6px;
+      cursor: row-resize;
+    }
+
+    #purchase-print-template-resizable-demo .col-head:hover .col-resizer,
+    #purchase-print-template-resizable-demo .row-head:hover .row-resizer,
+    #purchase-print-template-resizable-demo .col-resizer.dragging,
+    #purchase-print-template-resizable-demo .row-resizer.dragging {
+      opacity: .85;
+    }
+
+    #purchase-print-template-resizable-demo .col-head,
+    #purchase-print-template-resizable-demo .row-head {
+      cursor: pointer;
+    }
+
+    #purchase-print-template-resizable-demo .col-head.header-selected,
+    #purchase-print-template-resizable-demo .row-head.header-selected {
+      background: var(--erp-primary-soft);
+      color: var(--erp-primary);
+      box-shadow: inset 0 0 0 1px var(--erp-primary);
+    }
+
+    #purchase-print-template-resizable-demo .cell {
+      min-height: 34px;
+      padding: 6px 8px;
+      border-right: 1px solid var(--erp-line-soft);
+      border-bottom: 1px solid var(--erp-line-soft);
+      background: var(--erp-panel);
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      outline: 0;
+      color: var(--erp-text);
+    }
+
+    #purchase-print-template-resizable-demo .cell[data-rowspan]:not([data-rowspan="1"]) {
+      min-height: var(--merged-height, 34px);
+    }
+
+    #purchase-print-template-resizable-demo .center {
+      justify-content: center;
+      text-align: center;
+    }
+
+    #purchase-print-template-resizable-demo .right {
+      justify-content: flex-end;
+      text-align: right;
+    }
+
+    #purchase-print-template-resizable-demo .left {
+      justify-content: flex-start;
+      text-align: left;
+    }
+
+    #purchase-print-template-resizable-demo .bold {
+      font-weight: 700;
+    }
+
+    #purchase-print-template-resizable-demo .logo {
+      color: light-dark(#2e3f87, #9fb4ff);
+      font-size: 24px;
+      font-weight: 500;
+      letter-spacing: .5px;
+      min-height: 72px;
+    }
+
+    #purchase-print-template-resizable-demo .blue-title {
+      color: var(--erp-primary);
+      justify-content: center;
+      font-weight: 500;
+      font-size: 18px;
+    }
+
+    #purchase-print-template-resizable-demo .contract-title {
+      justify-content: center;
+      font-weight: 500;
+      font-size: 18px;
+    }
+
+    #purchase-print-template-resizable-demo .line-bottom {
+      border-bottom-color: color-mix(in srgb, var(--erp-text) 58%, var(--erp-line));
+    }
+
+    #purchase-print-template-resizable-demo .table-border {
+      border-color: color-mix(in srgb, var(--erp-text) 42%, var(--erp-line));
+    }
+
+    #purchase-print-template-resizable-demo .manual-border {
+      border-color: color-mix(in srgb, var(--erp-text) 64%, var(--erp-line));
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--erp-text) 64%, var(--erp-line));
+    }
+
+    #purchase-print-template-resizable-demo .border-top {
+      border-top: 1px solid color-mix(in srgb, var(--erp-text) 72%, var(--erp-line));
+    }
+
+    #purchase-print-template-resizable-demo .border-right {
+      border-right: 1px solid color-mix(in srgb, var(--erp-text) 72%, var(--erp-line));
+    }
+
+    #purchase-print-template-resizable-demo .border-bottom {
+      border-bottom: 1px solid color-mix(in srgb, var(--erp-text) 72%, var(--erp-line));
+    }
+
+    #purchase-print-template-resizable-demo .border-left {
+      border-left: 1px solid color-mix(in srgb, var(--erp-text) 72%, var(--erp-line));
+    }
+
+    #purchase-print-template-resizable-demo .range-selected {
+      background: var(--erp-primary-soft);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--erp-primary) 58%, var(--erp-line));
+    }
+
+    #purchase-print-template-resizable-demo .hidden-cell {
+      display: none;
+    }
+
+    #purchase-print-template-resizable-demo .token {
+      color: var(--erp-primary);
+      font-family: inherit;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+
+    #purchase-print-template-resizable-demo .cell.selected,
+    #purchase-print-template-resizable-demo .cell.drop-ready,
+    #purchase-print-template-resizable-demo .cell[contenteditable="true"] {
+      box-shadow: inset 0 0 0 2px var(--erp-primary);
+      background: var(--erp-primary-soft);
+    }
+
+    #purchase-print-template-resizable-demo .cell[contenteditable="true"] {
+      cursor: text;
+      background: var(--erp-panel);
+    }
+
+    #purchase-print-template-resizable-demo .gray {
+      background: var(--erp-gray);
+      color: var(--erp-muted);
+      justify-content: center;
+      text-align: center;
+    }
+
+    #purchase-print-template-resizable-demo .sheet-tabs {
+      width: var(--paper-width);
+      min-width: 0;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 0 0;
+    }
+
+    #purchase-print-template-resizable-demo .tab {
+      min-width: 96px;
+      height: 34px;
+      border: 0;
+      border-radius: 6px 6px 0 0;
+      background: var(--erp-primary-soft);
+      color: var(--erp-primary);
+    }
+
+    #purchase-print-template-resizable-demo .status {
+      width: var(--paper-width);
+      min-width: 0;
+      margin: 0 auto;
+      padding: 8px 0 14px;
+      background: var(--erp-panel);
+      border-top: 1px solid var(--erp-line);
+      text-align: right;
+      color: var(--erp-muted);
+    }
+
+    #purchase-print-template-resizable-demo label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      white-space: nowrap;
+    }
+
+    #purchase-print-template-resizable-demo.resizing,
+    #purchase-print-template-resizable-demo.resizing * {
+      user-select: none;
+    }
+
+    #purchase-print-template-resizable-demo .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: color-mix(in srgb, var(--erp-text) 36%, transparent);
+    }
+
+    #purchase-print-template-resizable-demo .modal-backdrop.is-open {
+      display: flex;
+    }
+
+    #purchase-print-template-resizable-demo .modal {
+      width: min(1120px, 100%);
+      max-height: min(820px, calc(100vh - 48px));
+      display: flex;
+      flex-direction: column;
+      background: var(--erp-panel);
+      border: 1px solid var(--erp-line);
+      border-radius: 8px;
+      box-shadow: 0 18px 48px color-mix(in srgb, var(--erp-text) 24%, transparent);
+      overflow: hidden;
+    }
+
+    #purchase-print-template-resizable-demo .modal.small {
+      width: min(420px, 100%);
+    }
+
+    #purchase-print-template-resizable-demo .modal-head,
+    #purchase-print-template-resizable-demo .modal-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--erp-line);
+    }
+
+    #purchase-print-template-resizable-demo .modal-actions {
+      justify-content: flex-end;
+      border-top: 1px solid var(--erp-line);
+      border-bottom: 0;
+    }
+
+    #purchase-print-template-resizable-demo .modal-title {
+      font-weight: 500;
+    }
+
+    #purchase-print-template-resizable-demo .modal-head-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #purchase-print-template-resizable-demo .modal-body {
+      padding: 18px;
+      overflow: auto;
+      background: var(--erp-gray);
+    }
+
+    #purchase-print-template-resizable-demo .modal.small .modal-body {
+      background: var(--erp-panel);
+    }
+
+    #purchase-print-template-resizable-demo .template-name-input {
+      width: 100%;
+      height: 36px;
+      border: 1px solid var(--erp-line);
+      border-radius: 6px;
+      background: var(--erp-panel);
+      color: var(--erp-text);
+      padding: 0 10px;
+    }
+
+    #purchase-print-template-resizable-demo .preview-page,
+    #purchase-print-template-resizable-demo .print-page {
+      width: var(--paper-width);
+      height: var(--paper-height);
+      padding: var(--paper-margin-top) var(--paper-margin-right) var(--paper-margin-bottom) var(--paper-margin-left);
+      overflow: hidden;
+      box-sizing: border-box;
+      background: #fff;
+    }
+
+    #purchase-print-template-resizable-demo .preview-page {
+      margin: 0 auto 18px;
+      border: 1px solid var(--erp-line);
+      box-shadow: 0 16px 34px color-mix(in srgb, var(--erp-text) 14%, transparent);
+    }
+
+    #purchase-print-template-resizable-demo .preview-page:last-child {
+      margin-bottom: 0;
+    }
+
+    #purchase-print-template-resizable-demo .preview-sheet {
+      display: grid;
+      width: max-content;
+      min-width: 0;
+      margin: 0;
+      background: var(--erp-panel);
+      border: 0;
+    }
+
+    #purchase-print-template-resizable-demo .preview-cell {
+      min-height: 34px;
+      padding: 6px 8px;
+      border: 0 solid transparent;
+      background: var(--erp-panel);
+      color: var(--erp-text);
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    #purchase-print-template-resizable-demo .preview-cell.center,
+    #purchase-print-template-resizable-demo .print-cell.center {
+      justify-content: center;
+      text-align: center;
+    }
+
+    #purchase-print-template-resizable-demo .preview-cell.right,
+    #purchase-print-template-resizable-demo .print-cell.right {
+      justify-content: flex-end;
+      text-align: right;
+    }
+
+    #purchase-print-template-resizable-demo .preview-cell.left,
+    #purchase-print-template-resizable-demo .print-cell.left {
+      justify-content: flex-start;
+      text-align: left;
+    }
+
+    #purchase-print-template-resizable-demo .preview-cell.manual-border,
+    #purchase-print-template-resizable-demo .preview-cell.table-border {
+      border: 1px solid color-mix(in srgb, var(--erp-text) 48%, var(--erp-line));
+    }
+
+    #purchase-print-template-resizable-demo .preview-cell.border-top {
+      border-top: 1px solid color-mix(in srgb, var(--erp-text) 72%, var(--erp-line));
+    }
+
+    #purchase-print-template-resizable-demo .preview-cell.border-right {
+      border-right: 1px solid color-mix(in srgb, var(--erp-text) 72%, var(--erp-line));
+    }
+
+    #purchase-print-template-resizable-demo .preview-cell.border-bottom,
+    #purchase-print-template-resizable-demo .preview-cell.line-bottom {
+      border-bottom: 1px solid color-mix(in srgb, var(--erp-text) 72%, var(--erp-line));
+    }
+
+    #purchase-print-template-resizable-demo .preview-cell.border-left {
+      border-left: 1px solid color-mix(in srgb, var(--erp-text) 72%, var(--erp-line));
+    }
+
+    #purchase-print-template-resizable-demo .print-root {
+      display: none;
+    }
+
+    #purchase-print-template-resizable-demo .print-sheet {
+      display: grid;
+      width: max-content;
+      min-width: 0;
+      background: #fff;
+      color: #111827;
+    }
+
+    #purchase-print-template-resizable-demo .print-cell {
+      min-height: 34px;
+      padding: 6px 8px;
+      border: 0 solid transparent;
+      background: #fff;
+      color: #111827;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      box-sizing: border-box;
+      break-inside: avoid;
+    }
+
+    #purchase-print-template-resizable-demo .toast {
+      position: fixed;
+      top: 78px;
+      right: 24px;
+      z-index: 70;
+      display: none;
+      padding: 9px 14px;
+      border: 1px solid var(--erp-line);
+      border-radius: 6px;
+      background: var(--erp-panel);
+      color: var(--erp-text);
+      box-shadow: 0 10px 28px color-mix(in srgb, var(--erp-text) 18%, transparent);
+    }
+
+    #purchase-print-template-resizable-demo .toast.is-open {
+      display: block;
+    }
+
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 8mm;
+      }
+
+      html,
+      body {
+        height: auto !important;
+        margin: 0 !important;
+        overflow: visible !important;
+        background: #fff !important;
+      }
+
+      body * {
+        visibility: hidden !important;
+      }
+
+      #purchase-print-template-resizable-demo .print-root,
+      #purchase-print-template-resizable-demo .print-root * {
+        visibility: visible !important;
+      }
+
+      #purchase-print-template-resizable-demo .print-root {
+        display: block !important;
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: auto !important;
+        background: #fff !important;
+        color: #111827 !important;
+      }
+
+      #purchase-print-template-resizable-demo .print-sheet {
+        border: 0 !important;
+        box-shadow: none !important;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+
+      #purchase-print-template-resizable-demo .print-page {
+        break-after: page;
+        page-break-after: always;
+        overflow: hidden !important;
+        box-shadow: none !important;
+      }
+
+      #purchase-print-template-resizable-demo .print-page:last-child {
+        break-after: auto;
+        page-break-after: auto;
+      }
+
+      #purchase-print-template-resizable-demo .print-cell {
+        border: 0 solid transparent !important;
+      }
+
+      #purchase-print-template-resizable-demo .print-cell.manual-border,
+      #purchase-print-template-resizable-demo .print-cell.table-border {
+        border: 1px solid #6b7280 !important;
+      }
+
+      #purchase-print-template-resizable-demo .print-cell.border-top {
+        border-top: 1px solid #111827 !important;
+      }
+
+      #purchase-print-template-resizable-demo .print-cell.border-right {
+        border-right: 1px solid #111827 !important;
+      }
+
+      #purchase-print-template-resizable-demo .print-cell.border-bottom,
+      #purchase-print-template-resizable-demo .print-cell.line-bottom {
+        border-bottom: 1px solid #111827 !important;
+      }
+
+      #purchase-print-template-resizable-demo .print-cell.border-left {
+        border-left: 1px solid #111827 !important;
+      }
+    }
+
+    @media (max-width: 980px) {
+      #purchase-print-template-resizable-demo .layout {
+        grid-template-columns: 1fr;
+      }
+
+      #purchase-print-template-resizable-demo .field-panel {
+        border: 0;
+        border-bottom: 1px solid var(--erp-line);
+      }
+    }
+
+    @media (max-width: 560px) {
+      #purchase-print-template-resizable-demo .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      #purchase-print-template-resizable-demo .formula {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <div class="demo-shell">
+    <div class="topbar">
+      <div class="title-wrap">
+        <button type="button" class="text-btn">返回</button>
+        <div class="title">打印模板设计</div>
+        <div class="breadcrumb">采购订单 / 默认模板</div>
+        <select class="text-btn template-select" data-template-select aria-label="选择打印模板"></select>
+      </div>
+      <div class="actions">
+        <button type="button" class="text-btn" data-preview-button>预览</button>
+        <button type="button" class="text-btn" data-pagination-demo-button>分页样例</button>
+        <button type="button" class="text-btn" data-save-as-button>另存为</button>
+        <button type="button" class="text-btn" data-set-default-button>设为默认</button>
+        <button type="button" class="primary-btn" data-save-button>保存</button>
+      </div>
+    </div>
+
+    <div class="layout">
+      <aside class="field-panel" aria-label="字段库">
+        <div class="panel-head">
+          <div class="panel-title">字段库</div>
+          <div class="soft-tag">动态字段</div>
+        </div>
+        <input class="search" type="search" placeholder="搜索字段 / 变量名" aria-label="搜索字段">
+        <div class="field-tree" data-field-tree>
+          <div class="field-empty">字段加载中</div>
+        </div>
+      </aside>
+
+      <main class="workspace" aria-label="模板编辑区">
+        <div class="editor-controls">
+        <div class="toolbar">
+          <select class="text-btn" aria-label="字体">
+            <option value="">默认字体</option>
+            <option value="simsun">宋体</option>
+            <option value="simhei">黑体</option>
+            <option value="microsoft_yahei">微软雅黑</option>
+            <option value="kaiti">楷体</option>
+            <option value="fangsong">仿宋</option>
+            <option value="__mixed" disabled hidden>多种字体</option>
+          </select>
+          <select class="text-btn" aria-label="字号">
+            <option value="9">小五 9pt</option>
+            <option value="10.5">五号 10.5pt</option>
+            <option value="12" selected>小四 12pt</option>
+            <option value="14">四号 14pt</option>
+            <option value="15">小三 15pt</option>
+            <option value="16">三号 16pt</option>
+            <option value="18">小二 18pt</option>
+            <option value="22">二号 22pt</option>
+            <option value="24">小一 24pt</option>
+            <option value="26">一号 26pt</option>
+          </select>
+          <div class="divider"></div>
+          <button type="button" class="tool-btn bold-btn">加粗</button>
+          <button type="button" class="tool-btn align-btn" data-align="left">左对齐</button>
+          <button type="button" class="tool-btn align-btn" data-align="center">居中</button>
+          <button type="button" class="tool-btn align-btn" data-align="right">右对齐</button>
+          <select class="text-btn border-select" aria-label="边框">
+            <option value="">边框</option>
+            <option value="all">全边框</option>
+            <option value="left">左边框</option>
+            <option value="top">上边框</option>
+            <option value="right">右边框</option>
+            <option value="bottom">下边框</option>
+            <option value="clear">清除边框</option>
+          </select>
+          <button type="button" class="tool-btn merge-btn">合并/取消合并</button>
+          <button type="button" class="insert-btn">插入字段</button>
+        </div>
+
+        <div class="paper-settings" aria-label="纸张设置">
+          <label class="setting-chip">
+            纸张
+            <select class="text-btn paper-select" data-paper-size-select aria-label="纸张大小">
+              <option value="A4">A4 210 x 297mm</option>
+              <option value="continuous_half">二等分连续纸 241 x 140mm</option>
+              <option value="continuous_third">三等分连续纸 241 x 93mm</option>
+              <option value="custom">自定义</option>
+            </select>
+          </label>
+          <label class="setting-chip">
+            方向
+            <select class="text-btn" data-paper-orientation aria-label="纸张方向">
+              <option value="portrait">纵向</option>
+              <option value="landscape">横向</option>
+            </select>
+          </label>
+          <label class="setting-chip">
+            宽
+            <input class="paper-mm-input" data-paper-width type="number" min="50" max="500" step="1" aria-label="纸张宽度">
+            mm
+          </label>
+          <label class="setting-chip">
+            高
+            <input class="paper-mm-input" data-paper-height type="number" min="50" max="500" step="1" aria-label="纸张高度">
+            mm
+          </label>
+          <label class="setting-chip">
+            上
+            <input class="paper-mm-input" data-paper-margin-top type="number" min="0" max="80" step="1" aria-label="上边距">
+            mm
+          </label>
+          <label class="setting-chip">
+            下
+            <input class="paper-mm-input" data-paper-margin-bottom type="number" min="0" max="80" step="1" aria-label="下边距">
+            mm
+          </label>
+          <label class="setting-chip">
+            左
+            <input class="paper-mm-input" data-paper-margin-left type="number" min="0" max="80" step="1" aria-label="左边距">
+            mm
+          </label>
+          <label class="setting-chip">
+            右
+            <input class="paper-mm-input" data-paper-margin-right type="number" min="0" max="80" step="1" aria-label="右边距">
+            mm
+          </label>
+          <div class="paper-readout" data-paper-readout></div>
+        </div>
+
+        <div class="formula">
+          <div class="name-box" data-namebox>H8</div>
+          <input class="formula-value" data-formula value="${货期}" aria-label="单元格内容">
+        </div>
+        </div>
+
+        <div class="sheet-scroll">
+          <div class="paper-stage">
+            <div class="paper-canvas">
+              <div class="sheet" role="grid" aria-label="采购订单打印模板">
+                <div class="corner"></div>
+              </div>
+              <div class="paper-shade paper-shade-right" aria-hidden="true"></div>
+              <div class="paper-shade paper-shade-bottom" aria-hidden="true"></div>
+              <div class="non-print-note">灰色区域不可打印</div>
+              <div class="paper-page" data-paper-page></div>
+            </div>
+          </div>
+
+          <div class="sheet-tabs">
+            <button type="button" class="tab">sheet1</button>
+          </div>
+          <div class="status">已选中 <span data-status-cell>A1</span>，可拖拽选择区域，输入文本、插入字段、设置字体/字号/加粗/边框；右键列标或行号可新增、删除行列。</div>
+        </div>
+      </main>
+
+    </div>
+    <div class="print-preparing" aria-live="polite">正在生成打印预览...</div>
+  </div>
+
+  <div class="modal-backdrop" data-preview-modal aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="打印预览">
+      <div class="modal-head">
+        <div class="modal-title">打印预览</div>
+        <div class="modal-head-actions">
+          <button type="button" class="primary-btn" data-print-preview>打印</button>
+          <button type="button" class="text-btn" data-close-preview>关闭</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div data-preview-content></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" data-save-as-modal aria-hidden="true">
+    <div class="modal small" role="dialog" aria-modal="true" aria-label="另存为模板">
+      <div class="modal-head">
+        <div class="modal-title">另存为模板</div>
+      </div>
+      <div class="modal-body">
+        <input class="template-name-input" data-template-name-input type="text" value="采购订单模板副本" aria-label="模板名称">
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="text-btn" data-cancel-save-as>取消</button>
+        <button type="button" class="primary-btn" data-confirm-save-as>确定</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" data-toast></div>
+  <div class="print-root" data-print-root aria-hidden="true"></div>
+  <div class="sheet-context-menu" data-sheet-context-menu role="menu" aria-hidden="true"></div>
+
+  <script>
+    (() => {
+      const root = document.getElementById('purchase-print-template-resizable-demo');
+      const sheet = root.querySelector('.sheet');
+      const sheetScroll = root.querySelector('.sheet-scroll');
+      const fieldTree = root.querySelector('[data-field-tree]');
+      let cells = Array.from(root.querySelectorAll('[data-cell]'));
+      let fields = Array.from(root.querySelectorAll('.field-item'));
+      let fieldDefinitions = [];
+      const search = root.querySelector('.search');
+      const nameBox = root.querySelector('[data-namebox]');
+      const formula = root.querySelector('[data-formula]');
+      const statusCell = root.querySelector('[data-status-cell]');
+      const insertButton = root.querySelector('.insert-btn');
+      const boldButton = root.querySelector('.bold-btn');
+      const alignButtons = Array.from(root.querySelectorAll('.align-btn'));
+      const borderSelect = root.querySelector('.border-select');
+      const mergeButton = root.querySelector('.merge-btn');
+      const fontFamilySelect = root.querySelector('select[aria-label="字体"]');
+      const fontSizeSelect = root.querySelector('select[aria-label="字号"]');
+      const breadcrumb = root.querySelector('.breadcrumb');
+      const templateSelect = root.querySelector('[data-template-select]');
+      const previewButton = root.querySelector('[data-preview-button]');
+      const paginationDemoButton = root.querySelector('[data-pagination-demo-button]');
+      const saveAsButton = root.querySelector('[data-save-as-button]');
+      const setDefaultButton = root.querySelector('[data-set-default-button]');
+      const saveButton = root.querySelector('[data-save-button]');
+      const previewModal = root.querySelector('[data-preview-modal]');
+      const previewContent = root.querySelector('[data-preview-content]');
+      const closePreviewButton = root.querySelector('[data-close-preview]');
+      const printPreviewButton = root.querySelector('[data-print-preview]');
+      const saveAsModal = root.querySelector('[data-save-as-modal]');
+      const templateNameInput = root.querySelector('[data-template-name-input]');
+      const cancelSaveAsButton = root.querySelector('[data-cancel-save-as]');
+      const confirmSaveAsButton = root.querySelector('[data-confirm-save-as]');
+      const toast = root.querySelector('[data-toast]');
+      const printRoot = root.querySelector('[data-print-root]');
+      const sheetContextMenu = root.querySelector('[data-sheet-context-menu]');
+      const paperPage = root.querySelector('[data-paper-page]');
+      const paperSizeSelect = root.querySelector('[data-paper-size-select]');
+      const paperOrientationSelect = root.querySelector('[data-paper-orientation]');
+      const paperWidthInput = root.querySelector('[data-paper-width]');
+      const paperHeightInput = root.querySelector('[data-paper-height]');
+      const paperMarginTopInput = root.querySelector('[data-paper-margin-top]');
+      const paperMarginRightInput = root.querySelector('[data-paper-margin-right]');
+      const paperMarginBottomInput = root.querySelector('[data-paper-margin-bottom]');
+      const paperMarginLeftInput = root.querySelector('[data-paper-margin-left]');
+      const paperReadout = root.querySelector('[data-paper-readout]');
+      const urlParams = new URLSearchParams(window.location.search);
+      const moduleKey = urlParams.get('moduleKey') || 'purchase_order';
+      const businessId = Number(urlParams.get('businessId') || 0);
+      const businessNo = urlParams.get('businessNo') || '';
+      const urlTemplateId = urlParams.get('templateId') || '';
+      const printMode = urlParams.get('mode') === 'print';
+      const designMode = !printMode;
+      const minColWidth = 54;
+      const minRowHeight = 28;
+      const paperPxPerMm = 96 / 25.4;
+      const printPageStyle = document.createElement('style');
+      printPageStyle.dataset.dynamicPrintPage = 'true';
+      document.body.appendChild(printPageStyle);
+      const paperPresets = {
+        A4: { label: 'A4', width: 210, height: 297 },
+        continuous_half: { label: '二等分连续纸', width: 241, height: 140 },
+        continuous_third: { label: '三等分连续纸', width: 241, height: 93 },
+        custom: { label: '自定义', width: 210, height: 297 },
+      };
+      const fontFamilyCssMap = Object.freeze({
+        simsun: '"SimSun", "宋体", serif',
+        simhei: '"SimHei", "黑体", "Microsoft YaHei", sans-serif',
+        microsoft_yahei: '"Microsoft YaHei", "微软雅黑", sans-serif',
+        kaiti: '"KaiTi", "楷体", "STKaiti", serif',
+        fangsong: '"FangSong", "仿宋", "STFangsong", serif',
+      });
+      const paperConfig = {
+        size: 'A4',
+        width: 210,
+        height: 297,
+        orientation: 'portrait',
+        margins: { top: 5, right: 10, bottom: 5, left: 10 },
+      };
+      let columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+      let currentTemplateId = 'default';
+      let currentTemplateName = '默认模板';
+      let currentTemplateDefaulted = false;
+      let availableTemplates = [];
+      let selectedCell = root.querySelector('[data-cell="H8"]');
+      let rangeStart = selectedCell;
+      let selectedRange = [];
+      let selectionMode = 'cell';
+      let selectedRow = null;
+      let selectedCol = null;
+      let dragSelecting = false;
+      let draggedField = null;
+      let rowHeights = {};
+      let printData = null;
+      let parentAuth = null;
+      let authReadyResolve = null;
+      const authReady = new Promise((resolve) => {
+        authReadyResolve = resolve;
+      });
+
+      const legacyCodeMap = {
+        'amount.upper': 'order.totalPriceUpper',
+        'company.signName': 'dept.name',
+        'contact.name': 'purchaser.nickname',
+        'contract.amount': 'order.totalPrice',
+        'freight.included': '',
+        'items.deliveryDate': 'items.arrivalDate',
+        'items.index': 'items.seq',
+        'items.salePrice': 'items.productPrice',
+        'items.spec': 'items.standard',
+        'items.unit': 'items.productUnitName',
+        'receiver.address': 'order.receiveAddress',
+        'receiver.phone': '',
+        'remark': 'order.remark',
+      };
+      const fallbackFieldCodeByNameMap = {
+        '序号': 'items.seq',
+        '零件编码': 'items.productCode',
+        '产品编码': 'items.productCode',
+        '零件名称': 'items.productName',
+        '产品名称': 'items.productName',
+        '规格': 'items.standard',
+        '单位': 'items.productUnitName',
+        '数量': 'items.count',
+        '件数': 'items.pieceCount',
+        '单价': 'items.productPrice',
+        '金额': 'items.totalPrice',
+        '产品金额': 'items.totalPrice',
+        '仓库': 'items.warehouseName',
+        '备注': 'items.remark',
+        '合计数': 'document.totalCount',
+        '合计数量': 'document.totalCount',
+        '合计总金额': 'document.totalAmount',
+        '大写金额': 'document.totalAmountUpper',
+        '此前应收': 'document.previousReceivable',
+        '本次欠款': 'document.currentDebt',
+        '总欠款金额': 'document.totalDebt',
+        '打印时间': 'print.now',
+        '当前用户': 'currentUser.nickname',
+        '当前页': 'print.pageNo',
+        '总页数': 'print.pageCount',
+        '页码': 'print.pageText',
+      };
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      function fieldDisplay(name) {
+        return name ? '${' + name + '}' : '';
+      }
+
+      function templateTitle(name = currentTemplateName) {
+        return `采购订单 / ${name || '默认模板'}`;
+      }
+
+      function normalizeTemplateId(id) {
+        return id === null || id === undefined ? '' : String(id);
+      }
+
+      function updateTemplateTitle() {
+        if (breadcrumb) breadcrumb.textContent = templateTitle();
+        if (templateSelect) {
+          const value = currentTemplateId && currentTemplateId !== 'default' ? normalizeTemplateId(currentTemplateId) : '';
+          if (templateSelect.value !== value) templateSelect.value = value;
+        }
+        if (setDefaultButton) {
+          const hasSavedTemplate = currentTemplateId && currentTemplateId !== 'default';
+          setDefaultButton.disabled = !canEditTemplate() || !hasSavedTemplate || currentTemplateDefaulted;
+          setDefaultButton.textContent = currentTemplateDefaulted ? '默认模板' : '设为默认';
+        }
+      }
+
+      function renderTemplateOptions() {
+        if (!templateSelect) return;
+        templateSelect.replaceChildren();
+        if (!availableTemplates.length) {
+          const emptyOption = document.createElement('option');
+          emptyOption.value = '';
+          emptyOption.textContent = '空白模板';
+          templateSelect.appendChild(emptyOption);
+        }
+        availableTemplates.forEach((template) => {
+          const option = document.createElement('option');
+          option.value = normalizeTemplateId(template.id);
+          option.textContent = `${template.name || '未命名模板'}${template.defaulted ? '（默认）' : ''}`;
+          templateSelect.appendChild(option);
+        });
+        const currentId = normalizeTemplateId(currentTemplateId);
+        if (currentId && currentTemplateId !== 'default' && !availableTemplates.some((item) => normalizeTemplateId(item.id) === currentId)) {
+          const currentOption = document.createElement('option');
+          currentOption.value = currentId;
+          currentOption.textContent = currentTemplateName || '当前模板';
+          templateSelect.appendChild(currentOption);
+        }
+        updateTemplateTitle();
+      }
+
+      function showToast(message) {
+        if (!toast) return;
+        toast.textContent = message;
+        toast.classList.add('is-open');
+        window.clearTimeout(showToast.timer);
+        showToast.timer = window.setTimeout(() => toast.classList.remove('is-open'), 1800);
+      }
+
+      function mmToPx(value) {
+        return Math.round((Number(value) || 0) * paperPxPerMm);
+      }
+
+      function clampMm(value, min, max, fallback) {
+        const number = Number(value);
+        if (!Number.isFinite(number)) return fallback;
+        return Math.min(max, Math.max(min, number));
+      }
+
+      function normalizePaperSize(value) {
+        return paperPresets[value] ? value : 'custom';
+      }
+
+      function paperSizeInMm() {
+        const width = clampMm(paperConfig.width, 50, 500, paperPresets.A4.width);
+        const height = clampMm(paperConfig.height, 50, 500, paperPresets.A4.height);
+        return paperConfig.orientation === 'landscape'
+          ? { width: height, height: width }
+          : { width, height };
+      }
+
+      function updatePrintPageStyle(size) {
+        printPageStyle.textContent = [
+          '@page {',
+          `  size: ${size.width}mm ${size.height}mm;`,
+          '  margin: 0;',
+          '}',
+        ].join('\n');
+      }
+
+      function syncPaperControls(size) {
+        if (paperSizeSelect) paperSizeSelect.value = paperConfig.size;
+        if (paperOrientationSelect) paperOrientationSelect.value = paperConfig.orientation;
+        if (paperWidthInput) paperWidthInput.value = String(paperConfig.width);
+        if (paperHeightInput) paperHeightInput.value = String(paperConfig.height);
+        if (paperMarginTopInput) paperMarginTopInput.value = String(paperConfig.margins.top);
+        if (paperMarginRightInput) paperMarginRightInput.value = String(paperConfig.margins.right);
+        if (paperMarginBottomInput) paperMarginBottomInput.value = String(paperConfig.margins.bottom);
+        if (paperMarginLeftInput) paperMarginLeftInput.value = String(paperConfig.margins.left);
+        if (paperReadout) paperReadout.textContent = `当前画布 ${size.width} x ${size.height}mm`;
+      }
+
+      function applyPaperConfig(nextConfig = {}) {
+        if (nextConfig.size) paperConfig.size = normalizePaperSize(nextConfig.size);
+        const preset = paperPresets[paperConfig.size] || paperPresets.custom;
+        if (nextConfig.size && nextConfig.size !== 'custom' && nextConfig.width === undefined && nextConfig.height === undefined) {
+          paperConfig.width = preset.width;
+          paperConfig.height = preset.height;
+        }
+        if (nextConfig.width !== undefined) paperConfig.width = clampMm(nextConfig.width, 50, 500, preset.width);
+        if (nextConfig.height !== undefined) paperConfig.height = clampMm(nextConfig.height, 50, 500, preset.height);
+        if (nextConfig.orientation) paperConfig.orientation = nextConfig.orientation === 'landscape' ? 'landscape' : 'portrait';
+        if (nextConfig.margins) {
+          paperConfig.margins = {
+            ...paperConfig.margins,
+            ...Object.fromEntries(Object.entries(nextConfig.margins).map(([key, value]) => [key, clampMm(value, 0, 80, paperConfig.margins[key] || 0)])),
+          };
+        }
+        const size = paperSizeInMm();
+        root.style.setProperty('--paper-width', `${mmToPx(size.width)}px`);
+        root.style.setProperty('--paper-height', `${mmToPx(size.height)}px`);
+        root.style.setProperty('--paper-margin-top', `${mmToPx(paperConfig.margins.top)}px`);
+        root.style.setProperty('--paper-margin-right', `${mmToPx(paperConfig.margins.right)}px`);
+        root.style.setProperty('--paper-margin-bottom', `${mmToPx(paperConfig.margins.bottom)}px`);
+        root.style.setProperty('--paper-margin-left', `${mmToPx(paperConfig.margins.left)}px`);
+        if (paperPage) paperPage.dataset.orientation = paperConfig.orientation;
+        updatePrintPageStyle(size);
+        syncPaperControls(size);
+      }
+
+      function parseJson(value) {
+        if (!value || typeof value !== 'string') return null;
+        try {
+          return JSON.parse(value);
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function normalizeAccessStore(value) {
+        if (!value || typeof value !== 'object') return null;
+        if (value.accessToken) return value;
+        if (value.state && value.state.accessToken) return value.state;
+        return null;
+      }
+
+      function readAccessStore() {
+        const fromParent = normalizeAccessStore(parentAuth);
+        if (fromParent) return fromParent;
+        const direct = normalizeAccessStore(parseJson(localStorage.getItem('core-access')));
+        if (direct) return direct;
+        for (let index = 0; index < localStorage.length; index += 1) {
+          const key = localStorage.key(index);
+          const value = normalizeAccessStore(parseJson(localStorage.getItem(key)));
+          if (value) return value;
+        }
+        return {};
+      }
+
+      function apiHeaders(accessStore = readAccessStore()) {
+        const headers = {
+          'Content-Type': 'application/json',
+          'Accept-Language': navigator.language || 'zh-CN',
+        };
+        if (accessStore.accessToken) headers.Authorization = `Bearer ${accessStore.accessToken}`;
+        if (accessStore.tenantId) headers['tenant-id'] = String(accessStore.tenantId);
+        if (accessStore.visitTenantId) headers['visit-tenant-id'] = String(accessStore.visitTenantId);
+        return headers;
+      }
+
+      function waitForParentAuth(timeout = 5000) {
+        if (readAccessStore().accessToken || window.parent === window) return Promise.resolve();
+        window.parent.postMessage({ source: 'erp-print-template', type: 'ready-for-auth' }, window.location.origin);
+        return Promise.race([
+          authReady,
+          new Promise((resolve) => window.setTimeout(resolve, timeout)),
+        ]);
+      }
+
+      async function apiRequest(path, options = {}) {
+        await waitForParentAuth();
+        const accessStore = readAccessStore();
+        if (!accessStore.accessToken) {
+          throw new Error('登录信息同步失败，请关闭后重新打开打印模板');
+        }
+        const response = await fetch(`/admin-api${path}`, {
+          ...options,
+          headers: {
+            ...apiHeaders(accessStore),
+            ...(options.headers || {}),
+          },
+        });
+        const payload = await response.json().catch(() => null);
+        if (!response.ok || !payload || payload.code !== 0) {
+          const message = payload && (payload.msg || payload.message) ? (payload.msg || payload.message) : '接口请求失败';
+          throw new Error(message);
+        }
+        return payload.data;
+      }
+
+      function normalizeFieldCode(code) {
+        const raw = String(code || '').trim();
+        const stripped = raw.replace(/^\$\{/, '').replace(/\}$/, '');
+        return legacyCodeMap[stripped] !== undefined ? legacyCodeMap[stripped] : stripped;
+      }
+
+      function displayCode(code) {
+        const normalized = normalizeFieldCode(code);
+        return normalized || '';
+      }
+
+      function isAmountPrintFieldCode(code) {
+        const normalized = normalizeFieldCode(code);
+        const fieldName = normalized.slice(normalized.lastIndexOf('.') + 1);
+        if (/(?:rate|ratio|percent|percentage|coefficient)\d*$/i.test(fieldName)) return false;
+        return fieldName.toLowerCase() === 'tax'
+          || /(?:price|amount|cost|debt|receivable|payable|balance|advance|fee|freight|profit|fund|revenue|settled|settlement|payment|receipt|income|expense|credit|debit|assets?)\d*$/i.test(fieldName);
+      }
+
+      function formatPrintValue(code, value) {
+        if (value === undefined || value === null || value === '') return '';
+        if (!isAmountPrintFieldCode(code)) return value;
+        const numericValue = Number(value);
+        return Number.isFinite(numericValue) ? numericValue.toFixed(2) : value;
+      }
+
+      function resolvePrintValue(code, itemIndex = 0, pageContext = null) {
+        const normalized = normalizeFieldCode(code);
+        if (!normalized || !printData) return '';
+        if (normalized === 'print.pageNo') return pageContext?.pageNo ?? '';
+        if (normalized === 'print.pageCount') return pageContext?.pageCount ?? '';
+        if (normalized === 'print.pageText') {
+          return pageContext ? `第${pageContext.pageNo}页/共${pageContext.pageCount}页` : '';
+        }
+        if (normalized.startsWith('items.')) {
+          const row = (printData.items || [])[itemIndex] || {};
+          return formatPrintValue(normalized, row[normalized] ?? '');
+        }
+        const value = (printData.main && printData.main[normalized])
+          ?? (printData.system && printData.system[normalized])
+          ?? '';
+        return formatPrintValue(normalized, value);
+      }
+
+      function fieldCodeByName(name) {
+        const normalizedName = String(name || '').trim();
+        if (!normalizedName) return '';
+        const definition = fieldDefinitions.find((item) => (item.name || '').trim() === normalizedName);
+        if (definition) return normalizeFieldCode(definition.code);
+        const field = fields.find((item) => (item.dataset.name || '').trim() === normalizedName);
+        if (field) return normalizeFieldCode(field.dataset.code);
+        return normalizeFieldCode(fallbackFieldCodeByNameMap[normalizedName]);
+      }
+
+      function resolvePlaceholderCode(raw, placeholderCodes = {}) {
+        const normalized = normalizeFieldCode(raw);
+        if (!normalized) return '';
+        if (placeholderCodes[normalized]) return normalizeFieldCode(placeholderCodes[normalized]);
+        const codeByName = fieldCodeByName(normalized);
+        if (codeByName) return codeByName;
+        return normalized.includes('.') || legacyCodeMap[normalized] !== undefined ? normalized : '';
+      }
+
+      function placeholderCodeMap(html) {
+        const map = {};
+        const matches = String(html || '').matchAll(/\$\{\s*([^}]+?)\s*\}/g);
+        for (const match of matches) {
+          const raw = String(match[1] || '').trim();
+          const code = resolvePlaceholderCode(raw);
+          if (raw && code && code !== raw) map[raw] = code;
+        }
+        return map;
+      }
+
+      function stripFieldTokenSpans(html) {
+        return String(html || '').replace(
+          /<span\b([^>]*)class=(["'])(?=[^"']*\btoken\b)[^"']*\2([^>]*)>([\s\S]*?)<\/span>/gi,
+          '$4',
+        );
+      }
+
+      function renderFieldPlaceholders(html, itemIndex = 0, placeholderCodes = {}, pageContext = null) {
+        const rendered = String(html || '').replace(/\$\{\s*([^}]+?)\s*\}/g, (match, raw) => {
+          const code = resolvePlaceholderCode(raw, placeholderCodes);
+          if (!code) return match;
+          const value = resolvePrintValue(code, itemIndex, pageContext);
+          return escapeHtml(value === undefined || value === null ? '' : value);
+        });
+        return stripFieldTokenSpans(rendered);
+      }
+
+      function hasItemPlaceholder(html, placeholderCodes = {}) {
+        const matches = String(html || '').matchAll(/\$\{\s*([^}]+?)\s*\}/g);
+        for (const match of matches) {
+          if (resolvePlaceholderCode(match[1], placeholderCodes).startsWith('items.')) return true;
+        }
+        return false;
+      }
+
+      function notifyPrinted() {
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage({ source: 'erp-print-template', type: 'printed' }, window.location.origin);
+        }
+      }
+
+      function canEditTemplate() {
+        return designMode;
+      }
+
+      function cacheFieldDefinitions(metadata) {
+        if (!metadata || !Array.isArray(metadata.groups)) {
+          fieldDefinitions = [];
+          return;
+        }
+        fieldDefinitions = metadata.groups.flatMap((group) =>
+          (Array.isArray(group.fields) ? group.fields : []).map((field) => ({
+            name: field.name || '',
+            code: normalizeFieldCode(field.code),
+          }))
+        );
+      }
+
+      function renderFieldGroups(metadata) {
+        cacheFieldDefinitions(metadata);
+        if (!fieldTree || !metadata || !Array.isArray(metadata.groups)) return;
+        const groups = metadata.groups.map((group) => {
+          const section = document.createElement('section');
+          section.className = 'field-group';
+          section.dataset.fieldGroup = group.key || '';
+          const groupFields = Array.isArray(group.fields) ? group.fields : [];
+          const list = document.createElement('div');
+          list.className = 'field-list';
+          list.replaceChildren(...groupFields.map((field) => {
+            const item = document.createElement('div');
+            item.className = 'field-item';
+            item.draggable = true;
+            item.title = `${field.name || ''} ${displayCode(field.code)}`.trim();
+            item.dataset.name = field.name || '';
+            item.dataset.code = normalizeFieldCode(field.code);
+            item.dataset.source = field.source || group.name || '';
+            item.innerHTML = `<span class="field-name">${escapeHtml(field.name || '')}</span><span class="field-code">${escapeHtml(displayCode(field.code))}</span>`;
+            return item;
+          }));
+          const head = document.createElement('button');
+          head.className = 'field-group__head';
+          head.type = 'button';
+          const groupName = group.name || group.label || '';
+          const groupTarget = group.target || group.hint || '';
+          head.innerHTML = `
+            <span class="field-group__arrow">⌄</span>
+            <span class="field-group__name" title="${escapeHtml(groupName)}">${escapeHtml(groupName)}</span>
+            <span class="field-group__hint" title="${escapeHtml(groupTarget)}">${escapeHtml(groupTarget)}</span>
+            <span class="field-group__count">${groupFields.length}</span>
+          `;
+          head.addEventListener('click', () => {
+            section.classList.toggle('is-collapsed');
+          });
+          section.replaceChildren(head, list);
+          return section;
+        });
+        fieldTree.replaceChildren(...groups);
+        fields = Array.from(root.querySelectorAll('.field-item'));
+        bindFields();
+        applyFieldSearch();
+      }
+
+      function applyFieldSearch() {
+        const keyword = search.value.trim().toLowerCase();
+        let totalVisible = 0;
+        root.querySelectorAll('.field-group').forEach((group) => {
+          let visibleCount = 0;
+          group.querySelectorAll('.field-item').forEach((field) => {
+            const text = `${field.dataset.name} ${field.dataset.code}`.toLowerCase();
+            const visible = !keyword || text.includes(keyword);
+            field.style.display = visible ? '' : 'none';
+            if (visible) visibleCount += 1;
+          });
+          totalVisible += visibleCount;
+          group.style.display = visibleCount ? '' : 'none';
+          if (keyword && visibleCount) group.classList.remove('is-collapsed');
+        });
+        if (fieldTree) {
+          let empty = fieldTree.querySelector('.field-empty');
+          if (!empty) {
+            empty = document.createElement('div');
+            empty.className = 'field-empty';
+            fieldTree.appendChild(empty);
+          }
+          empty.textContent = keyword ? '没有匹配字段' : '暂无字段';
+          empty.style.display = totalVisible ? 'none' : '';
+        }
+      }
+
+      function cellDisplay(cell) {
+        return cell.dataset.name ? fieldDisplay(cell.dataset.name) : cell.textContent.trim();
+      }
+
+      function cellParts(cell) {
+        const id = cell.dataset.cell || 'A1';
+        const match = id.match(/^([A-Z]+)(\d+)$/);
+        return match ? { col: match[1], row: Number(match[2]) } : { col: 'A', row: 1 };
+      }
+
+      function columnOf(cell) {
+        return cellParts(cell).col;
+      }
+
+      function rowOf(cell) {
+        return String(cellParts(cell).row);
+      }
+
+      function columnLabel(index) {
+        let next = index;
+        let label = '';
+        do {
+          label = String.fromCharCode(65 + (next % 26)) + label;
+          next = Math.floor(next / 26) - 1;
+        } while (next >= 0);
+        return label;
+      }
+
+      function buildColumns(count) {
+        return Array.from({ length: count }, (_, index) => columnLabel(index));
+      }
+
+      function columnIndex(col) {
+        return columns.indexOf(col);
+      }
+
+      function nextColumnLabel() {
+        return columnLabel(columns.length);
+      }
+
+      function parseSpan(value) {
+        const match = String(value || '').match(/span\s+(\d+)/);
+        return match ? Number(match[1]) : 1;
+      }
+
+      function colSpanOf(cell) {
+        const value = Number(cell.dataset.colspan) || parseSpan(cell.style.gridColumn);
+        cell.dataset.colspan = String(Math.max(1, value));
+        return Number(cell.dataset.colspan);
+      }
+
+      function rowSpanOf(cell) {
+        const value = Number(cell.dataset.rowspan) || parseSpan(cell.style.gridRow);
+        cell.dataset.rowspan = String(Math.max(1, value));
+        return Number(cell.dataset.rowspan);
+      }
+
+      function setCellPosition(cell, col, row) {
+        cell.dataset.cell = `${col}${row}`;
+      }
+
+      function getRows() {
+        const rows = new Set();
+        root.querySelectorAll('[data-cell]').forEach((cell) => {
+          const startRow = Number(rowOf(cell));
+          const rowspan = rowSpanOf(cell);
+          for (let row = startRow; row < startRow + rowspan; row += 1) {
+            rows.add(row);
+          }
+        });
+        return Array.from(rows).filter(Boolean).sort((a, b) => a - b);
+      }
+
+      function getMaxRow() {
+        return Math.max(...getRows(), 31);
+      }
+
+      function renderColumnHeads() {
+        root.querySelectorAll('.col-head').forEach((head) => head.remove());
+        columns.forEach((col) => {
+          const head = document.createElement('div');
+          head.className = 'col-head';
+          head.dataset.col = col;
+          head.innerHTML = `${col}<span class="col-resizer" data-col-resize="${col}"></span>`;
+          sheet.appendChild(head);
+        });
+      }
+
+      function renderRowHeads() {
+        root.querySelectorAll('.row-head').forEach((head) => head.remove());
+        getRows().forEach((row) => {
+          const head = createRowHead(row);
+          if (rowHeights[row]) head.style.minHeight = rowHeights[row];
+          sheet.appendChild(head);
+        });
+      }
+
+      function placeGridItems() {
+        updateSheetColumns();
+        const maxRow = getMaxRow();
+        const corner = root.querySelector('.corner');
+        if (corner) {
+          corner.style.gridColumn = '1';
+          corner.style.gridRow = '1';
+        }
+        root.querySelectorAll('.col-head').forEach((head) => {
+          const index = columnIndex(head.dataset.col);
+          head.style.gridColumn = `${index + 2}`;
+          head.style.gridRow = '1';
+        });
+        root.querySelectorAll('.row-head').forEach((head) => {
+          const row = Number(head.dataset.row);
+          head.style.gridColumn = '1';
+          head.style.gridRow = `${row + 1}`;
+        });
+        root.querySelectorAll('.cell').forEach((cell) => {
+          if (!cell.dataset.cell && cell.classList.contains('gray')) return;
+          if (!cell.dataset.cell) return;
+          const parts = cellParts(cell);
+          const index = Math.max(0, columnIndex(parts.col));
+          const colspan = Math.min(colSpanOf(cell), columns.length - index);
+          const rowspan = rowSpanOf(cell);
+          cell.dataset.colspan = String(colspan);
+          cell.dataset.rowspan = String(rowspan);
+          cell.style.gridColumn = `${index + 2} / span ${colspan}`;
+          cell.style.gridRow = `${parts.row + 1} / span ${rowspan}`;
+          if (rowspan > 1) {
+            cell.style.setProperty('--merged-height', mergedCellHeight(parts.row, rowspan));
+          } else {
+            cell.style.removeProperty('--merged-height');
+            if (rowHeights[parts.row]) cell.style.minHeight = rowHeights[parts.row];
+            else cell.style.minHeight = '';
+          }
+        });
+      }
+
+      function coveredBySpan(row, colIndex) {
+        return Array.from(root.querySelectorAll('[data-cell]')).some((cell) => {
+          const parts = cellParts(cell);
+          const startCol = columnIndex(parts.col);
+          const endCol = startCol + colSpanOf(cell) - 1;
+          const endRow = parts.row + rowSpanOf(cell) - 1;
+          return parts.row <= row && row <= endRow && startCol <= colIndex && colIndex <= endCol;
+        });
+      }
+
+      function normalizeGridStructure() {
+        const occupied = new Map();
+        let replacementSelection = null;
+        Array.from(root.querySelectorAll('[data-cell]'))
+          .sort((a, b) => {
+            const rowDiff = Number(rowOf(a)) - Number(rowOf(b));
+            return rowDiff || columnIndex(columnOf(a)) - columnIndex(columnOf(b));
+          })
+          .forEach((cell) => {
+            const parts = cellParts(cell);
+            const startCol = columnIndex(parts.col);
+            if (startCol < 0 || parts.row < 1) {
+              if (cell === selectedCell) selectedCell = null;
+              cell.remove();
+              return;
+            }
+
+            const startKey = `${parts.row}:${startCol}`;
+            if (occupied.has(startKey)) {
+              if (cell === selectedCell) replacementSelection = occupied.get(startKey);
+              cell.remove();
+              return;
+            }
+
+            const colspan = Math.min(colSpanOf(cell), columns.length - startCol);
+            const rowspan = rowSpanOf(cell);
+            cell.dataset.colspan = String(colspan);
+            cell.dataset.rowspan = String(rowspan);
+            for (let row = parts.row; row < parts.row + rowspan; row += 1) {
+              for (let col = startCol; col < startCol + colspan; col += 1) {
+                occupied.set(`${row}:${col}`, cell);
+              }
+            }
+          });
+
+        const maxRow = getMaxRow();
+        for (let row = 1; row <= maxRow; row += 1) {
+          columns.forEach((col, index) => {
+            if (!coveredBySpan(row, index)) sheet.appendChild(createCell(col, row, ''));
+          });
+        }
+        return replacementSelection;
+      }
+
+      function updateSheetColumns() {
+        const printable = columns.map((col) => {
+          const prop = `--col-${col.toLowerCase()}`;
+          if (!sheet.style.getPropertyValue(prop)) sheet.style.setProperty(prop, '90px');
+          return `var(${prop})`;
+        }).join(' ');
+        sheet.style.gridTemplateColumns = `42px ${printable}`;
+      }
+
+      function cssSizeToNumber(value, fallback) {
+        const number = Number.parseFloat(String(value || ''));
+        return Number.isFinite(number) ? number : fallback;
+      }
+
+      function rowHeightValue(row) {
+        return cssSizeToNumber(rowHeights[row], 34);
+      }
+
+      function mergedCellHeight(startRow, rowspan) {
+        let total = 0;
+        for (let row = startRow; row < startRow + rowspan; row += 1) {
+          total += rowHeightValue(row);
+        }
+        return `${total}px`;
+      }
+
+      function getCell(col, row) {
+        return root.querySelector(`[data-cell="${col}${row}"]`);
+      }
+
+      function cellKey(cell) {
+        const parts = cellParts(cell);
+        return `${parts.col}${parts.row}`;
+      }
+
+      function getSelectionBounds(selection = selectedRange) {
+        const targets = selection.filter((cell) => cell && !cell.classList.contains('gray'));
+        if (!targets.length) return null;
+        const leftEdges = [];
+        const rightEdges = [];
+        const topEdges = [];
+        const bottomEdges = [];
+        targets.forEach((cell) => {
+          const parts = cellParts(cell);
+          const col = columnIndex(parts.col);
+          if (col < 0 || !parts.row) return;
+          leftEdges.push(col);
+          rightEdges.push(col + colSpanOf(cell) - 1);
+          topEdges.push(parts.row);
+          bottomEdges.push(parts.row + rowSpanOf(cell) - 1);
+        });
+        if (!leftEdges.length || !topEdges.length) return null;
+        return {
+          left: Math.min(...leftEdges),
+          right: Math.max(...rightEdges),
+          top: Math.min(...topEdges),
+          bottom: Math.max(...bottomEdges)
+        };
+      }
+
+      function findAnchorCell(row, colIndex) {
+        return Array.from(root.querySelectorAll('[data-cell]')).find((cell) => {
+          const parts = cellParts(cell);
+          const startCol = columnIndex(parts.col);
+          const endCol = startCol + colSpanOf(cell) - 1;
+          const endRow = parts.row + rowSpanOf(cell) - 1;
+          return parts.row <= row && row <= endRow && startCol <= colIndex && colIndex <= endCol;
+        }) || null;
+      }
+
+      function rangeFromCells(startCell, endCell) {
+        const start = cellParts(startCell);
+        const end = cellParts(endCell);
+        return {
+          left: Math.min(columnIndex(start.col), columnIndex(end.col)),
+          right: Math.max(columnIndex(start.col), columnIndex(end.col)),
+          top: Math.min(start.row, end.row),
+          bottom: Math.max(start.row, end.row)
+        };
+      }
+
+      function cellRect(cell) {
+        const parts = cellParts(cell);
+        const left = columnIndex(parts.col);
+        return {
+          left,
+          right: left + colSpanOf(cell) - 1,
+          top: parts.row,
+          bottom: parts.row + rowSpanOf(cell) - 1
+        };
+      }
+
+      function rectsIntersect(first, second) {
+        return first.left <= second.right && first.right >= second.left && first.top <= second.bottom && first.bottom >= second.top;
+      }
+
+      function expandRangeForMergedCells(range) {
+        let expanded = { ...range };
+        let changed = true;
+        while (changed) {
+          changed = false;
+          Array.from(root.querySelectorAll('[data-cell]')).forEach((cell) => {
+            if (!cell || cell.classList.contains('gray')) return;
+            const rect = cellRect(cell);
+            if (!rectsIntersect(expanded, rect)) return;
+            const next = {
+              left: Math.min(expanded.left, rect.left),
+              right: Math.max(expanded.right, rect.right),
+              top: Math.min(expanded.top, rect.top),
+              bottom: Math.max(expanded.bottom, rect.bottom)
+            };
+            if (next.left !== expanded.left || next.right !== expanded.right || next.top !== expanded.top || next.bottom !== expanded.bottom) {
+              expanded = next;
+              changed = true;
+            }
+          });
+        }
+        expanded.left = Math.max(0, expanded.left);
+        expanded.right = Math.min(columns.length - 1, expanded.right);
+        expanded.top = Math.max(1, expanded.top);
+        expanded.bottom = Math.max(expanded.top, expanded.bottom);
+        return expanded;
+      }
+
+      function cellsInRect(range) {
+        const targets = [];
+        const seen = new Set();
+        for (let row = range.top; row <= range.bottom; row += 1) {
+          for (let col = range.left; col <= range.right; col += 1) {
+            const anchor = findAnchorCell(row, col);
+            if (!anchor || anchor.classList.contains('gray')) continue;
+            const key = cellKey(anchor);
+            if (seen.has(key)) continue;
+            seen.add(key);
+            targets.push(anchor);
+          }
+        }
+        return targets;
+      }
+
+      function selectCells(targets, mode = 'range', meta = {}) {
+        clearRange();
+        selectionMode = mode;
+        selectedRow = meta.row || null;
+        selectedCol = meta.col || null;
+        const seen = new Set();
+        selectedRange = targets.filter((cell) => {
+          if (!cell || cell.classList.contains('gray')) return false;
+          const key = cellKey(cell);
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+        selectedRange.forEach((cell) => cell.classList.add('range-selected'));
+        selectedCell = selectedRange[0] || selectedCell;
+        if (selectedCell) {
+          selectedCell.classList.add('selected');
+          updatePanel(selectedCell);
+        }
+        updateHeaderSelection();
+      }
+
+      function selectRect(startCell, endCell) {
+        if (!startCell || !endCell) return;
+        const bounds = expandRangeForMergedCells(rangeFromCells(startCell, endCell));
+        const targets = cellsInRect(bounds);
+        selectCells(targets, targets.length > 1 ? 'range' : 'cell');
+      }
+
+      function selectedTargets() {
+        const bounds = getSelectionBounds(selectedRange.length ? selectedRange : [selectedCell].filter(Boolean));
+        return bounds ? cellsInRect(expandRangeForMergedCells(bounds)) : [selectedCell].filter(Boolean);
+      }
+
+      function updatePanel(cell) {
+        if (!cell) return;
+        const id = cell.dataset.cell || '';
+        nameBox.textContent = id;
+        const bounds = getSelectionBounds();
+        if (selectionMode === 'row' && selectedRow) statusCell.textContent = `第 ${selectedRow} 行`;
+        else if (selectionMode === 'col' && selectedCol) statusCell.textContent = `${selectedCol} 列`;
+        else if (bounds && selectedRange.length > 1) statusCell.textContent = `${columns[bounds.left]}${bounds.top}:${columns[bounds.right]}${bounds.bottom}`;
+        else statusCell.textContent = id;
+        formula.value = cellDisplay(cell);
+        updateFontFamilySelect();
+        updateAlignButtons(cell);
+      }
+
+      function normalizeFontFamily(value) {
+        const key = String(value || '').trim();
+        return Object.prototype.hasOwnProperty.call(fontFamilyCssMap, key) ? key : '';
+      }
+
+      function applyCellFontFamily(cell, value) {
+        if (!cell) return;
+        const fontFamily = normalizeFontFamily(value);
+        if (!fontFamily) {
+          delete cell.dataset.fontFamily;
+          cell.style.fontFamily = '';
+          return;
+        }
+        cell.dataset.fontFamily = fontFamily;
+        cell.style.fontFamily = fontFamilyCssMap[fontFamily];
+      }
+
+      function updateFontFamilySelect() {
+        const targets = selectedTargets().filter((cell) => cell && !cell.classList.contains('gray'));
+        const fontFamilies = new Set(targets.map((cell) => normalizeFontFamily(cell.dataset.fontFamily)));
+        fontFamilySelect.value = fontFamilies.size > 1 ? '__mixed' : (fontFamilies.values().next().value || '');
+      }
+
+      function clearRange() {
+        root.querySelectorAll('.header-selected').forEach((head) => head.classList.remove('header-selected'));
+        if (selectedCell) selectedCell.classList.remove('selected');
+        selectedRange.forEach((cell) => cell.classList.remove('range-selected'));
+        selectedRange = [];
+        selectedRow = null;
+        selectedCol = null;
+      }
+
+      function updateHeaderSelection() {
+        root.querySelectorAll('.header-selected').forEach((head) => head.classList.remove('header-selected'));
+        if (selectionMode === 'row' && selectedRow) {
+          const head = root.querySelector(`[data-row="${selectedRow}"]`);
+          if (head) head.classList.add('header-selected');
+        }
+        if (selectionMode === 'col' && selectedCol) {
+          const head = root.querySelector(`.col-head[data-col="${selectedCol}"]`);
+          if (head) head.classList.add('header-selected');
+        }
+      }
+
+      function selectCell(cell, event) {
+        if (!cell || cell.classList.contains('gray')) return;
+        clearRange();
+        selectionMode = 'cell';
+        rangeStart = cell;
+        selectedCell = cell;
+        selectedRange = [cell];
+        selectedCell.classList.add('range-selected');
+        selectedCell.classList.add('selected');
+        updatePanel(cell);
+      }
+
+      function startCellSelection(event, cell) {
+        if (event.button !== 0 || cell.classList.contains('gray') || root.classList.contains('resizing')) return;
+        dragSelecting = true;
+        rangeStart = cell;
+        selectCell(cell, event);
+      }
+
+      function updateDragSelection(cell) {
+        if (!dragSelecting || !rangeStart || !cell || cell.classList.contains('gray')) return;
+        selectRect(rangeStart, cell);
+      }
+
+      function endDragSelection() {
+        dragSelecting = false;
+      }
+
+      function selectRow(row) {
+        const rawRange = { left: 0, right: columns.length - 1, top: Number(row), bottom: Number(row) };
+        const targets = cellsInRect(expandRangeForMergedCells(rawRange));
+        selectCells(targets, 'row', { row: Number(row) });
+      }
+
+      function selectColumn(col) {
+        const colIndex = columnIndex(col);
+        const rows = getRows();
+        const rawRange = { left: colIndex, right: colIndex, top: Math.min(...rows), bottom: Math.max(...rows) };
+        const targets = cellsInRect(expandRangeForMergedCells(rawRange));
+        selectCells(targets, 'col', { col });
+      }
+
+      function clearFieldMeta(cell) {
+        delete cell.dataset.code;
+        delete cell.dataset.name;
+        cell.dataset.source = '自定义文本';
+      }
+
+      function syncFieldMetaFromText(cell, value) {
+        const text = String(value || '');
+        const matches = Array.from(text.matchAll(/\$\{\s*([^}]+?)\s*\}/g));
+        if (!matches.length) {
+          clearFieldMeta(cell);
+          return;
+        }
+        const resolved = matches
+          .map((match) => ({ name: String(match[1] || '').trim(), code: resolvePlaceholderCode(match[1]) }))
+          .filter((item) => item.name && item.code);
+        if (resolved.length === 1) {
+          cell.dataset.name = resolved[0].name;
+          cell.dataset.code = normalizeFieldCode(resolved[0].code);
+          cell.dataset.source = cell.dataset.source || '自定义文本';
+          return;
+        }
+        clearFieldMeta(cell);
+      }
+
+      function clearSelectedContents() {
+        if (!canEditTemplate()) return false;
+        const targets = selectedTargets().filter((cell) => cell && !cell.classList.contains('gray'));
+        if (!targets.length) return false;
+        const seen = new Set();
+        targets.forEach((cell) => {
+          const key = cellKey(cell);
+          if (seen.has(key)) return;
+          seen.add(key);
+          clearFieldMeta(cell);
+          cell.innerHTML = '';
+        });
+        if (selectedCell) updatePanel(selectedCell);
+        return true;
+      }
+
+      function isTypingTarget(target) {
+        if (!target) return false;
+        const tagName = target.tagName ? target.tagName.toLowerCase() : '';
+        return target.isContentEditable || ['input', 'textarea', 'select', 'button'].includes(tagName);
+      }
+
+      function handleTemplateShortcut(event) {
+        if (event.key !== 'Delete' && event.key !== 'Backspace') return;
+        if (isTypingTarget(event.target)) return;
+        if (clearSelectedContents()) event.preventDefault();
+      }
+
+      function setCustomText(cell, value) {
+        if (!canEditTemplate()) return;
+        if (!cell || cell.classList.contains('gray')) return;
+        syncFieldMetaFromText(cell, value);
+        cell.textContent = value;
+        updatePanel(cell);
+      }
+
+      function putFieldIntoCell(field, cell) {
+        if (!canEditTemplate()) return;
+        if (!field || !cell || cell.classList.contains('gray')) return;
+        const name = field.dataset.name || '';
+        cell.dataset.name = name;
+        cell.dataset.code = normalizeFieldCode(field.dataset.code);
+        cell.dataset.source = field.dataset.source || '';
+        cell.innerHTML = `<span class="token">${escapeHtml(fieldDisplay(name))}</span>`;
+        selectCell(cell);
+      }
+
+      function applyRowHeight(row, height) {
+        const px = `${Math.max(minRowHeight, Math.round(height))}px`;
+        rowHeights[row] = px;
+        const rowHead = root.querySelector(`[data-row="${row}"]`);
+        if (rowHead) rowHead.style.minHeight = px;
+        cells.filter((cell) => rowOf(cell) === String(row)).forEach((cell) => {
+          cell.style.minHeight = px;
+        });
+      }
+
+      function startColResize(event, handle) {
+        if (!canEditTemplate()) return;
+        event.preventDefault();
+        event.stopPropagation();
+        const col = handle.dataset.colResize;
+        const prop = `--col-${col.toLowerCase()}`;
+        const startX = event.clientX;
+        const startWidth = parseFloat(getComputedStyle(sheet).getPropertyValue(prop)) || handle.parentElement.getBoundingClientRect().width;
+        handle.classList.add('dragging');
+        root.classList.add('resizing');
+        root.style.cursor = 'col-resize';
+
+        function move(moveEvent) {
+          const next = Math.max(minColWidth, startWidth + moveEvent.clientX - startX);
+          sheet.style.setProperty(prop, `${Math.round(next)}px`);
+        }
+
+        function up() {
+          handle.classList.remove('dragging');
+          root.classList.remove('resizing');
+          root.style.cursor = '';
+          window.removeEventListener('mousemove', move);
+          window.removeEventListener('mouseup', up);
+        }
+
+        window.addEventListener('mousemove', move);
+        window.addEventListener('mouseup', up);
+      }
+
+      function startRowResize(event, handle) {
+        if (!canEditTemplate()) return;
+        event.preventDefault();
+        event.stopPropagation();
+        const row = handle.dataset.rowResize;
+        const rowHead = root.querySelector(`[data-row="${row}"]`);
+        const startY = event.clientY;
+        const startHeight = rowHead ? rowHead.getBoundingClientRect().height : minRowHeight;
+        handle.classList.add('dragging');
+        root.classList.add('resizing');
+        root.style.cursor = 'row-resize';
+
+        function move(moveEvent) {
+          applyRowHeight(row, startHeight + moveEvent.clientY - startY);
+        }
+
+        function up() {
+          handle.classList.remove('dragging');
+          root.classList.remove('resizing');
+          root.style.cursor = '';
+          window.removeEventListener('mousemove', move);
+          window.removeEventListener('mouseup', up);
+        }
+
+        window.addEventListener('mousemove', move);
+        window.addEventListener('mouseup', up);
+      }
+
+      function bindCell(cell) {
+        if (cell.dataset.bound === 'true') return;
+        cell.dataset.bound = 'true';
+        cell.addEventListener('mousedown', (event) => startCellSelection(event, cell));
+        cell.addEventListener('mouseenter', () => updateDragSelection(cell));
+        cell.addEventListener('dblclick', () => {
+          if (!canEditTemplate()) return;
+          if (cell.classList.contains('gray')) return;
+          selectCell(cell);
+          cell.setAttribute('contenteditable', 'true');
+          cell.focus();
+          const range = document.createRange();
+          range.selectNodeContents(cell);
+          const selection = window.getSelection();
+          selection.removeAllRanges();
+          selection.addRange(range);
+        });
+        cell.addEventListener('input', () => {
+          if (!canEditTemplate()) return;
+          const text = cell.textContent.trim();
+          syncFieldMetaFromText(cell, text);
+          formula.value = text;
+        });
+        cell.addEventListener('blur', () => {
+          cell.removeAttribute('contenteditable');
+          updatePanel(cell);
+        });
+        cell.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter') {
+            event.preventDefault();
+            cell.blur();
+          }
+        });
+        cell.addEventListener('dragover', (event) => {
+          if (!canEditTemplate()) return;
+          if (!draggedField || cell.classList.contains('gray')) return;
+          event.preventDefault();
+          cell.classList.add('drop-ready');
+        });
+        cell.addEventListener('dragleave', () => cell.classList.remove('drop-ready'));
+        cell.addEventListener('drop', (event) => {
+          if (!canEditTemplate()) return;
+          event.preventDefault();
+          cell.classList.remove('drop-ready');
+          putFieldIntoCell(draggedField, cell);
+        });
+      }
+
+      function bindResizeHandles() {
+        root.querySelectorAll('.col-head[data-col]').forEach((head) => {
+          if (head.dataset.selectBound === 'true') return;
+          head.dataset.selectBound = 'true';
+          head.addEventListener('click', (event) => {
+            if (event.target.closest('.col-resizer')) return;
+            selectColumn(head.dataset.col);
+          });
+          head.addEventListener('contextmenu', (event) => {
+            openColumnContextMenu(event, head.dataset.col);
+          });
+        });
+        root.querySelectorAll('.row-head[data-row]').forEach((head) => {
+          if (head.dataset.selectBound === 'true') return;
+          head.dataset.selectBound = 'true';
+          head.addEventListener('click', (event) => {
+            if (event.target.closest('.row-resizer')) return;
+            selectRow(head.dataset.row);
+          });
+          head.addEventListener('contextmenu', (event) => {
+            openRowContextMenu(event, head.dataset.row);
+          });
+        });
+        root.querySelectorAll('[data-col-resize]').forEach((handle) => {
+          if (handle.dataset.bound === 'true') return;
+          handle.dataset.bound = 'true';
+          handle.addEventListener('mousedown', (event) => startColResize(event, handle));
+        });
+        root.querySelectorAll('[data-row-resize]').forEach((handle) => {
+          if (handle.dataset.bound === 'true') return;
+          handle.dataset.bound = 'true';
+          handle.addEventListener('mousedown', (event) => startRowResize(event, handle));
+        });
+      }
+
+      function refreshCells() {
+        const replacementSelection = normalizeGridStructure();
+        renderColumnHeads();
+        renderRowHeads();
+        placeGridItems();
+        cells = Array.from(root.querySelectorAll('[data-cell]'));
+        cells.forEach(bindCell);
+        bindResizeHandles();
+        if (replacementSelection && sheet.contains(replacementSelection)) selectedCell = replacementSelection;
+        if (!selectedCell || !sheet.contains(selectedCell)) {
+          selectedCell = cells.find((cell) => !cell.classList.contains('gray')) || null;
+        }
+        selectedRange = selectedRange.filter((cell) => sheet.contains(cell) && !cell.classList.contains('gray'));
+        if (!selectedRange.length && selectedCell) selectedRange = [selectedCell];
+        selectedRange = selectedTargets();
+        selectedRange.forEach((cell) => cell.classList.add('range-selected'));
+        if (selectedCell) {
+          selectedCell.classList.add('selected');
+          updatePanel(selectedCell);
+        }
+        updateHeaderSelection();
+      }
+
+      function cellHtml(cell) {
+        return cell.innerHTML || '';
+      }
+
+      function alignFromClasses(classes = []) {
+        if (classes.includes('right')) return 'right';
+        if (classes.includes('center')) return 'center';
+        if (classes.includes('left')) return 'left';
+        return 'left';
+      }
+
+      function textAlignOf(cell) {
+        if (cell.classList.contains('right')) return 'right';
+        if (cell.classList.contains('center')) return 'center';
+        return 'left';
+      }
+
+      function applyTextAlign(cell, align) {
+        if (!cell || cell.classList.contains('gray')) return;
+        cell.classList.remove('left', 'center', 'right');
+        cell.classList.add(['left', 'center', 'right'].includes(align) ? align : 'left');
+      }
+
+      function updateAlignButtons(cell) {
+        const align = cell ? textAlignOf(cell) : 'left';
+        alignButtons.forEach((button) => {
+          const active = button.dataset.align === align;
+          button.classList.toggle('is-active', active);
+          button.setAttribute('aria-pressed', String(active));
+        });
+      }
+
+      function createCell(col, row, content) {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.dataset.cell = `${col}${row}`;
+        cell.dataset.colspan = '1';
+        cell.dataset.rowspan = '1';
+        cell.innerHTML = content || '';
+        bindCell(cell);
+        return cell;
+      }
+
+      function createRowHead(row) {
+        const head = document.createElement('div');
+        head.className = 'row-head';
+        head.dataset.row = String(row);
+        head.innerHTML = `${row}<span class="row-resizer" data-row-resize="${row}"></span>`;
+        return head;
+      }
+
+      function createBlankTemplate(rowCount = 31, columnCount = 18) {
+        currentTemplateId = 'default';
+        currentTemplateName = '默认模板';
+        currentTemplateDefaulted = false;
+        columns = buildColumns(columnCount);
+        rowHeights = {};
+        root.querySelectorAll('.cell').forEach((cell) => cell.remove());
+        columns.forEach((col) => {
+          const prop = `--col-${col.toLowerCase()}`;
+          sheet.style.setProperty(prop, '90px');
+        });
+        for (let row = 1; row <= rowCount; row += 1) {
+          columns.forEach((col) => sheet.appendChild(createCell(col, row, '')));
+        }
+        selectedCell = root.querySelector('[data-cell="A1"]');
+        selectedRange = selectedCell ? [selectedCell] : [];
+        rangeStart = selectedCell;
+        selectionMode = 'cell';
+        selectedRow = null;
+        selectedCol = null;
+        refreshCells();
+        updateTemplateTitle();
+      }
+
+      function classFlags(cell) {
+        return [
+          'left',
+          'center',
+          'right',
+          'bold',
+          'logo',
+          'blue-title',
+          'contract-title',
+          'line-bottom',
+          'table-border',
+          'border-top',
+          'border-right',
+          'border-bottom',
+          'border-left',
+          'gray'
+        ].filter((name) => cell.classList.contains(name));
+      }
+
+      function columnWidthMap() {
+        return Object.fromEntries(columns.map((col) => {
+          const prop = `--col-${col.toLowerCase()}`;
+          return [col, sheet.style.getPropertyValue(prop) || getComputedStyle(sheet).getPropertyValue(prop).trim() || '90px'];
+        }));
+      }
+
+      function serializeTemplate() {
+        return {
+          version: 1,
+          id: currentTemplateId,
+          name: currentTemplateName,
+          module: 'purchase-order',
+          updatedAt: new Date().toISOString(),
+          columns: [...columns],
+          rowCount: getMaxRow(),
+          columnWidths: columnWidthMap(),
+          rowHeights: { ...rowHeights },
+          paper: {
+            size: paperConfig.size,
+            width: paperConfig.width,
+            height: paperConfig.height,
+            orientation: paperConfig.orientation,
+            margins: { ...paperConfig.margins },
+          },
+          selectedCell: selectedCell ? selectedCell.dataset.cell : '',
+          cells: Array.from(root.querySelectorAll('[data-cell]')).map((cell) => ({
+            cell: cell.dataset.cell,
+            html: cell.innerHTML,
+            text: cell.textContent,
+            name: cell.dataset.name || '',
+            code: normalizeFieldCode(cell.dataset.code),
+            placeholderCodes: placeholderCodeMap(cell.innerHTML),
+            source: cell.dataset.source || '',
+            colspan: colSpanOf(cell),
+            rowspan: rowSpanOf(cell),
+            fontSize: cell.style.fontSize || '',
+            fontFamily: normalizeFontFamily(cell.dataset.fontFamily) || undefined,
+            textAlign: textAlignOf(cell),
+            classes: classFlags(cell)
+          }))
+        };
+      }
+
+      function loadTemplate(templateData) {
+        if (!templateData || !Array.isArray(templateData.cells) || !Array.isArray(templateData.columns)) return;
+        currentTemplateId = templateData.id || 'default';
+        currentTemplateName = templateData.name || '默认模板';
+        columns = templateData.columns.length ? [...templateData.columns] : buildColumns(18);
+        rowHeights = { ...(templateData.rowHeights || {}) };
+        applyPaperConfig(templateData.paper || {});
+        root.querySelectorAll('.cell').forEach((cell) => cell.remove());
+        columns.forEach((col) => {
+          const prop = `--col-${col.toLowerCase()}`;
+          sheet.style.setProperty(prop, (templateData.columnWidths && templateData.columnWidths[col]) || '90px');
+        });
+        templateData.cells.forEach((item) => {
+          if (!item || !item.cell) return;
+          const cell = document.createElement('div');
+          cell.className = ['cell', ...(Array.isArray(item.classes) ? item.classes : [])].join(' ');
+          cell.dataset.cell = item.cell;
+          cell.dataset.colspan = String(Math.max(1, Number(item.colspan) || 1));
+          cell.dataset.rowspan = String(Math.max(1, Number(item.rowspan) || 1));
+          if (item.name) cell.dataset.name = item.name;
+          if (item.code) cell.dataset.code = normalizeFieldCode(item.code);
+          if (item.source) cell.dataset.source = item.source;
+          if (item.fontSize) cell.style.fontSize = item.fontSize;
+          applyCellFontFamily(cell, item.fontFamily);
+          applyTextAlign(cell, item.textAlign || alignFromClasses(item.classes || []));
+          cell.innerHTML = item.html || '';
+          sheet.appendChild(cell);
+        });
+        selectedCell = root.querySelector(`[data-cell="${templateData.selectedCell}"]`) || root.querySelector('[data-cell]:not(.gray)');
+        selectedRange = selectedCell ? [selectedCell] : [];
+        rangeStart = selectedCell;
+        selectionMode = 'cell';
+        selectedRow = null;
+        selectedCol = null;
+        refreshCells();
+        updateTemplateTitle();
+      }
+
+      function buildTemplateSavePayload() {
+        const data = serializeTemplate();
+        data.id = currentTemplateId && currentTemplateId !== 'default' ? currentTemplateId : null;
+        data.name = currentTemplateName;
+        return {
+          id: data.id,
+          moduleKey,
+          name: data.name || '默认模板',
+          defaulted: false,
+          templateJson: JSON.stringify(data),
+          paperConfig: JSON.stringify({
+            columns: data.columns,
+            columnWidths: data.columnWidths,
+            rowHeights: data.rowHeights,
+            rowCount: data.rowCount,
+            paper: data.paper,
+          }),
+          status: 0,
+        };
+      }
+
+      async function saveCurrentTemplate() {
+        if (!canEditTemplate()) return;
+        if (!currentTemplateId || currentTemplateId === 'default') {
+          templateNameInput.value = currentTemplateName === '默认模板' ? '采购订单模板' : currentTemplateName;
+          openModal(saveAsModal);
+          templateNameInput.focus();
+          templateNameInput.select();
+          return;
+        }
+        try {
+          const id = await apiRequest('/erp/print/template/save', {
+            method: 'PUT',
+            body: JSON.stringify(buildTemplateSavePayload()),
+          });
+          currentTemplateId = id || currentTemplateId;
+          await refreshTemplateList();
+          showToast('模板已保存');
+        } catch (error) {
+          showToast(error.message || '模板保存失败');
+        }
+      }
+
+      async function saveAsCurrentTemplate(name) {
+        if (!canEditTemplate()) return;
+        const data = serializeTemplate();
+        data.id = null;
+        data.name = name;
+        const payload = {
+          id: null,
+          moduleKey,
+          name,
+          defaulted: false,
+          templateJson: JSON.stringify(data),
+          paperConfig: JSON.stringify({
+            columns: data.columns,
+            columnWidths: data.columnWidths,
+            rowHeights: data.rowHeights,
+            rowCount: data.rowCount,
+            paper: data.paper,
+          }),
+          status: 0,
+        };
+        const id = await apiRequest('/erp/print/template/save-as', {
+          method: 'POST',
+          body: JSON.stringify(payload),
+        });
+        currentTemplateId = id || currentTemplateId;
+        currentTemplateName = name;
+        currentTemplateDefaulted = false;
+        await refreshTemplateList();
+        updateTemplateTitle();
+      }
+
+      function loadTemplateFromResponse(template) {
+        if (!template || !template.templateJson) {
+          currentTemplateDefaulted = false;
+          createBlankTemplate();
+          updateTemplateTitle();
+          return;
+        }
+        const data = parseJson(template.templateJson);
+        if (!data) {
+          currentTemplateDefaulted = false;
+          createBlankTemplate();
+          updateTemplateTitle();
+          return;
+        }
+        data.id = template.id || data.id;
+        data.name = template.name || data.name;
+        currentTemplateDefaulted = Boolean(template.defaulted);
+        loadTemplate(data);
+      }
+
+      async function loadTemplateList() {
+        if (!canEditTemplate()) return;
+        availableTemplates = await apiRequest(`/erp/print/template/list?moduleKey=${encodeURIComponent(moduleKey)}`) || [];
+        renderTemplateOptions();
+      }
+
+      async function refreshTemplateList() {
+        try {
+          await loadTemplateList();
+        } catch (error) {
+          showToast(error.message || '模板列表刷新失败');
+        }
+      }
+
+      async function loadTemplateById(templateId) {
+        if (!templateId) {
+          currentTemplateDefaulted = false;
+          createBlankTemplate();
+          updateTemplateTitle();
+          return;
+        }
+        const template = await apiRequest(`/erp/print/template/get?id=${encodeURIComponent(templateId)}`);
+        loadTemplateFromResponse(template);
+      }
+
+      async function restoreLastTemplate() {
+        try {
+          if (urlTemplateId) {
+            await loadTemplateById(urlTemplateId);
+          } else {
+            const template = await apiRequest(`/erp/print/template/default?moduleKey=${encodeURIComponent(moduleKey)}`);
+            loadTemplateFromResponse(template);
+          }
+        } catch (error) {
+          createBlankTemplate();
+          updateTemplateTitle();
+          showToast(error.message || '读取模板失败，已使用默认模板');
+        }
+      }
+
+      async function setCurrentTemplateDefault() {
+        if (!canEditTemplate()) return;
+        if (!currentTemplateId || currentTemplateId === 'default') {
+          showToast('请先保存模板');
+          return;
+        }
+        try {
+          await apiRequest(`/erp/print/template/set-default?id=${encodeURIComponent(currentTemplateId)}`, {
+            method: 'POST',
+          });
+          currentTemplateDefaulted = true;
+          await refreshTemplateList();
+          updateTemplateTitle();
+          showToast('已设为默认模板');
+        } catch (error) {
+          showToast(error.message || '设置默认模板失败');
+        }
+      }
+
+      function openModal(modal) {
+        if (!modal) return;
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+      }
+
+      function closeModal(modal) {
+        if (!modal) return;
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+      }
+
+      function previewClassName(cell) {
+        return ['preview-cell', ...classFlags(cell)].join(' ');
+      }
+
+      function printClassName(cell) {
+        return ['print-cell', ...classFlags(cell)].join(' ');
+      }
+
+      function resolvedCellHtml(source, item, itemIndex = 0, pageContext = null) {
+        const code = normalizeFieldCode(source.dataset.code || item.code);
+        const html = item.html || '';
+        const placeholderCodes = { ...(item.placeholderCodes || {}) };
+        const name = source.dataset.name || item.name || '';
+        if (name && code) placeholderCodes[name] = code;
+        if (!printData) return html;
+        if (!code) return html.includes('${')
+          ? renderFieldPlaceholders(html, itemIndex, placeholderCodes, pageContext)
+          : html;
+        const singleFieldText = fieldDisplay(name);
+        if (html.includes('${') && source.textContent.trim() !== singleFieldText) {
+          return renderFieldPlaceholders(html, itemIndex, placeholderCodes, pageContext);
+        }
+        const value = resolvePrintValue(code, itemIndex, pageContext);
+        return escapeHtml(value === undefined || value === null ? '' : value);
+      }
+
+      function itemRows(data) {
+        const rows = new Set();
+        data.cells.forEach((item) => {
+          const code = normalizeFieldCode(item.code);
+          const html = String(item.html || '');
+          const hasItemField = code.startsWith('items.') || /\$\{\s*items\./.test(html) || hasItemPlaceholder(html, item.placeholderCodes || {});
+          if (!hasItemField) return;
+          const source = root.querySelector(`[data-cell="${item.cell}"]`);
+          if (!source || source.classList.contains('gray')) return;
+          const parts = cellParts(source);
+          const rowspan = Math.max(1, Number(item.rowspan) || rowSpanOf(source));
+          for (let row = parts.row; row < parts.row + rowspan; row += 1) {
+            rows.add(row);
+          }
+        });
+        return Array.from(rows).sort((a, b) => a - b);
+      }
+
+      function detailBlocks(data) {
+        const rows = itemRows(data);
+        if (!rows.length) return [];
+        const blocks = [];
+        rows.forEach((row) => {
+          const last = blocks[blocks.length - 1];
+          if (last && row <= last.end + 1) last.end = row;
+          else blocks.push({ start: row, end: row });
+        });
+
+        let changed = true;
+        while (changed) {
+          changed = false;
+          data.cells.forEach((item) => {
+            const source = root.querySelector(`[data-cell="${item.cell}"]`);
+            if (!source || source.classList.contains('gray')) return;
+            const parts = cellParts(source);
+            const start = parts.row;
+            const end = start + Math.max(1, Number(item.rowspan) || rowSpanOf(source)) - 1;
+            const block = blocks.find((entry) => start <= entry.end && end >= entry.start);
+            if (!block) return;
+            const nextStart = Math.min(block.start, start);
+            const nextEnd = Math.max(block.end, end);
+            if (nextStart !== block.start || nextEnd !== block.end) {
+              block.start = nextStart;
+              block.end = nextEnd;
+              changed = true;
+            }
+          });
+          blocks.sort((a, b) => a.start - b.start);
+          for (let index = 0; index < blocks.length - 1; index += 1) {
+            const current = blocks[index];
+            const next = blocks[index + 1];
+            if (current.end + 1 < next.start) continue;
+            current.end = Math.max(current.end, next.end);
+            blocks.splice(index + 1, 1);
+            changed = true;
+            break;
+          }
+        }
+        return blocks;
+      }
+
+      function buildRenderPlan(data, options = {}) {
+        const rows = Array.from({ length: data.rowCount }, (_, index) => index + 1);
+        const items = Array.isArray(printData?.items) ? printData.items : [];
+        const shouldRepeat = Boolean(options.repeatDetailRows && options.resolveFields && items.length);
+        const blocks = shouldRepeat ? detailBlocks(data) : [];
+        const rowPlans = [];
+        rows.forEach((row) => {
+          const block = blocks.find((entry) => entry.start === row);
+          if (block) {
+            items.forEach((_, itemIndex) => {
+              for (let sourceRow = block.start; sourceRow <= block.end; sourceRow += 1) {
+                rowPlans.push({ sourceRow, itemIndex, detail: true });
+              }
+            });
+            return;
+          }
+          if (blocks.some((entry) => row > entry.start && row <= entry.end)) return;
+          rowPlans.push({ sourceRow: row, itemIndex: 0, detail: false });
+        });
+        return {
+          rowPlans,
+          rowMap: rowPlans.reduce((map, plan, index) => {
+            const key = `${plan.sourceRow}:${plan.detail ? plan.itemIndex : 'base'}`;
+            map.set(key, index + 1);
+            return map;
+          }, new Map()),
+          blocks
+        };
+      }
+
+      function renderRowHeight(data, row) {
+        return data.rowHeights[row] || '34px';
+      }
+
+      function renderRowHeightValue(data, plan) {
+        return cssSizeToNumber(renderRowHeight(data, plan.sourceRow), 34);
+      }
+
+      function paperContentHeightPx() {
+        const size = paperSizeInMm();
+        return Math.max(
+          1,
+          mmToPx(size.height) - mmToPx(paperConfig.margins.top) - mmToPx(paperConfig.margins.bottom),
+        );
+      }
+
+      function planKey(plan) {
+        return `${plan.sourceRow}:${plan.detail ? plan.itemIndex : 'base'}`;
+      }
+
+      function planHeight(data, plans) {
+        return plans.reduce((total, plan) => total + renderRowHeightValue(data, plan), 0);
+      }
+
+      function splitPlansByHeight(data, plans, capacity) {
+        const pages = [];
+        let current = [];
+        let used = 0;
+        plans.forEach((plan) => {
+          const height = renderRowHeightValue(data, plan);
+          if (current.length && used + height > capacity) {
+            pages.push(current);
+            current = [];
+            used = 0;
+          }
+          current.push(plan);
+          used += height;
+        });
+        if (current.length || !pages.length) pages.push(current);
+        return pages;
+      }
+
+      function cellRowRange(item) {
+        const match = String(item.cell || '').match(/^([A-Z]+)(\d+)$/);
+        const start = match ? Number(match[2]) : 1;
+        return {
+          start,
+          end: start + Math.max(1, Number(item.rowspan) || 1) - 1,
+        };
+      }
+
+      function hasTableBorderClass(item) {
+        const classes = Array.isArray(item.classes) ? item.classes : [];
+        return classes.some((name) => [
+          'table-border',
+          'manual-border',
+          'border-top',
+          'border-right',
+          'border-bottom',
+          'border-left',
+          'line-bottom',
+        ].includes(name));
+      }
+
+      function isItemFieldCell(item) {
+        const code = normalizeFieldCode(item.code);
+        const html = String(item.html || '');
+        return code.startsWith('items.') || /\$\{\s*items\./.test(html) || hasItemPlaceholder(html, item.placeholderCodes || {});
+      }
+
+      function plainCellText(item) {
+        const holder = document.createElement('div');
+        holder.innerHTML = item.html || '';
+        return (holder.textContent || item.text || '').trim();
+      }
+
+      function isRenderableTemplateItem(item) {
+        if (!item || !item.cell || (item.classes || []).includes('gray')) return false;
+        if (normalizeFieldCode(item.code)) return true;
+        if (hasTableBorderClass(item)) return true;
+        return Boolean(plainCellText(item));
+      }
+
+      function lastRenderableSourceRow(data) {
+        return data.cells.reduce((maxRow, item) => {
+          if (!isRenderableTemplateItem(item)) return maxRow;
+          return Math.max(maxRow, cellRowRange(item).end);
+        }, 1);
+      }
+
+      function detectDetailHeaderRows(data, blocks) {
+        const firstBlock = blocks[0];
+        if (!firstBlock) return [];
+        const rows = [];
+        for (let row = firstBlock.start - 1; row >= 1; row -= 1) {
+          const rowCells = data.cells.filter((item) => {
+            if (!item || !item.cell || (item.classes || []).includes('gray')) return false;
+            const range = cellRowRange(item);
+            return range.start <= row && row <= range.end;
+          });
+          const hasHeaderCell = rowCells.some((item) => hasTableBorderClass(item) && !isItemFieldCell(item));
+          if (!hasHeaderCell) break;
+          rows.unshift(row);
+        }
+        return rows;
+      }
+
+      function paginateDetailRows(data, renderPlan, options = {}) {
+        if (!options.paginate) return [renderPlan.rowPlans];
+        const capacity = paperContentHeightPx();
+        const items = Array.isArray(printData?.items) ? printData.items : [];
+        if (!renderPlan.blocks.length || !items.length) {
+          return splitPlansByHeight(data, renderPlan.rowPlans, capacity);
+        }
+
+        const firstBlock = renderPlan.blocks[0];
+        const lastBlock = renderPlan.blocks[renderPlan.blocks.length - 1];
+        const headerRows = new Set(detectDetailHeaderRows(data, renderPlan.blocks));
+        const headerPlans = renderPlan.rowPlans.filter((plan) => !plan.detail && headerRows.has(plan.sourceRow));
+        const detailPlansByItem = items.map((_, itemIndex) =>
+          renderPlan.rowPlans.filter((plan) => plan.detail && plan.itemIndex === itemIndex),
+        );
+        const lastRenderableRow = lastRenderableSourceRow(data);
+        const topBoundary = headerRows.size ? Math.min(...headerRows) : firstBlock.start;
+        const topPlans = renderPlan.rowPlans.filter((plan) => !plan.detail && plan.sourceRow < topBoundary);
+        const bottomPlans = renderPlan.rowPlans.filter((plan) => !plan.detail && plan.sourceRow > lastBlock.end && plan.sourceRow <= lastRenderableRow);
+        const pages = [];
+        let nextItemIndex = 0;
+
+        function createDetailPage(basePlans, allowBottom) {
+          const page = [...basePlans];
+          let used = planHeight(data, page);
+          let detailCount = 0;
+          while (nextItemIndex < detailPlansByItem.length) {
+            const group = detailPlansByItem[nextItemIndex];
+            const groupHeight = planHeight(data, group);
+            if (detailCount > 0 && used + groupHeight > capacity) break;
+            if (!detailCount && used + groupHeight > capacity && page.length > basePlans.length) break;
+            page.push(...group);
+            used += groupHeight;
+            nextItemIndex += 1;
+            detailCount += 1;
+            if (used >= capacity) break;
+          }
+          if (!detailCount && nextItemIndex < detailPlansByItem.length) {
+            page.push(...detailPlansByItem[nextItemIndex]);
+            nextItemIndex += 1;
+          }
+          if (allowBottom && nextItemIndex >= detailPlansByItem.length) {
+            const bottomHeight = planHeight(data, bottomPlans);
+            if (used + bottomHeight <= capacity) {
+              page.push(...bottomPlans);
+              return { page, bottomPlaced: true };
+            }
+          }
+          return { page, bottomPlaced: false };
+        }
+
+        const first = createDetailPage([...topPlans, ...headerPlans], true);
+        pages.push(first.page);
+        let bottomPlaced = first.bottomPlaced;
+
+        while (nextItemIndex < detailPlansByItem.length) {
+          const result = createDetailPage([...headerPlans], true);
+          pages.push(result.page);
+          bottomPlaced = result.bottomPlaced;
+        }
+
+        if (!bottomPlaced && bottomPlans.length) {
+          splitPlansByHeight(data, bottomPlans, capacity).forEach((page) => pages.push(page));
+        }
+
+        return pages.filter((page) => page.length);
+      }
+
+      function createPaperRenderPage(sheetNode, pageClassName) {
+        const page = document.createElement('div');
+        page.className = pageClassName;
+        page.appendChild(sheetNode);
+        return page;
+      }
+
+      function renderTemplateSheet(classNameResolver, options = {}) {
+        const data = options.data || serializeTemplate();
+        const renderPlan = options.renderPlan || buildRenderPlan(data, options);
+        const rowPlans = options.rowPlans || renderPlan.rowPlans;
+        const rowMap = rowPlans.reduce((map, plan, index) => {
+          map.set(planKey(plan), index + 1);
+          return map;
+        }, new Map());
+        const sheetNode = document.createElement('div');
+        sheetNode.style.gridTemplateColumns = data.columns.map((col) => (data.columnWidths[col] || '90px')).join(' ');
+        sheetNode.style.gridTemplateRows = rowPlans.map((plan) => renderRowHeight(data, plan.sourceRow)).join(' ');
+        data.cells.forEach((item) => {
+          const source = root.querySelector(`[data-cell="${item.cell}"]`);
+          if (!source || source.classList.contains('gray')) return;
+          const parts = cellParts(source);
+          const colIndex = Math.max(0, columnIndex(parts.col));
+          const block = renderPlan.blocks.find((entry) => parts.row >= entry.start && parts.row <= entry.end);
+          const renderTargets = block
+            ? (Array.isArray(printData?.items) && printData.items.length ? printData.items.map((_, itemIndex) => ({ itemIndex, detail: true })) : [{ itemIndex: 0, detail: true }])
+            : [{ itemIndex: 0, detail: false }];
+          renderTargets.forEach((target) => {
+            const rowKey = `${parts.row}:${target.detail ? target.itemIndex : 'base'}`;
+            const outputRow = rowMap.get(rowKey);
+            if (!outputRow) return;
+            const cell = document.createElement('div');
+            cell.className = classNameResolver(source);
+            cell.style.gridColumn = `${colIndex + 1} / span ${item.colspan || 1}`;
+            cell.style.gridRow = `${outputRow} / span ${item.rowspan || 1}`;
+            cell.style.minHeight = item.rowspan > 1
+              ? mergedCellHeight(parts.row, item.rowspan)
+              : (data.rowHeights[parts.row] || source.style.minHeight || '');
+            if (item.fontSize) cell.style.fontSize = item.fontSize;
+            applyCellFontFamily(cell, item.fontFamily);
+            cell.innerHTML = options.resolveFields
+              ? resolvedCellHtml(source, item, target.itemIndex, options.pageContext)
+              : (item.html || '');
+            sheetNode.appendChild(cell);
+          });
+        });
+        return sheetNode;
+      }
+
+      function renderTemplatePages(classNameResolver, sheetClassName, pageClassName, options = {}) {
+        const data = serializeTemplate();
+        const renderPlan = buildRenderPlan(data, options);
+        const pages = paginateDetailRows(data, renderPlan, options);
+        const pageCount = pages.length;
+        return pages.map((rowPlans, pageIndex) => {
+          const sheetNode = renderTemplateSheet(classNameResolver, {
+            ...options,
+            data,
+            renderPlan,
+            rowPlans,
+            pageContext: { pageNo: pageIndex + 1, pageCount },
+          });
+          sheetNode.className = sheetClassName;
+          return createPaperRenderPage(sheetNode, pageClassName);
+        });
+      }
+
+      function clearDemoCoveredCells(col, row, colspan = 1, rowspan = 1) {
+        const start = columnIndex(col);
+        for (let rowOffset = 0; rowOffset < rowspan; rowOffset += 1) {
+          for (let colOffset = 0; colOffset < colspan; colOffset += 1) {
+            if (rowOffset === 0 && colOffset === 0) continue;
+            const covered = getCell(columns[start + colOffset], row + rowOffset);
+            if (covered) covered.remove();
+          }
+        }
+      }
+
+      function setDemoCell(col, row, config = {}) {
+        const cell = getCell(col, row);
+        if (!cell) return;
+        const classes = Array.isArray(config.classes) ? config.classes : [];
+        cell.className = ['cell', ...classes].join(' ');
+        cell.innerHTML = config.html || '';
+        cell.dataset.colspan = String(Math.max(1, Number(config.colspan) || 1));
+        cell.dataset.rowspan = String(Math.max(1, Number(config.rowspan) || 1));
+        if (config.name) cell.dataset.name = config.name;
+        else delete cell.dataset.name;
+        if (config.code) cell.dataset.code = normalizeFieldCode(config.code);
+        else delete cell.dataset.code;
+        if (config.fontSize) cell.style.fontSize = config.fontSize;
+        else cell.style.fontSize = '';
+        clearDemoCoveredCells(col, row, Number(cell.dataset.colspan), Number(cell.dataset.rowspan));
+      }
+
+      function ensurePaginationDemoTemplate() {
+        if (itemRows(serializeTemplate()).length) return;
+        createBlankTemplate(18, 10);
+        applyPaperConfig({
+          size: 'continuous_third',
+          margins: { top: 0, right: 0, bottom: 0, left: 0 },
+        });
+        const widths = {
+          A: '82px',
+          B: '128px',
+          C: '96px',
+          D: '86px',
+          E: '76px',
+          F: '76px',
+          G: '110px',
+          H: '118px',
+        };
+        Object.entries(widths).forEach(([col, width]) => {
+          sheet.style.setProperty(`--col-${col.toLowerCase()}`, width);
+        });
+        rowHeights = {
+          1: '46px',
+          2: '22px',
+          3: '34px',
+          4: '34px',
+          5: '34px',
+          6: '26px',
+          7: '34px',
+          8: '42px',
+          9: '34px',
+          10: '34px',
+          11: '34px',
+          12: '34px',
+        };
+
+        setDemoCell('A', 1, {
+          html: '四川兴宇科技服务有限公司（采购订单）',
+          colspan: 8,
+          classes: ['center', 'bold'],
+          fontSize: '18pt',
+        });
+        setDemoCell('A', 3, { html: '供应商：', classes: ['bold'] });
+        setDemoCell('B', 3, { html: '${supplier.name}', code: 'supplier.name', name: '供应商名称', colspan: 2 });
+        setDemoCell('D', 3, { html: '单号：', classes: ['bold'] });
+        setDemoCell('E', 3, { html: '${document.no}', code: 'document.no', name: '单号', colspan: 2 });
+        setDemoCell('G', 3, { html: '日期：', classes: ['bold'] });
+        setDemoCell('H', 3, { html: '${document.date}', code: 'document.date', name: '日期' });
+        setDemoCell('A', 4, { html: '联系人：', classes: ['bold'] });
+        setDemoCell('B', 4, { html: '${contact.name}', code: 'contact.name', name: '联系人', colspan: 2 });
+        setDemoCell('D', 4, { html: '电话：', classes: ['bold'] });
+        setDemoCell('E', 4, { html: '${contact.phone}', code: 'contact.phone', name: '联系电话', colspan: 2 });
+        setDemoCell('A', 5, { html: '备注：', classes: ['bold'] });
+        setDemoCell('B', 5, { html: '${document.remark}', code: 'document.remark', name: '备注', colspan: 7 });
+
+        [
+          ['A', '序号'],
+          ['B', '零件编码'],
+          ['C', '零件名称'],
+          ['D', '规格'],
+          ['E', '单位'],
+          ['F', '数量'],
+          ['G', '仓库'],
+          ['H', '备注'],
+        ].forEach(([col, text]) => setDemoCell(col, 7, { html: text, classes: ['table-border', 'center', 'bold'] }));
+
+        [
+          ['A', '序号', 'items.seq'],
+          ['B', '零件编码', 'items.productCode'],
+          ['C', '零件名称', 'items.productName'],
+          ['D', '规格', 'items.standard'],
+          ['E', '单位', 'items.productUnitName'],
+          ['F', '数量', 'items.count'],
+          ['G', '仓库', 'items.warehouseName'],
+          ['H', '备注', 'items.remark'],
+        ].forEach(([col, name, code]) => setDemoCell(col, 8, {
+          html: fieldDisplay(name),
+          name,
+          code,
+          classes: ['table-border'],
+        }));
+
+        setDemoCell('A', 10, { html: '合计数量：', classes: ['bold'] });
+        setDemoCell('B', 10, { html: '${document.totalCount}', code: 'document.totalCount', name: '合计数量' });
+        setDemoCell('D', 10, { html: '制单人：', classes: ['bold'] });
+        setDemoCell('E', 10, { html: '${currentUser.nickname}', code: 'currentUser.nickname', name: '当前用户' });
+        setDemoCell('A', 11, { html: '地址：', classes: ['bold'] });
+        setDemoCell('B', 11, { html: '${supplier.address}', code: 'supplier.address', name: '供应商地址', colspan: 7 });
+        setDemoCell('A', 12, { html: '说明：', classes: ['bold'] });
+        setDemoCell('B', 12, { html: '最后一页显示明细后的合计、地址和签字信息。', colspan: 7 });
+        refreshCells();
+      }
+
+      function buildPaginationDemoData(count = 30) {
+        const items = Array.from({ length: count }, (_, index) => {
+          const seq = index + 1;
+          return {
+            'items.seq': seq,
+            'items.productCode': `DEMO-${String(seq).padStart(3, '0')}`,
+            'items.productName': `分页演示配件 ${seq}`,
+            'items.standard': seq % 3 === 0 ? '长规格型号' : '标准',
+            'items.productUnitName': '件',
+            'items.count': seq % 4 + 1,
+            'items.warehouseName': seq % 2 ? '大塘快准仓' : '总部仓',
+            'items.remark': seq % 5 === 0 ? '这一行用于观察换页' : '',
+          };
+        });
+        const totalCount = items.reduce((total, item) => total + Number(item['items.count'] || 0), 0);
+        return {
+          main: {
+            'supplier.name': '分页演示供应商',
+            'supplier.address': '四川省成都市高新区演示路 88 号',
+            'contact.name': '演示联系人',
+            'contact.phone': '13900000000',
+            'document.no': 'DEMO-PAGE-0001',
+            'document.date': '2026-09-21',
+            'document.remark': '三等分连续纸，自动分页样例',
+            'document.totalCount': totalCount,
+          },
+          system: {
+            'currentUser.nickname': '演示用户',
+            'print.now': '2026-09-21 10:00',
+          },
+          items,
+        };
+      }
+
+      function openPaginationDemo() {
+        ensurePaginationDemoTemplate();
+        applyPaperConfig({
+          size: 'continuous_third',
+          margins: { top: 0, right: 0, bottom: 0, left: 0 },
+        });
+        printData = buildPaginationDemoData(30);
+        renderPreview();
+        showToast('已生成 30 行明细分页样例');
+      }
+
+      function renderPreview() {
+        const pages = renderTemplatePages(previewClassName, 'preview-sheet', 'preview-page', {
+          resolveFields: true,
+          repeatDetailRows: true,
+          paginate: true,
+        });
+        previewContent.replaceChildren(...pages);
+        openModal(previewModal);
+      }
+
+      function renderPrintDocument() {
+        const pages = renderTemplatePages(printClassName, 'print-sheet', 'print-page', {
+          resolveFields: true,
+          repeatDetailRows: true,
+          paginate: true,
+        });
+        printRoot.replaceChildren(...pages);
+        printRoot.setAttribute('aria-hidden', 'false');
+      }
+
+      function clearPrintDocument() {
+        printRoot.replaceChildren();
+        printRoot.setAttribute('aria-hidden', 'true');
+      }
+
+      async function recordCurrentPrint() {
+        if (!businessId) return;
+        await apiRequest('/erp/print/record', {
+          method: 'POST',
+          body: JSON.stringify({
+            moduleKey,
+            businessId,
+            businessNo,
+            templateId: currentTemplateId && currentTemplateId !== 'default' ? currentTemplateId : null,
+          }),
+        });
+      }
+
+      async function printCurrentTemplate() {
+        try {
+          await recordCurrentPrint();
+          renderPrintDocument();
+          window.print();
+          notifyPrinted();
+          window.setTimeout(clearPrintDocument, 300);
+        } catch (error) {
+          showToast(error.message || '打印失败');
+          clearPrintDocument();
+        }
+      }
+
+      function forEachSelected(callback) {
+        selectedTargets().forEach((cell) => {
+          if (cell && !cell.classList.contains('gray')) callback(cell);
+        });
+      }
+
+      function toggleBold() {
+        if (!canEditTemplate()) return;
+        const targets = selectedTargets().filter((cell) => cell && !cell.classList.contains('gray'));
+        if (!targets.length) return;
+        const shouldBold = targets.some((cell) => !cell.classList.contains('bold'));
+        targets.forEach((cell) => cell.classList.toggle('bold', shouldBold));
+      }
+
+      function applyFontSize() {
+        if (!canEditTemplate()) return;
+        forEachSelected((cell) => {
+          cell.style.fontSize = `${fontSizeSelect.value}pt`;
+        });
+      }
+
+      function applyFontFamily() {
+        if (!canEditTemplate() || fontFamilySelect.value === '__mixed') return;
+        forEachSelected((cell) => applyCellFontFamily(cell, fontFamilySelect.value));
+        updateFontFamilySelect();
+      }
+
+      function applyTextAlignment(align) {
+        if (!canEditTemplate()) return;
+        forEachSelected((cell) => applyTextAlign(cell, align));
+        updateAlignButtons(selectedCell);
+      }
+
+      function setCellBorder(cell, side, enabled) {
+        if (side === 'top') cell.classList.toggle('border-top', enabled);
+        if (side === 'right') cell.classList.toggle('border-right', enabled);
+        if (side === 'bottom') cell.classList.toggle('border-bottom', enabled);
+        if (side === 'left') cell.classList.toggle('border-left', enabled);
+      }
+
+      function clearBorders(cell) {
+        ['border-top', 'border-right', 'border-bottom', 'border-left', 'manual-border'].forEach((name) => cell.classList.remove(name));
+      }
+
+      function applyBorder(action) {
+        if (!canEditTemplate()) return;
+        const targets = selectedTargets().filter((cell) => cell && !cell.classList.contains('gray'));
+        const bounds = getSelectionBounds(targets);
+        if (!targets.length || !bounds) return;
+        if (action === 'clear') {
+          targets.forEach(clearBorders);
+          return;
+        }
+        if (action === 'all') {
+          targets.forEach((cell) => {
+            ['top', 'right', 'bottom', 'left'].forEach((side) => setCellBorder(cell, side, true));
+          });
+          return;
+        }
+        targets.forEach((cell) => {
+          const parts = cellParts(cell);
+          const col = columnIndex(parts.col);
+          if (action === 'top' && parts.row === bounds.top) setCellBorder(cell, 'top', true);
+          if (action === 'right' && col + colSpanOf(cell) - 1 === bounds.right) setCellBorder(cell, 'right', true);
+          if (action === 'bottom' && parts.row + rowSpanOf(cell) - 1 === bounds.bottom) setCellBorder(cell, 'bottom', true);
+          if (action === 'left' && col === bounds.left) setCellBorder(cell, 'left', true);
+        });
+      }
+
+      function unmergeCell(cell) {
+        if (!cell || (colSpanOf(cell) === 1 && rowSpanOf(cell) === 1)) return;
+        cell.dataset.colspan = '1';
+        cell.dataset.rowspan = '1';
+        cell.style.gridColumn = '';
+        cell.style.gridRow = '';
+      }
+
+      function mergeCells() {
+        if (!canEditTemplate()) return;
+        if (!selectedCell || selectedCell.classList.contains('gray')) return;
+        const currentTargets = selectedTargets().filter((cell) => cell && !cell.classList.contains('gray'));
+        const currentBounds = getSelectionBounds(currentTargets);
+        const isSingleMergedCell = currentTargets.length === 1 && selectedCell && (colSpanOf(selectedCell) > 1 || rowSpanOf(selectedCell) > 1);
+        if (isSingleMergedCell) {
+          unmergeCell(selectedCell);
+          clearRange();
+          refreshCells();
+          selectCell(selectedCell);
+          return;
+        }
+        if (!currentBounds) return;
+        const bounds = expandRangeForMergedCells(currentBounds);
+        if (bounds.left === bounds.right && bounds.top === bounds.bottom) return;
+
+        currentTargets.forEach(unmergeCell);
+        refreshCells();
+        const mergeRange = cellsInRect(bounds);
+        const expectedCount = (bounds.right - bounds.left + 1) * (bounds.bottom - bounds.top + 1);
+        if (mergeRange.length !== expectedCount) return;
+
+        const master = getCell(columns[bounds.left], bounds.top);
+        if (!master) return;
+        master.dataset.colspan = String(bounds.right - bounds.left + 1);
+        master.dataset.rowspan = String(bounds.bottom - bounds.top + 1);
+        master.innerHTML = mergeRange.map(cellHtml).filter(Boolean).join(' ');
+        mergeRange.filter((cell) => cell !== master).forEach((cell) => {
+          cell.remove();
+        });
+        clearRange();
+        refreshCells();
+        selectCell(master);
+      }
+
+      function activeRow() {
+        return selectedRow || (selectedCell ? Number(rowOf(selectedCell)) : 1);
+      }
+
+      function activeColIndex() {
+        if (selectedCol) return columnIndex(selectedCol);
+        return selectedCell ? columnIndex(columnOf(selectedCell)) : 0;
+      }
+
+      function addRow(position = 'after') {
+        if (!canEditTemplate()) return;
+        if (!selectedCell) return;
+        const row = activeRow();
+        const insertBefore = position === 'before';
+        const newRow = insertBefore ? row : row + 1;
+        const boundaryRow = insertBefore ? row - 1 : row;
+        Array.from(root.querySelectorAll('[data-cell]'))
+          .sort((a, b) => Number(rowOf(b)) - Number(rowOf(a)))
+          .forEach((cell) => {
+            const parts = cellParts(cell);
+            const rowspan = rowSpanOf(cell);
+            const endRow = parts.row + rowspan - 1;
+            if (parts.row >= newRow) setCellPosition(cell, parts.col, parts.row + 1);
+            else if (parts.row <= boundaryRow && endRow > boundaryRow) cell.dataset.rowspan = String(rowspan + 1);
+          });
+        rowHeights = Object.fromEntries(Object.entries(rowHeights).map(([key, value]) => {
+          const number = Number(key);
+          return [number >= newRow ? number + 1 : number, value];
+        }));
+        columns.forEach((col, index) => {
+          if (!coveredBySpan(newRow, index)) sheet.appendChild(createCell(col, newRow, ''));
+        });
+        refreshCells();
+        selectCell(getCell('A', newRow));
+      }
+
+      function deleteRow() {
+        if (!canEditTemplate()) return;
+        if (!selectedCell) return;
+        const row = activeRow();
+        if (getRows().length <= 1) return;
+        Array.from(root.querySelectorAll('[data-cell]'))
+          .sort((a, b) => Number(rowOf(a)) - Number(rowOf(b)))
+          .forEach((cell) => {
+            const parts = cellParts(cell);
+            const rowspan = rowSpanOf(cell);
+            const endRow = parts.row + rowspan - 1;
+            if (parts.row === row) {
+              if (rowspan > 1) {
+                cell.dataset.rowspan = String(rowspan - 1);
+              } else {
+                cell.remove();
+              }
+            } else if (parts.row < row && endRow >= row) {
+              cell.dataset.rowspan = String(rowspan - 1);
+            } else if (parts.row > row) {
+              setCellPosition(cell, parts.col, parts.row - 1);
+            }
+          });
+        rowHeights = Object.fromEntries(Object.entries(rowHeights)
+          .filter(([key]) => Number(key) !== row)
+          .map(([key, value]) => {
+            const number = Number(key);
+            return [number > row ? number - 1 : number, value];
+          }));
+        refreshCells();
+        const targetRow = Math.min(row, Math.max(...getRows()));
+        selectCell(getCell('A', targetRow) || root.querySelector('[data-cell]:not(.gray)'));
+      }
+
+      function addColumn(position = 'after') {
+        if (!canEditTemplate()) return;
+        if (!selectedCell) return;
+        const index = Math.max(0, activeColIndex());
+        const insertIndex = position === 'before' ? index : index + 1;
+        const boundaryIndex = position === 'before' ? index - 1 : index;
+        const targetRow = Number(rowOf(selectedCell));
+        Array.from(root.querySelectorAll('[data-cell]'))
+          .sort((a, b) => columnIndex(columnOf(b)) - columnIndex(columnOf(a)))
+          .forEach((cell) => {
+            const parts = cellParts(cell);
+            const start = columnIndex(parts.col);
+            const colspan = colSpanOf(cell);
+            const end = start + colspan - 1;
+            if (start >= insertIndex) setCellPosition(cell, columnLabel(start + 1), parts.row);
+            else if (start <= boundaryIndex && end > boundaryIndex) cell.dataset.colspan = String(colspan + 1);
+          });
+        columns = buildColumns(columns.length + 1);
+        getRows().forEach((row) => {
+          if (!coveredBySpan(row, insertIndex)) sheet.appendChild(createCell(columnLabel(insertIndex), row, ''));
+        });
+        refreshCells();
+        selectCell(getCell(columnLabel(insertIndex), targetRow));
+      }
+
+      function deleteColumn() {
+        if (!canEditTemplate()) return;
+        if (!selectedCell) return;
+        if (columns.length <= 1) return;
+        const index = activeColIndex();
+        const targetRow = Number(rowOf(selectedCell));
+        Array.from(root.querySelectorAll('[data-cell]'))
+          .sort((a, b) => columnIndex(columnOf(a)) - columnIndex(columnOf(b)))
+          .forEach((cell) => {
+            const parts = cellParts(cell);
+            const start = columnIndex(parts.col);
+            const colspan = colSpanOf(cell);
+            const end = start + colspan - 1;
+            if (start === index) {
+              if (colspan > 1) {
+                cell.dataset.colspan = String(colspan - 1);
+              } else {
+                cell.remove();
+              }
+            } else if (start < index && end >= index) {
+              cell.dataset.colspan = String(colspan - 1);
+            } else if (start > index) {
+              setCellPosition(cell, columnLabel(start - 1), parts.row);
+            }
+          });
+        columns = buildColumns(columns.length - 1);
+        refreshCells();
+        selectCell(getCell(columnLabel(Math.min(index, columns.length - 1)), targetRow) || root.querySelector('[data-cell]:not(.gray)'));
+      }
+
+      function closeSheetContextMenu() {
+        if (!sheetContextMenu) return;
+        sheetContextMenu.classList.remove('is-open');
+        sheetContextMenu.setAttribute('aria-hidden', 'true');
+        sheetContextMenu.replaceChildren();
+      }
+
+      function createContextMenuButton(label, action, danger = false) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.textContent = label;
+        if (danger) button.classList.add('danger');
+        button.addEventListener('click', () => {
+          action();
+          closeSheetContextMenu();
+        });
+        return button;
+      }
+
+      function positionSheetContextMenu(event) {
+        sheetContextMenu.style.left = '0px';
+        sheetContextMenu.style.top = '0px';
+        sheetContextMenu.classList.add('is-open');
+        sheetContextMenu.setAttribute('aria-hidden', 'false');
+        const rect = sheetContextMenu.getBoundingClientRect();
+        const left = Math.max(8, Math.min(event.clientX, window.innerWidth - rect.width - 8));
+        const top = Math.max(8, Math.min(event.clientY, window.innerHeight - rect.height - 8));
+        sheetContextMenu.style.left = `${left}px`;
+        sheetContextMenu.style.top = `${top}px`;
+      }
+
+      function openRowContextMenu(event, row) {
+        if (!canEditTemplate() || printMode || event.target.closest('.row-resizer')) return;
+        event.preventDefault();
+        event.stopPropagation();
+        selectRow(row);
+        sheetContextMenu.replaceChildren(
+          createContextMenuButton('上方插入行', () => addRow('before')),
+          createContextMenuButton('下方插入行', () => addRow('after')),
+          createContextMenuButton('删除当前行', deleteRow, true)
+        );
+        positionSheetContextMenu(event);
+      }
+
+      function openColumnContextMenu(event, col) {
+        if (!canEditTemplate() || printMode || event.target.closest('.col-resizer')) return;
+        event.preventDefault();
+        event.stopPropagation();
+        selectColumn(col);
+        sheetContextMenu.replaceChildren(
+          createContextMenuButton('左侧插入列', () => addColumn('before')),
+          createContextMenuButton('右侧插入列', () => addColumn('after')),
+          createContextMenuButton('删除当前列', deleteColumn, true)
+        );
+        positionSheetContextMenu(event);
+      }
+
+      function bindFields() {
+        if (!canEditTemplate()) return;
+        fields.forEach((field) => {
+          if (field.dataset.bound === 'true') return;
+          field.dataset.bound = 'true';
+          field.addEventListener('dragstart', () => {
+            draggedField = field;
+          });
+          field.addEventListener('dragend', () => {
+            draggedField = null;
+            cells.forEach((cell) => cell.classList.remove('drop-ready'));
+          });
+          field.addEventListener('click', () => putFieldIntoCell(field, selectedCell));
+        });
+      }
+
+      async function loadFieldMetadata() {
+        if (!canEditTemplate()) {
+          if (fieldTree) fieldTree.replaceChildren();
+          fields = [];
+          return;
+        }
+        try {
+          const metadata = await apiRequest(`/erp/print/fields?moduleKey=${encodeURIComponent(moduleKey)}`);
+          renderFieldGroups(metadata);
+        } catch (error) {
+          if (fieldTree) {
+            const empty = document.createElement('div');
+            empty.className = 'field-empty';
+            empty.textContent = '字段读取失败';
+            fieldTree.replaceChildren(empty);
+          }
+          fields = [];
+        }
+      }
+
+      async function loadPrintData() {
+        if (!businessId) return;
+        try {
+          printData = await apiRequest(`/erp/print/data?moduleKey=${encodeURIComponent(moduleKey)}&businessId=${businessId}`);
+        } catch (error) {
+          printData = null;
+          showToast(error.message || '读取打印数据失败');
+        }
+      }
+
+      async function initTemplate() {
+        root.classList.toggle('is-print-mode', printMode);
+        root.classList.toggle('is-print-preparing', printMode);
+        if (formula) formula.readOnly = printMode;
+        createBlankTemplate();
+        bindFields();
+        try {
+          if (designMode) {
+            await loadFieldMetadata();
+            await loadTemplateList();
+          }
+          await restoreLastTemplate();
+          if (designMode) renderTemplateOptions();
+          await loadPrintData();
+          updatePanel(selectedCell);
+          if (printMode && businessId) {
+            renderPreview();
+          } else {
+            root.classList.remove('is-print-preparing');
+          }
+        } catch (error) {
+          if (!printMode) root.classList.remove('is-print-preparing');
+          showToast(error.message || '初始化打印模板失败');
+        }
+      }
+
+      function handlePaperPresetChange() {
+        const size = normalizePaperSize(paperSizeSelect.value);
+        const preset = paperPresets[size] || paperPresets.custom;
+        applyPaperConfig({
+          size,
+          width: preset.width,
+          height: preset.height,
+        });
+      }
+
+      function handlePaperDimensionInput() {
+        applyPaperConfig({
+          size: 'custom',
+          width: paperWidthInput.value,
+          height: paperHeightInput.value,
+        });
+      }
+
+      function handlePaperMarginInput(position, input) {
+        applyPaperConfig({
+          margins: {
+            [position]: input.value,
+          },
+        });
+      }
+
+      window.addEventListener('message', (event) => {
+        if (event.origin !== window.location.origin) return;
+        if (event.data?.source !== 'erp-print-template-parent') return;
+        if (event.data?.type !== 'auth') return;
+        parentAuth = event.data.payload || {};
+        if (authReadyResolve) {
+          authReadyResolve();
+          authReadyResolve = null;
+        }
+      });
+
+      search.addEventListener('input', () => {
+        applyFieldSearch();
+      });
+
+      insertButton.addEventListener('click', () => {
+        const firstVisibleField = fields.find((field) => field.style.display !== 'none');
+        putFieldIntoCell(firstVisibleField, selectedCell);
+      });
+
+      borderSelect.addEventListener('change', () => {
+        if (borderSelect.value) applyBorder(borderSelect.value);
+        borderSelect.value = '';
+      });
+
+      boldButton.addEventListener('click', toggleBold);
+      alignButtons.forEach((button) => {
+        button.addEventListener('click', () => applyTextAlignment(button.dataset.align || 'left'));
+      });
+      mergeButton.addEventListener('click', mergeCells);
+      fontFamilySelect.addEventListener('change', applyFontFamily);
+      fontSizeSelect.addEventListener('change', applyFontSize);
+      formula.addEventListener('input', () => setCustomText(selectedCell, formula.value));
+      previewButton.addEventListener('click', renderPreview);
+      if (paginationDemoButton) paginationDemoButton.addEventListener('click', openPaginationDemo);
+      printPreviewButton.addEventListener('click', printCurrentTemplate);
+      closePreviewButton.addEventListener('click', () => closeModal(previewModal));
+      previewModal.addEventListener('click', (event) => {
+        if (event.target === previewModal) closeModal(previewModal);
+      });
+      saveButton.addEventListener('click', saveCurrentTemplate);
+      setDefaultButton.addEventListener('click', setCurrentTemplateDefault);
+      templateSelect.addEventListener('change', async () => {
+        if (!canEditTemplate()) return;
+        try {
+          await loadTemplateById(templateSelect.value);
+          updatePanel(selectedCell);
+        } catch (error) {
+          showToast(error.message || '模板切换失败');
+          renderTemplateOptions();
+        }
+      });
+      saveAsButton.addEventListener('click', () => {
+        templateNameInput.value = currentTemplateName === '默认模板' ? '采购订单模板副本' : `${currentTemplateName} 副本`;
+        openModal(saveAsModal);
+        templateNameInput.focus();
+        templateNameInput.select();
+      });
+      cancelSaveAsButton.addEventListener('click', () => closeModal(saveAsModal));
+      saveAsModal.addEventListener('click', (event) => {
+        if (event.target === saveAsModal) closeModal(saveAsModal);
+      });
+      confirmSaveAsButton.addEventListener('click', async () => {
+        const name = templateNameInput.value.trim();
+        if (!name) {
+          showToast('请填写模板名称');
+          templateNameInput.focus();
+          return;
+        }
+        try {
+          await saveAsCurrentTemplate(name);
+          showToast('模板已另存为');
+          closeModal(saveAsModal);
+        } catch (error) {
+          showToast(error.message || '另存为失败');
+        }
+      });
+      templateNameInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') confirmSaveAsButton.click();
+        if (event.key === 'Escape') closeModal(saveAsModal);
+      });
+      paperSizeSelect.addEventListener('change', handlePaperPresetChange);
+      paperOrientationSelect.addEventListener('change', () => applyPaperConfig({ orientation: paperOrientationSelect.value }));
+      paperWidthInput.addEventListener('input', handlePaperDimensionInput);
+      paperHeightInput.addEventListener('input', handlePaperDimensionInput);
+      paperMarginTopInput.addEventListener('input', () => handlePaperMarginInput('top', paperMarginTopInput));
+      paperMarginRightInput.addEventListener('input', () => handlePaperMarginInput('right', paperMarginRightInput));
+      paperMarginBottomInput.addEventListener('input', () => handlePaperMarginInput('bottom', paperMarginBottomInput));
+      paperMarginLeftInput.addEventListener('input', () => handlePaperMarginInput('left', paperMarginLeftInput));
+      window.addEventListener('afterprint', clearPrintDocument);
+      window.addEventListener('keydown', handleTemplateShortcut);
+      window.addEventListener('mouseup', endDragSelection);
+      window.addEventListener('click', (event) => {
+        if (sheetContextMenu && !sheetContextMenu.contains(event.target)) closeSheetContextMenu();
+      });
+      window.addEventListener('resize', closeSheetContextMenu);
+      sheetScroll.addEventListener('scroll', closeSheetContextMenu);
+      if (window.parent !== window) {
+        window.parent.postMessage({ source: 'erp-print-template', type: 'ready-for-auth' }, window.location.origin);
+      }
+      applyPaperConfig();
+      void initTemplate();
+    })();
+  </script>
+</div>

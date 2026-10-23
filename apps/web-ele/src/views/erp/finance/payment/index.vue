@@ -1,0 +1,227 @@
+<script lang="ts" setup>
+import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { ErpFinancePaymentApi } from '#/api/erp/finance/payment';
+
+import { ref } from 'vue';
+
+import { DocAlert, Page, useVbenModal } from '@vben/common-ui';
+import { downloadFileFromBlobPart, isEmpty } from '@vben/utils';
+
+import { ElLoading, ElMessage } from 'element-plus';
+
+import { ACTION_ICON, TableAction, useVbenVxeGrid } from '#/adapter/vxe-table';
+import {
+  deleteFinancePayment,
+  exportFinancePayment,
+  getFinancePaymentPage,
+  updateFinancePaymentStatus,
+} from '#/api/erp/finance/payment';
+import { $t } from '#/locales';
+
+import { useGridColumns, useGridFormSchema } from './data';
+import Form from './modules/form.vue';
+
+defineOptions({ name: 'ErpFinancePayment' });
+
+const [FormModal, formModalApi] = useVbenModal({
+  connectedComponent: Form,
+  destroyOnClose: true,
+});
+
+function handleRefresh() {
+  gridApi.query();
+}
+
+async function handleExport() {
+  const selectedIds = (
+    (gridApi.grid?.getCheckboxRecords?.() as
+      | ErpFinancePaymentApi.FinancePayment[]
+      | undefined) ?? []
+  )
+    .map((item) => item.id!)
+    .filter((id) => id !== undefined);
+  const data = await exportFinancePayment(
+    selectedIds.length > 0
+      ? { ids: selectedIds }
+      : await gridApi.formApi.getValues(),
+  );
+  downloadFileFromBlobPart({ fileName: '浠樻鍗?xls', source: data });
+}
+
+function handleCreate() {
+  formModalApi.setData({ type: 'create' }).open();
+}
+
+function handleEdit(row: ErpFinancePaymentApi.FinancePayment) {
+  formModalApi.setData({ type: 'edit', id: row.id }).open();
+}
+
+async function handleDelete(ids: number[]) {
+  const loadingInstance = ElLoading.service({
+    text: $t('ui.actionMessage.deleting'),
+  });
+  try {
+    await deleteFinancePayment(ids);
+    ElMessage.success($t('ui.actionMessage.deleteSuccess'));
+    handleRefresh();
+  } finally {
+    loadingInstance.close();
+  }
+}
+
+async function handleUpdateStatus(
+  row: ErpFinancePaymentApi.FinancePayment,
+  status: number,
+) {
+  if (status !== 20) return;
+  const loadingInstance = ElLoading.service({
+    text: `确定${status === 20 ? '审批' : '反审批'}该付款单吗？`,
+  });
+  try {
+    await updateFinancePaymentStatus(row.id!, status);
+    ElMessage.success(`${status === 20 ? '审批' : '反审批'}成功`);
+    handleRefresh();
+  } finally {
+    loadingInstance.close();
+  }
+}
+
+const checkedIds = ref<number[]>([]);
+function handleRowCheckboxChange({
+  records,
+}: {
+  records: ErpFinancePaymentApi.FinancePayment[];
+}) {
+  checkedIds.value = records.map((item) => item.id!);
+}
+
+function handleDetail(row: ErpFinancePaymentApi.FinancePayment) {
+  formModalApi.setData({ type: 'detail', id: row.id }).open();
+}
+
+const [Grid, gridApi] = useVbenVxeGrid({
+  formOptions: {
+    schema: useGridFormSchema(),
+  },
+  gridOptions: {
+    columns: useGridColumns(),
+    height: 'auto',
+    keepSource: true,
+    proxyConfig: {
+      ajax: {
+        query: async ({ page }, formValues) => {
+          return await getFinancePaymentPage({
+            pageNo: page.currentPage,
+            pageSize: page.pageSize,
+            ...formValues,
+          });
+        },
+      },
+    },
+    rowConfig: {
+      keyField: 'id',
+      isHover: true,
+    },
+    toolbarConfig: {
+      refresh: true,
+      search: true,
+    },
+  } as VxeTableGridOptions<ErpFinancePaymentApi.FinancePayment>,
+  gridEvents: {
+    checkboxAll: handleRowCheckboxChange,
+    checkboxChange: handleRowCheckboxChange,
+  },
+});
+</script>
+
+<template>
+  <Page auto-content-height>
+    <template #doc>
+      <DocAlert
+        title="銆愯储鍔°€戦噰璐粯娆俱€侀攢鍞敹娆?"
+        url="https://doc.iocoder.cn/sale/finance-payment-receipt/"
+      />
+    </template>
+
+    <FormModal @success="handleRefresh" />
+    <Grid table-title="浠樻鍗曞垪琛?">
+      <template #toolbar-tools>
+        <TableAction
+          :actions="[
+            {
+              label: $t('ui.actionTitle.create', ['payment bill']),
+              type: 'primary',
+              icon: ACTION_ICON.ADD,
+              auth: ['erp:finance-payment:create'],
+              onClick: handleCreate,
+            },
+            {
+              label: $t('ui.actionTitle.export'),
+              type: 'primary',
+              icon: ACTION_ICON.DOWNLOAD,
+              auth: ['erp:finance-payment:export'],
+              onClick: handleExport,
+            },
+            {
+              label: '鎵归噺鍒犻櫎',
+              type: 'danger',
+              disabled: isEmpty(checkedIds),
+              icon: ACTION_ICON.DELETE,
+              auth: ['erp:finance-payment:delete'],
+              popConfirm: {
+                title: `鏄惁鍒犻櫎鎵€閫変腑鏁版嵁锛焋`,
+                confirm: handleDelete.bind(null, checkedIds),
+              },
+            },
+          ]"
+        />
+      </template>
+      <template #actions="{ row }">
+        <TableAction
+          :actions="[
+            {
+              label: $t('common.detail'),
+              type: 'primary',
+              link: true,
+              icon: ACTION_ICON.VIEW,
+              auth: ['erp:finance-payment:query'],
+              onClick: handleDetail.bind(null, row),
+            },
+            {
+              label: $t('common.edit'),
+              type: 'primary',
+              link: true,
+              icon: ACTION_ICON.EDIT,
+              auth: ['erp:finance-payment:update'],
+              ifShow: () => row.status !== 20,
+              onClick: handleEdit.bind(null, row),
+            },
+            {
+              label: '审批',
+              type: 'primary',
+              link: true,
+              icon: ACTION_ICON.AUDIT,
+              auth: ['erp:finance-payment:update-status'],
+              ifShow: () => row.status === 10,
+              popConfirm: {
+                title: `确认审批${row.no}吗？`,
+                confirm: handleUpdateStatus.bind(null, row, 20),
+              },
+            },
+            {
+              label: $t('common.delete'),
+              type: 'danger',
+              link: true,
+              icon: ACTION_ICON.DELETE,
+              auth: ['erp:finance-payment:delete'],
+              popConfirm: {
+                title: $t('ui.actionMessage.deleteConfirm', [row.no]),
+                confirm: handleDelete.bind(null, [row.id!]),
+              },
+            },
+          ]"
+        />
+      </template>
+    </Grid>
+  </Page>
+</template>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>企业微信问数身份绑定</title>
+  </head>
+  <body>
+    <p id="status">正在进入企业微信授权，请稍候…</p>
+    <script>
+      (function () {
+        var params = new URLSearchParams(window.location.search);
+        var hash = window.location.hash || '';
+        var hashQuery = '';
+        if (hash.indexOf('#?') === 0) {
+          hashQuery = hash.slice(2);
+        } else if (hash.indexOf('?') >= 0) {
+          hashQuery = hash.slice(hash.indexOf('?') + 1);
+        }
+        if (hashQuery) {
+          new URLSearchParams(hashQuery).forEach(function (value, key) {
+            if (!params.has(key)) params.set(key, value);
+          });
+        }
+
+        function forwardToResult() {
+          var target = new URL('/auth/wecom-bot-bind', window.location.origin);
+          var query = params.toString();
+          window.location.replace(
+            target.origin + target.pathname + target.hash + (query ? '?' + query : ''),
+          );
+        }
+
+        function showError(message) {
+          document.getElementById('status').textContent = message;
+        }
+
+        var code = params.get('code');
+        var state = params.get('state');
+        if (code && state) {
+          forwardToResult();
+          return;
+        }
+
+        var ticket = params.get('ticket');
+        var tenantId = Number(params.get('tenantId')) || 1;
+        if (!ticket || !/wxwork/i.test(window.navigator.userAgent)) {
+          forwardToResult();
+          return;
+        }
+
+        fetch(
+          '/admin-api/erp/assistant/wecom-bot/bind-authorize-url?ticket=' +
+            encodeURIComponent(ticket),
+          {
+            credentials: 'same-origin',
+            headers: { 'tenant-id': String(tenantId) },
+          },
+        )
+          .then(function (response) {
+            if (!response.ok) throw new Error('授权服务暂不可用');
+            return response.json();
+          })
+          .then(function (result) {
+            if (result.code !== 0 || !result.data) {
+              throw new Error(result.msg || '绑定链接已失效，请返回机器人重新提问');
+            }
+            window.location.replace(result.data);
+          })
+          .catch(function (error) {
+            showError(error.message || '授权失败，请返回机器人重新提问');
+          });
+      })();
+    </script>
+  </body>
+</html>

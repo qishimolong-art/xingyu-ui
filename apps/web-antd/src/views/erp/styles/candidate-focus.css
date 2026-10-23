@@ -1,0 +1,73 @@
+/* Opt in on the popup itself: Ant dropdowns may be teleported to body. */
+.erp-candidate-focus-popup,
+.purchase-candidate-focus,
+.erp-candidate-focus-inline {
+  --erp-candidate-focus-background: #fdf2b7;
+}
+
+/* Activity moves immediately; the old option must not fade yellow beside it. */
+.erp-candidate-focus-popup .ant-select-item-option,
+.erp-candidate-focus-popup .ant-select-tree-node-content-wrapper,
+.erp-candidate-focus-popup .ant-cascader-menu-item {
+  transition: none;
+}
+
+.erp-candidate-focus-popup
+  .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+  background-color: var(--erp-candidate-focus-background) !important;
+}
+
+.erp-candidate-focus-popup
+  .ant-select-tree-treenode-active:not(.ant-select-tree-treenode-disabled)
+  .ant-select-tree-node-content-wrapper,
+.erp-candidate-focus-popup
+  .ant-select-tree:not(:has(.ant-select-tree-treenode-active))
+  .ant-select-tree-treenode:not(.ant-select-tree-treenode-disabled)
+  .ant-select-tree-node-content-wrapper:hover {
+  background-color: var(--erp-candidate-focus-background) !important;
+}
+
+.erp-candidate-focus-popup .ant-select-tree-treenode {
+  display: flex;
+}
+
+.erp-candidate-focus-popup .ant-select-tree-node-content-wrapper {
+  flex: 1;
+}
+
+/* Expanded ancestor paths are not the current cascader candidate. */
+.erp-candidate-focus-popup
+  .ant-cascader-menu:last-child
+  .ant-cascader-menu-item-active:not(.ant-cascader-menu-item-disabled) {
+  background-color: var(--erp-candidate-focus-background) !important;
+}
+
+.purchase-candidate-focus[data-candidate-focus-highlight='true']
+  .vxe-body--row.row--current
+  .vxe-body--column,
+.purchase-candidate-focus[data-candidate-focus-highlight='true']
+  .vxe-body--row.row--current.row--hover
+  .vxe-body--column {
+  background-color: var(--erp-candidate-focus-background) !important;
+}
+
+.purchase-candidate-focus .purchase-inline-stock-select-row--active,
+.purchase-candidate-focus .purchase-inline-stock-select-row--active:hover {
+  background: var(--erp-candidate-focus-background) !important;
+}
+
+/* Explicit entrypoint opt-in; unmarked callers keep their original defaults. */
+.erp-candidate-focus-inline
+  .sale-inline-stock-select-table
+  tbody
+  tr.sale-inline-stock-select-row--active,
+.erp-candidate-focus-inline
+  .sale-inline-stock-select-table
+  tbody
+  tr.sale-inline-stock-select-row--active:hover,
+.erp-candidate-focus-inline
+  .erp-inline-stock-select-table
+  tbody
+  tr.erp-inline-stock-select-row--active {
+  background: var(--erp-candidate-focus-background) !important;
+}

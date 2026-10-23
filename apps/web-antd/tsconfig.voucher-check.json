@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "references": [],
+  "include": [
+    "src/views/erp/accounting/voucher-rule/*.vue",
+    "src/views/erp/accounting/voucher-attribution/index.vue",
+    "src/views/erp/accounting/voucher-attribution/data.ts",
+    "src/views/erp/accounting/voucher/modules/*.vue"
+  ],
+  "exclude": ["**/*.test.ts", "**/vitest.config.ts"]
+}

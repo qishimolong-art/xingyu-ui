@@ -1,0 +1,139 @@
+.mall-promotion-compact-grid .vxe-grid--form-wrapper {
+  padding: 8px 12px 4px;
+  border-bottom: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+}
+
+.mall-promotion-compact-grid .vxe-grid--form-wrapper .ant-form-item {
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.mall-promotion-compact-grid
+  .vxe-grid--form-wrapper
+  .ant-form-item-label
+  > label,
+.mall-promotion-compact-grid .vxe-grid--form-wrapper .ant-input,
+.mall-promotion-compact-grid .vxe-grid--form-wrapper .ant-input-number-input,
+.mall-promotion-compact-grid .vxe-grid--form-wrapper .ant-select-selection-item,
+.mall-promotion-compact-grid .vxe-grid--form-wrapper .ant-picker-input > input {
+  font-size: 12px;
+}
+
+.mall-promotion-compact-grid .vxe-grid--form-wrapper .ant-input,
+.mall-promotion-compact-grid .vxe-grid--form-wrapper .ant-input-affix-wrapper,
+.mall-promotion-compact-grid .vxe-grid--form-wrapper .ant-input-number,
+.mall-promotion-compact-grid .vxe-grid--form-wrapper .ant-picker,
+.mall-promotion-compact-grid .vxe-grid--form-wrapper .ant-select-selector,
+.mall-promotion-compact-grid .vxe-toolbar .table-actions .ant-btn,
+.mall-promotion-compact-grid .vxe-toolbar .ant-btn {
+  min-height: 28px;
+  height: 28px;
+  font-size: 12px;
+}
+
+.mall-promotion-compact-grid .vxe-toolbar {
+  min-height: 36px;
+  padding: 4px 8px;
+  border-bottom: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+}
+
+.mall-promotion-compact-grid .vxe-toolbar .vxe-toolbar--buttons,
+.mall-promotion-compact-grid .vxe-toolbar .vxe-toolbar--tools {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mall-promotion-compact-grid .vxe-table--render-default {
+  font-size: 12px;
+}
+
+.mall-promotion-compact-grid .vxe-header--column .vxe-cell,
+.mall-promotion-compact-grid .vxe-body--column .vxe-cell {
+  padding-right: 8px;
+  padding-left: 8px;
+}
+
+.mall-promotion-compact-grid .vxe-grid--pager-wrapper {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  padding: 6px 8px;
+  border-top: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+}
+
+.mall-promotion-compact-grid .table-actions {
+  gap: 4px;
+}
+
+.mall-promotion-compact-grid .table-actions .ant-btn-link {
+  height: 24px;
+  padding: 0 4px;
+  font-size: 12px;
+}
+
+.mall-promotion-status-tabs .ant-tabs-nav {
+  margin: 0;
+}
+
+.mall-promotion-status-tabs .ant-tabs-tab {
+  padding: 8px 0;
+  font-size: 12px;
+}
+
+.mall-promotion-form-surface {
+  padding: 12px;
+  background: hsl(var(--muted) / 35%);
+}
+
+.mall-promotion-form-card {
+  border-radius: 8px;
+}
+
+.mall-promotion-edit-form {
+  width: min(100%, 980px);
+}
+
+.mall-promotion-edit-form .ant-form-item {
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+
+.mall-promotion-edit-form .ant-form-item-label > label,
+.mall-promotion-edit-form .ant-input,
+.mall-promotion-edit-form .ant-input-number-input,
+.mall-promotion-edit-form .ant-select-selection-item,
+.mall-promotion-edit-form .ant-picker-input > input,
+.mall-promotion-edit-form .ant-radio-wrapper,
+.mall-promotion-edit-form .ant-checkbox-wrapper {
+  font-size: 12px;
+}
+
+.mall-promotion-edit-form .ant-input,
+.mall-promotion-edit-form .ant-input-affix-wrapper,
+.mall-promotion-edit-form .ant-input-number,
+.mall-promotion-edit-form .ant-picker,
+.mall-promotion-edit-form .ant-select-selector {
+  min-height: 28px;
+  font-size: 12px;
+}
+
+.mall-promotion-form-card .ant-btn,
+.mall-promotion-edit-form .ant-btn {
+  min-height: 28px;
+  height: 28px;
+  font-size: 12px;
+}
+
+.mall-promotion-selection-modal {
+  min-height: 520px;
+}
+
+@media (max-width: 1024px) {
+  .mall-promotion-edit-form {
+    width: 100%;
+  }
+}

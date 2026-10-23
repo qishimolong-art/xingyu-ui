@@ -1,0 +1,166 @@
+.mall-trade-compact-grid .vxe-grid--form-wrapper {
+  padding: 8px 12px 4px;
+  border-bottom: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+}
+
+.mall-trade-compact-grid .vxe-grid--form-wrapper .ant-form-item {
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.mall-trade-compact-grid .vxe-grid--form-wrapper .ant-form-item-label > label,
+.mall-trade-compact-grid .vxe-grid--form-wrapper .ant-input,
+.mall-trade-compact-grid .vxe-grid--form-wrapper .ant-input-number-input,
+.mall-trade-compact-grid .vxe-grid--form-wrapper .ant-select-selection-item,
+.mall-trade-compact-grid .vxe-grid--form-wrapper .ant-picker-input > input {
+  font-size: 12px;
+}
+
+.mall-trade-compact-grid .vxe-grid--form-wrapper .ant-input,
+.mall-trade-compact-grid .vxe-grid--form-wrapper .ant-input-affix-wrapper,
+.mall-trade-compact-grid .vxe-grid--form-wrapper .ant-input-number,
+.mall-trade-compact-grid .vxe-grid--form-wrapper .ant-picker,
+.mall-trade-compact-grid .vxe-grid--form-wrapper .ant-select-selector,
+.mall-trade-compact-grid .vxe-toolbar .table-actions .ant-btn,
+.mall-trade-compact-grid .vxe-toolbar .ant-btn {
+  min-height: 28px;
+  height: 28px;
+  font-size: 12px;
+}
+
+.mall-trade-compact-grid .vxe-toolbar {
+  min-height: 36px;
+  padding: 4px 8px;
+  border-bottom: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+}
+
+.mall-trade-compact-grid .vxe-toolbar .vxe-toolbar--buttons,
+.mall-trade-compact-grid .vxe-toolbar .vxe-toolbar--tools {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mall-trade-compact-grid .vxe-table--render-default {
+  font-size: 12px;
+}
+
+.mall-trade-compact-grid .vxe-header--column .vxe-cell,
+.mall-trade-compact-grid .vxe-body--column .vxe-cell {
+  padding-right: 8px;
+  padding-left: 8px;
+}
+
+.mall-trade-compact-grid .vxe-grid--pager-wrapper {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  padding: 6px 8px;
+  border-top: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+}
+
+.mall-trade-compact-grid .table-actions {
+  gap: 4px;
+}
+
+.mall-trade-compact-grid .table-actions .ant-btn-link {
+  height: 24px;
+  padding: 0 4px;
+  font-size: 12px;
+}
+
+.mall-trade-row-detail-grid .vxe-body--row {
+  cursor: pointer;
+}
+
+.mall-trade-row-detail-grid .vxe-body--column.col--last,
+.mall-trade-row-detail-grid .vxe-body--column.col--expand,
+.mall-trade-row-detail-grid .vxe-body--column:has(.ant-switch),
+.mall-trade-row-detail-grid .vxe-body--column:has(.table-actions) {
+  cursor: default;
+}
+
+.mall-trade-status-tabs .ant-tabs-nav {
+  margin: 0;
+}
+
+.mall-trade-status-tabs .ant-tabs-tab {
+  padding: 8px 0;
+  font-size: 12px;
+}
+
+.mall-trade-form-surface {
+  padding: 12px;
+  background: hsl(var(--muted) / 35%);
+}
+
+.mall-trade-form-card {
+  border-radius: 8px;
+}
+
+.mall-trade-edit-form {
+  width: min(100%, 980px);
+}
+
+.mall-trade-edit-form .ant-form-item {
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+
+.mall-trade-edit-form .ant-form-item-label > label,
+.mall-trade-edit-form .ant-input,
+.mall-trade-edit-form .ant-input-number-input,
+.mall-trade-edit-form .ant-select-selection-item,
+.mall-trade-edit-form .ant-picker-input > input,
+.mall-trade-edit-form .ant-radio-wrapper,
+.mall-trade-edit-form .ant-checkbox-wrapper {
+  font-size: 12px;
+}
+
+.mall-trade-edit-form .ant-input,
+.mall-trade-edit-form .ant-input-affix-wrapper,
+.mall-trade-edit-form .ant-input-number,
+.mall-trade-edit-form .ant-picker,
+.mall-trade-edit-form .ant-select-selector {
+  min-height: 28px;
+  font-size: 12px;
+}
+
+.mall-trade-form-card .ant-btn,
+.mall-trade-edit-form .ant-btn {
+  min-height: 28px;
+  height: 28px;
+  font-size: 12px;
+}
+
+.mall-trade-detail-modal {
+  min-height: calc(100vh - 190px);
+  padding: 12px;
+  overflow: auto;
+  background: hsl(var(--muted) / 45%);
+}
+
+.mall-trade-detail-section {
+  margin-bottom: 12px;
+  padding: 12px;
+  border: 1px solid hsl(var(--border));
+  border-radius: 8px;
+  background: hsl(var(--card));
+}
+
+.mall-trade-detail-section:last-child {
+  margin-bottom: 0;
+}
+
+.mall-trade-detail-section .vxe-table--render-default {
+  font-size: 12px;
+}
+
+@media (max-width: 1024px) {
+  .mall-trade-edit-form {
+    width: 100%;
+  }
+}

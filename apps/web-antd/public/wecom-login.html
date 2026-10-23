@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>WeCom Login</title>
+  </head>
+  <body>
+    <script>
+      (function () {
+        var target = new URL('/auth/wecom-login', window.location.origin);
+        var params = new URLSearchParams(window.location.search);
+        var hash = window.location.hash || '';
+        var hashQuery = '';
+
+        if (hash.indexOf('#?') === 0) {
+          hashQuery = hash.slice(2);
+        } else if (hash.indexOf('?') >= 0) {
+          hashQuery = hash.slice(hash.indexOf('?') + 1);
+        }
+
+        if (hashQuery) {
+          new URLSearchParams(hashQuery).forEach(function (value, key) {
+            if (!params.has(key)) {
+              params.set(key, value);
+            }
+          });
+        }
+
+        var query = params.toString();
+        window.location.replace(
+          target.origin + target.pathname + target.hash + (query ? '?' + query : ''),
+        );
+      })();
+    </script>
+  </body>
+</html>
