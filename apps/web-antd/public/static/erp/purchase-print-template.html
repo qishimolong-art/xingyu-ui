@@ -1599,7 +1599,7 @@
       const confirmDetailConvertButton = root.querySelector('[data-confirm-detail-convert]');
       const urlParams = new URLSearchParams(window.location.search);
       const moduleKey = urlParams.get('moduleKey') || 'purchase_order';
-      const preserveStockDecimals = urlParams.get('decimalMode') === 'string' && ['stock_check','stock_in','stock_out','stock_move','stock_transfer_out','warehouse_move'].includes(moduleKey);
+      const preserveStockDecimals = urlParams.get('decimalMode') === 'string' && ['finance_payment', 'finance_receipt', 'finance_transfer', 'payable_expense', 'payable_misc', 'payable_other', 'receivable_misc', 'receivable_other', 'receivable_other_income', 'stock_check', 'stock_in', 'stock_out', 'stock_move', 'stock_transfer_out', 'warehouse_move'].includes(moduleKey);
       const businessId = Number(urlParams.get('businessId') || 0);
       const businessNo = urlParams.get('businessNo') || '';
       const urlTemplateId = urlParams.get('templateId') || '';
@@ -2028,7 +2028,12 @@
           const field = normalizeFieldCode(code).split('.').pop() || '';
           if (isAmountPrintFieldCode(code) || /(?:count|quantity|qty|weight)\d*$/i.test(field)) {
             const text = String(value);
-            if (/^-?\d+(?:\.\d+)?$/.test(text)) return text.includes('.') ? text.replace(/(\.\d*?[1-9])0+$|\.0+$/,'$1') : text;
+            if (/^-?\d+(?:\.\d+)?$/.test(text)) {
+              const natural = text.includes('.') ? text.replace(/(\.\d*?[1-9])0+$|\.0+$/,'$1') : text;
+              if (!isAmountPrintFieldCode(code)) return natural;
+              const parts = natural.split('.');
+              return parts[0]+'.'+(parts[1] || '').padEnd(2,'0');
+            }
           }
           return value;
         }

@@ -90,16 +90,16 @@ describe('sale quote ordering and outbound-to-cart workflow', () => {
 
   it('uses money and compact-number formatters throughout the outbound modal', () => {
     expect(outboundModalSource).toContain(
-      'erpPriceInputFormatter(record.productPrice)',
+      'formatSaleAmount(record.productPrice)',
     );
     expect(outboundModalSource).toContain(
-      'erpCountInputFormatter(record.weight)',
+      'formatSaleDecimal(record.weight)',
     );
     expect(outboundModalSource).toContain(
-      'erpCountInputFormatter(record.packageQty)',
+      'formatSaleDecimal(record.packageQty)',
     );
     expect(outboundModalSource).toContain(
-      'count: erpCountInputFormatter(convertibleCount)',
+      'count: formatSaleDecimal(convertibleCount)',
     );
     expect(outboundModalSource).toContain(
       '@update:value="record.countDirty = true"',

@@ -1,3 +1,4 @@
+import { stockMoney } from '#/views/erp/stock/utils/stock-decimal';
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 
@@ -283,25 +284,25 @@ export function useFormItemColumns(
       field: 'costPrice',
       title: '成本单价',
       minWidth: 120,
-      formatter: ({ cellValue }: any) => stockNatural(cellValue),
+      formatter: ({ cellValue }: any) => stockMoney(cellValue),
     },
     {
       field: 'costAmount',
       title: '成本金额',
       minWidth: 120,
-      formatter: ({ cellValue }: any) => stockNatural(cellValue),
+      formatter: ({ cellValue }: any) => stockMoney(cellValue),
     },
     {
       field: 'productPrice',
       title: '移货单价',
       minWidth: 120,
-      formatter: ({ cellValue }: any) => stockNatural(cellValue),
+      formatter: ({ cellValue }: any) => stockMoney(cellValue),
     },
     {
       field: 'totalPrice',
       title: '移货金额',
       minWidth: 120,
-      formatter: ({ cellValue }: any) => stockNatural(cellValue),
+      formatter: ({ cellValue }: any) => stockMoney(cellValue),
     },
     {
       field: 'weight',

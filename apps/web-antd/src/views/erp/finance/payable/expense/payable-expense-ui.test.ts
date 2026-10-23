@@ -32,7 +32,7 @@ describe('payable expense UI contract', () => {
       ]),
     ).toEqual({
       documentCount: 2,
-      totalAmount: 1300,
+      totalAmount: '1300',
     });
     expect(formatPayableExpenseAmount(1_234_567.8)).toBe('1,234,567.80');
   });

@@ -1,10 +1,13 @@
-import { financeDecimal, financeMoney, financeValue } from '#/views/erp/finance/utils/finance-decimal';
-import { financeMoney as erpPriceInputFormatter } from '#/views/erp/finance/utils/finance-decimal';
+import {
+  financeDecimal,
+  financeMoney,
+  financeValue,
+} from '#/views/erp/finance/utils/finance-decimal';
 import { erpCountInputFormatter } from '@vben/utils';
 
-type ParseNumberResult =
+type ParseNumberResult<T = number> =
   | { ok: false; message: string }
-  | { ok: true; value: number | string };
+  | { ok: true; value: T };
 
 export function parsePayableExpenseQtyText(
   text: unknown,
@@ -25,7 +28,7 @@ export function parsePayableExpenseQtyText(
 export function parsePayableExpenseAmountText(
   text: unknown,
   fieldLabel = '费用金额',
-): ParseNumberResult {
+): ParseNumberResult<string> {
   const value = String(text ?? '').trim();
   if (!value) return { ok: false, message: `${fieldLabel}不能为空` };
   if (!/^\d+(\.\d*)?$/.test(value)) {
@@ -35,7 +38,10 @@ export function parsePayableExpenseAmountText(
     };
   }
   const numberValue = financeValue(value);
-  if (!financeDecimal(numberValue).isFinite() || financeDecimal(numberValue).lte(0)) {
+  if (
+    !financeDecimal(numberValue).isFinite() ||
+    financeDecimal(numberValue).lte(0)
+  ) {
     return { ok: false, message: `${fieldLabel}必须大于 0` };
   }
   return { ok: true, value: numberValue };
@@ -56,7 +62,5 @@ export function formatPayableExpenseQtyInput(
 export function formatPayableExpenseAmountInput(
   value: null | number | string | undefined,
 ) {
-  return value === null || value === undefined
-    ? ''
-    : financeMoney(value);
+  return value === null || value === undefined ? '' : financeMoney(value);
 }

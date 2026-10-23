@@ -1,5 +1,10 @@
 <script lang="ts" setup>
-import { financeMoneyGrouped } from '#/views/erp/finance/utils/finance-decimal';import { financeAdd } from '#/views/erp/finance/utils/finance-decimal';
+import { financeAdd } from '#/views/erp/finance/utils/finance-decimal';
+
+import { financeIsFinite } from '#/views/erp/finance/utils/finance-decimal';
+
+import { financeMoneyGrouped } from '#/views/erp/finance/utils/finance-decimal';
+import { financeAdd } from '#/views/erp/finance/utils/finance-decimal';
 
 import { financeMoney as erpPriceInputFormatter } from '#/views/erp/finance/utils/finance-decimal';
 
@@ -66,10 +71,11 @@ const rows = ref<DepartmentExpenseRow[]>([]);
 
 function toNumber(value: unknown) {
   const amount = Number(value || 0);
-  return Number.isFinite(amount) ? amount : 0;
+  return financeIsFinite(amount) ? amount : 0;
 }
 
-function formatAmount(value: unknown) { return financeMoneyGrouped(value as any);
+function formatAmount(value: unknown) {
+  return financeMoneyGrouped(value as any);
 }
 
 function buildParams() {
@@ -100,7 +106,10 @@ function buildDepartmentRows(list: any[]) {
       originalRows: [],
     };
     current.documentCount += 1;
-    current.expenseAmount += toNumber(row.totalAmount);
+    current.expenseAmount = financeAdd(
+      current.expenseAmount,
+      toNumber(row.totalAmount),
+    );
     current.originalRows.push(row);
     map.set(key, current);
   }
@@ -177,7 +186,7 @@ function handleExport() {
 const cards = computed(() => {
   const expenseAmount = rows.value.reduce(
     (sum, row) => financeAdd(sum, row.expenseAmount),
-    0,
+    '0',
   );
   const documentCount = rows.value.reduce(
     (sum, row) => sum + row.documentCount,

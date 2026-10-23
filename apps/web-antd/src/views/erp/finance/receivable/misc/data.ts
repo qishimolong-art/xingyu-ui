@@ -104,9 +104,8 @@ export function useFormSchema(formType: string): VbenFormSchema[] {
         disabled,
         class: 'w-full',
         inputMode: 'decimal',
-        
       },
-      rules: createRequiredNumberRule('金额', { nonZero: true, }),
+      rules: createRequiredNumberRule('金额', { nonZero: true }),
     },
     {
       fieldName: 'remark',

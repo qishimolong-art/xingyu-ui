@@ -1,4 +1,14 @@
-<script lang="ts" setup>import { financeValue, financeSubtract, financeAdd, financeCompare, financeMax, financeMin, financeSign, financeAbs } from '#/views/erp/finance/utils/finance-decimal';
+<script lang="ts" setup>
+import {
+  financeValue,
+  financeSubtract,
+  financeAdd,
+  financeCompare,
+  financeMax,
+  financeMin,
+  financeSign,
+  financeAbs,
+} from '#/views/erp/finance/utils/finance-decimal';
 
 import DecimalAmountInput from '#/views/erp/components/DecimalAmountInput.vue';
 import { financeMoney as erpPriceInputFormatter } from '#/views/erp/finance/utils/finance-decimal';
@@ -10,7 +20,6 @@ import type { ErpFinanceReceiptApi } from '#/api/erp/finance/receipt';
 import { computed, ref } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
-
 
 import {
   Alert,
@@ -48,21 +57,28 @@ const loading = ref(false);
 
 const isReceipt = computed(() => writeOffType.value === 'receipt');
 const title = computed(() => (isReceipt.value ? '收款单核销' : '付款单核销'));
-const totalPrice = computed(() => financeValue(financeRecord.value?.totalPrice || 0));
+const totalPrice = computed(() =>
+  financeValue(financeRecord.value?.totalPrice || 0),
+);
 const allocatedPrice = computed(() =>
   financeValue(financeRecord.value?.allocatedPrice || 0),
 );
 const unallocatedPrice = computed(() =>
-  financeValue(financeRecord.value?.unallocatedPrice ??
-      financeSubtract(totalPrice.value, allocatedPrice.value)),
+  financeValue(
+    financeRecord.value?.unallocatedPrice ??
+      financeSubtract(totalPrice.value, allocatedPrice.value),
+  ),
 );
 const currentWriteOffPrice = computed(() =>
   candidates.value
     .filter((item) => selectedRowKeys.value.includes(rowKey(item)))
-    .reduce((sum, item) => financeAdd(sum, financeValue(item.writeOffAmount || 0)), 0),
+    .reduce(
+      (sum, item) => financeAdd(sum, financeValue(item.writeOffAmount || 0)),
+      '0',
+    ),
 );
-const afterUnallocatedPrice = computed(
-  () => financeSubtract(unallocatedPrice.value, currentWriteOffPrice.value),
+const afterUnallocatedPrice = computed(() =>
+  financeSubtract(unallocatedPrice.value, currentWriteOffPrice.value),
 );
 
 function rowKey(row: Record<string, any>) {
@@ -112,15 +128,22 @@ const rowSelection = computed<TableProps['rowSelection']>(() => ({
       const key = rowKey(item);
       if (nextKeys.includes(key) && !selectedRowKeys.value.includes(key)) {
         const remaining = financeValue(item.unallocatedPrice || 0);
-        if ((financeCompare(remaining, 0) < 0)) {
+        if (financeCompare(remaining, 0) < 0) {
           item.writeOffAmount = remaining;
         } else {
           const otherNet = candidates.value
             .filter(
               (row) => nextKeys.includes(rowKey(row)) && rowKey(row) !== key,
             )
-            .reduce((sum, row) => financeAdd(sum, financeValue(row.writeOffAmount || 0)), 0);
-          item.writeOffAmount = financeMin(remaining, financeMax(0, financeSubtract(unallocatedPrice.value, otherNet)));
+            .reduce(
+              (sum, row) =>
+                financeAdd(sum, financeValue(row.writeOffAmount || 0)),
+              '0',
+            );
+          item.writeOffAmount = financeMin(
+            remaining,
+            financeMax(0, financeSubtract(unallocatedPrice.value, otherNet)),
+          );
         }
       }
       if (!nextKeys.includes(key)) item.writeOffAmount = undefined;
@@ -140,16 +163,19 @@ function validateSelection() {
     const amount = financeValue(item.writeOffAmount || 0);
     const remaining = financeValue(item.unallocatedPrice || 0);
     if (
-      (financeCompare(amount, 0) === 0) ||
-      (financeCompare(financeSign(amount), financeSign(remaining)) !== 0) ||
-      (financeCompare(financeAbs(amount), financeAbs(remaining)) > 0)
+      financeCompare(amount, 0) === 0 ||
+      financeCompare(financeSign(amount), financeSign(remaining)) !== 0 ||
+      financeCompare(financeAbs(amount), financeAbs(remaining)) > 0
     ) {
       throw new Error(`业务单据 ${item.bizNo} 的核销金额不在可核销范围内`);
     }
   }
   if (
-    (financeCompare(afterUnallocatedPrice.value, 0) < 0) ||
-    (financeCompare(financeAdd(allocatedPrice.value, currentWriteOffPrice.value), 0) < 0)
+    financeCompare(afterUnallocatedPrice.value, 0) < 0 ||
+    financeCompare(
+      financeAdd(allocatedPrice.value, currentWriteOffPrice.value),
+      0,
+    ) < 0
   ) {
     throw new Error('本次核销净额超过收/付款单可用额度');
   }

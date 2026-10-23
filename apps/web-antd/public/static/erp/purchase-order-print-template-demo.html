@@ -1625,7 +1625,13 @@
         if (value === undefined || value === null || value === '') return '';
         if (!isAmountPrintFieldCode(code)) return value;
         const numericValue = Number(value);
-        return Number.isFinite(numericValue) ? numericValue.toFixed(2) : value;
+        if (!Number.isFinite(numericValue)) return value;
+        if (/^(?:purchase_|sale_)/.test(moduleKey)) {
+          const natural = numericValue.toFixed(6).replace(/0+$/, '').replace(/\.$/, '');
+          const [integer, decimal = ''] = natural.split('.');
+          return integer + '.' + decimal.padEnd(2, '0');
+        }
+        return numericValue.toFixed(2);
       }
 
       function resolvePrintValue(code, itemIndex = 0, pageContext = null) {

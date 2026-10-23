@@ -208,7 +208,7 @@ describe('sale quote form schema', () => {
     expect(
       columns.find((column) => column.field === 'lastSalePrice'),
     ).toMatchObject({
-      formatter: 'formatAmount2',
+      formatter: 'formatSaleAmount6',
       sortable: true,
       title: '最后一次销售价',
     });
@@ -217,7 +217,7 @@ describe('sale quote form schema', () => {
     ).toBeLessThan(130);
     expect(
       columns.find((column) => column.field === 'packageQty'),
-    ).toMatchObject({ formatter: 'formatAmount3', sortable: true });
+    ).toMatchObject({ formatter: 'formatSaleDecimal6', sortable: true });
     expect(columns.find((column) => column.field === 'remark')).toMatchObject({
       sortable: true,
     });

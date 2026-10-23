@@ -71,12 +71,11 @@ export function useFormSchema(
           disabled,
           placeholder: '请输入转账金额',
           class: 'w-full',
-          
+
           inputMode: 'decimal',
         },
         rules: createRequiredNumberRule('转账金额', {
           min: 0.01,
-          
         }),
       },
       {
@@ -87,13 +86,13 @@ export function useFormSchema(
           disabled,
           placeholder: '请输入汇率',
           class: 'w-full',
-          maxlength: 20,
+
           inputMode: 'decimal',
         },
         defaultValue: 1,
         rules: createRequiredNumberRule('汇率', {
           min: 0.000_001,
-          precision: 6,
+          integerDigits: 12,
         }),
       },
       {
@@ -138,11 +137,11 @@ export function useFormSchema(
           disabled,
           placeholder: '请输入手续费',
           class: 'w-full',
-          
+
           inputMode: 'decimal',
         },
         defaultValue: 0,
-        rules: createOptionalNumberRule('手续费', { min: 0, }),
+        rules: createOptionalNumberRule('手续费', { min: 0 }),
       },
       {
         fieldName: 'feeExpenseCategory',

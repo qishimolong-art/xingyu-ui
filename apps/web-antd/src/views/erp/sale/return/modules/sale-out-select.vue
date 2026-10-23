@@ -55,13 +55,13 @@ const saleOutColumns: VxeTableGridOptions<ErpSaleOutApi.SaleOut>['columns'] = [
     field: 'totalCount',
     title: '销售数量',
     minWidth: 120,
-    formatter: 'formatAmount3',
+    formatter: 'formatSaleDecimal6',
   },
   {
     field: 'totalPrice',
     title: '销售金额',
     minWidth: 120,
-    formatter: 'formatAmount2',
+    formatter: 'formatSaleAmount6',
   },
   {
     field: 'returnStatus',

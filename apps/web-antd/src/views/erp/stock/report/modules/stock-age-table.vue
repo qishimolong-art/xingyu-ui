@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { stockMoney } from '#/views/erp/stock/utils/stock-decimal';
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 import type { ErpStockAgeReportApi } from '#/api/erp/report/stock-age';
@@ -208,7 +209,7 @@ function formatQuantity(value: unknown, _precision?: number) {
 }
 
 function formatMoney(value: unknown, _precision?: number) {
-  return stockNatural(value as null | number | string | undefined);
+  return stockMoney(value as null | number | string | undefined);
 }
 
 const textFormatter = ({ cellValue }: { cellValue: unknown }) =>

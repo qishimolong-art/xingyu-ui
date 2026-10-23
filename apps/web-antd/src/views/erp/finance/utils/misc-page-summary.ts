@@ -1,3 +1,4 @@
+import { financeListMoney } from './finance-decimal';
 import { computed, shallowRef } from 'vue';
 
 import { sumFinanceAmounts } from '../settlement/money';
@@ -28,12 +29,7 @@ export function summarizeMiscPage(rows?: SummaryRow[]): MiscPageSummary {
       );
       return [
         field,
-        complete && values
-          ? sumFinanceAmounts(values).toLocaleString('zh-CN', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })
-          : '—',
+        complete && values ? financeListMoney(sumFinanceAmounts(values)) : '—',
       ];
     }),
   ) as MiscPageSummary;

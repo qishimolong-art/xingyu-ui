@@ -1,4 +1,12 @@
-import { financeAdd, financeSubtract } from '#/views/erp/finance/utils/finance-decimal';
+import {
+  financeValue,
+  financeListMoney,
+} from '#/views/erp/finance/utils/finance-decimal';
+import { financeIsFinite } from '#/views/erp/finance/utils/finance-decimal';
+import {
+  financeAdd,
+  financeSubtract,
+} from '#/views/erp/finance/utils/finance-decimal';
 import type { ErpPayableOtherApi } from '#/api/erp/finance/payable/other';
 
 export type OtherPayableAmountField =
@@ -17,23 +25,22 @@ export function normalizeOtherPayableBizDate(value: unknown) {
   return String(value).slice(0, 10);
 }
 
-function toFiniteAmount(value?: number) {
-  const amount = value || 0;
-  return Number.isFinite(amount) ? amount : 0;
+function toFiniteAmount(value?: number | string | null) {
+  try { return value == null || value === '' ? '0' : financeValue(value); } catch { return '0'; }
 }
 
-export function formatOtherPayableAmount(value?: number) {
-  return toFiniteAmount(value).toLocaleString('zh-CN', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+export function formatOtherPayableAmount(value?: number | string | null) {
+  return financeListMoney(value);
 }
 
 export function sumOtherPayableAmount(
   rows: ErpPayableOtherApi.PayableOther[],
   field: OtherPayableAmountField,
 ) {
-  return rows.reduce((total, row) => financeAdd(total, toFiniteAmount(row[field])), 0);
+  return rows.reduce(
+    (total, row) => financeAdd(total, toFiniteAmount(row[field])),
+    '0',
+  );
 }
 
 export function getOtherPayablePageSummary(

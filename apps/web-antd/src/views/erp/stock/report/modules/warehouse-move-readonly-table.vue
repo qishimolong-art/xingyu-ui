@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { stockMoney } from '#/views/erp/stock/utils/stock-decimal';
 /* eslint-disable vue/html-closing-bracket-newline -- Oxfmt manages multiline template layout. */
 import type { TableColumnsType, TablePaginationConfig } from 'ant-design-vue';
 
@@ -106,7 +107,7 @@ function formatNumber(value: unknown, _precision?: number, _maximum?: number) {
 }
 
 function formatMoney(value: unknown, _precision?: number) {
-  return stockNatural(value as null | number | string | undefined);
+  return stockMoney(value as null | number | string | undefined);
 }
 
 function toNullableNumber(value: unknown) {

@@ -1,3 +1,5 @@
+import { financeListMoney } from '#/views/erp/finance/utils/finance-decimal';
+import { financeAdd } from '#/views/erp/finance/utils/finance-decimal';
 import type { ErpFinanceReceiptApi } from '#/api/erp/finance/receipt';
 
 function normalizeDatePickerTimestamp(value: unknown) {
@@ -44,12 +46,8 @@ export function toFinanceReceiptDisplayDate(
   return value;
 }
 
-export function formatFinanceReceiptAmount(value?: number) {
-  if (value === undefined || value === null) return '';
-  return value.toLocaleString('zh-CN', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+export function formatFinanceReceiptAmount(value?: number | string | null) {
+  return financeListMoney(value);
 }
 
 export function getFinanceReceiptPageSummary(
@@ -60,13 +58,13 @@ export function getFinanceReceiptPageSummary(
     >
   >,
 ) {
-  let discountPrice = 0;
-  let receiptPrice = 0;
-  let totalPrice = 0;
+  let discountPrice = '0';
+  let receiptPrice = '0';
+  let totalPrice = '0';
   for (const row of rows) {
-    totalPrice += row.totalPrice || 0;
-    discountPrice += row.discountPrice || 0;
-    receiptPrice += row.receiptPrice || 0;
+    totalPrice = financeAdd(totalPrice, row.totalPrice || 0);
+    discountPrice = financeAdd(discountPrice, row.discountPrice || 0);
+    receiptPrice = financeAdd(receiptPrice, row.receiptPrice || 0);
   }
   return {
     documentCount: rows.length,

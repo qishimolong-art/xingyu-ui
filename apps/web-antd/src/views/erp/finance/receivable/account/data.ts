@@ -2,8 +2,6 @@ import { financeMoney as erpPriceInputFormatter } from '#/views/erp/finance/util
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 
-
-
 import {
   getReceivableAccountDeptSimplePage,
   getReceivableAccountUserSimplePage,

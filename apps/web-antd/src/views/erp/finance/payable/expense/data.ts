@@ -125,7 +125,7 @@ export function useFormSchema(
           placeholder: '总金额',
           disabled: true,
           class: 'w-full',
-          
+
           inputMode: 'decimal',
         },
         rules: createOptionalNumberRule('总金额', { min: 0 }),

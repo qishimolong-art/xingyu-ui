@@ -1,4 +1,15 @@
-<script lang="ts" setup>import { financeAdd, financeValue, financeSubtract, financeMax, financeDivide } from '#/views/erp/finance/utils/finance-decimal';
+<script lang="ts" setup>
+import {
+  financeSubtract,
+  financeAdd,
+} from '#/views/erp/finance/utils/finance-decimal';
+import {
+  financeAdd,
+  financeValue,
+  financeSubtract,
+  financeMax,
+  financeDivide,
+} from '#/views/erp/finance/utils/finance-decimal';
 
 import { financeMoney as erpPriceInputFormatter } from '#/views/erp/finance/utils/finance-decimal';
 
@@ -11,7 +22,6 @@ import { computed, nextTick, reactive, ref } from 'vue';
 import { useAccess } from '@vben/access';
 import { useVbenModal } from '@vben/common-ui';
 import { useUserStore } from '@vben/stores';
-
 
 import { Modal as AntModal, Button, message } from 'ant-design-vue';
 
@@ -339,10 +349,10 @@ function syncTotalAmount() {
   }
   const totalAmount = tableData.value.reduce(
     (sum, item) => financeAdd(sum, financeValue(item.amount || 0)),
-    0,
+    '0',
   );
   formData.value.items = [...tableData.value];
-  formData.value.totalAmount = Number(totalAmount.toFixed(2));
+  formData.value.totalAmount = financeValue(totalAmount);
   void formApi.setValues({ totalAmount: formData.value.totalAmount });
 }
 
@@ -458,7 +468,10 @@ async function handleRemoteDeleteItem(
     const targetPage = clampFinanceRemoteItemPageNo(
       itemPagination.pageNo,
       itemPagination.pageSize,
-      financeAdd(financeMax(0, financeSubtract(itemPagination.total, 1)), remoteItemCreates.size),
+      financeAdd(
+        financeMax(0, financeSubtract(itemPagination.total, 1)),
+        remoteItemCreates.size,
+      ),
     );
     try {
       await loadPayableExpenseItemsPage({
@@ -542,10 +555,9 @@ async function buildCurrentPayload() {
     : tableData.value;
   const totalAmount = useRemoteItemPagination.value
     ? calculateRemoteTotalAmount()
-    : Number(
-        items
-          .reduce((sum, item) => financeAdd(sum, financeValue(item.amount || 0)), 0)
-          .toFixed(2),
+    : items.reduce(
+        (sum, item) => financeAdd(sum, financeValue(item.amount || 0)),
+        '0',
       );
   return {
     ...formData.value,
@@ -683,7 +695,7 @@ async function loadPayableExpenseItemsPage(
     if (requestId !== itemPageRequestId) return;
     itemPagination.pageNo = pageNo;
     itemPagination.pageSize = pageSize;
-    itemPagination.total = financeValue(page.total || 0);
+    itemPagination.total = Number(page.total || 0);
     const key = getRemoteItemCacheKey(pageNo, pageSize);
     const persistedRows = ensureItemRowKeys(
       (page.list || []).map((item) =>
@@ -723,7 +735,7 @@ async function fetchAllPayableExpenseItems(id = formData.value.id) {
     mask: false,
   });
   const items = [...(firstPage.list || [])];
-  const total = financeValue(firstPage.total || 0);
+  const total = Number(firstPage.total || 0);
   const pageCount = Math.ceil(financeDivide(total, pageSize));
   for (let pageNo = 2; pageNo <= pageCount; pageNo++) {
     const page = await getPayableExpenseItemPage({
@@ -750,16 +762,24 @@ function calculateRemoteTotalAmount() {
   cacheCurrentRemoteItems();
   let totalAmount = financeValue(formData.value.totalAmount || 0);
   remoteDeletedItemIds.forEach((id) => {
-    totalAmount -= financeValue(remoteOriginalItemMap.get(id)?.amount || 0);
+    totalAmount = financeSubtract(
+      totalAmount,
+      financeValue(remoteOriginalItemMap.get(id)?.amount || 0),
+    );
   });
   remoteItemEdits.forEach((item, id) => {
-    totalAmount +=
-      financeSubtract(financeValue(item.amount || 0), financeValue(remoteOriginalItemMap.get(id)?.amount || 0));
+    totalAmount = financeAdd(
+      totalAmount,
+      financeSubtract(
+        financeValue(item.amount || 0),
+        financeValue(remoteOriginalItemMap.get(id)?.amount || 0),
+      ),
+    );
   });
   remoteItemCreates.forEach((item) => {
-    totalAmount += financeValue(item.amount || 0);
+    totalAmount = financeAdd(totalAmount, financeValue(item.amount || 0));
   });
-  return Number(totalAmount.toFixed(2));
+  return financeValue(totalAmount);
 }
 
 function handleItemPageChange(page: { pageNo: number; pageSize: number }) {

@@ -324,7 +324,7 @@ describe('payable account page UI contract', () => {
     expect(detailSource).toContain('明细.xls`');
     expect(detailSource).toContain("'erp:finance-payment:writeoff'");
     expect(detailSource).toContain('isPaymentDetailRow(row)');
-    expect(detailSource).toContain('Number(row.paymentAmount || 0) !== 0');
+    expect(detailSource).toContain('financeCompare(financeValue(row.paymentAmount || 0), 0) !== 0');
     expect(detailSource).toContain('getFinancePayment(row.bizId)');
     expect(detailSource).toContain('@success="handlePaymentWriteOffSuccess"');
     expect(detailSource).toContain("label: '期初金额'");

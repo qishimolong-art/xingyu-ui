@@ -28,7 +28,7 @@ describe('bank transfer page design contract', () => {
       documentCount: 4,
       draftCount: 1,
       pendingCount: 1,
-      transferAmount: 2000.5,
+      transferAmount: '2000.5',
     });
     expect(formatBankTransferAmount(1_234_567.8)).toBe('1,234,567.80');
   });

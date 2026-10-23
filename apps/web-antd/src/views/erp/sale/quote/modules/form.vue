@@ -12,15 +12,12 @@ import { computed, defineAsyncComponent, nextTick, ref, provide } from 'vue';
 import { useAccess } from '@vben/access';
 import { useVbenModal } from '@vben/common-ui';
 import { useUserStore } from '@vben/stores';
-import {
-  erpCountInputFormatter,
-  formatDateTime,
-} from '@vben/utils';
+import { formatDateTime } from '@vben/utils';
 
 import { Modal as AntdModal, Button, message } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { formatSaleAmount } from '#/views/erp/sale/utils/decimal';
+import { formatSaleDecimal, formatSaleAmount } from '#/views/erp/sale/utils/decimal';
 import { getCustomerSalePriceLevel } from '#/api/erp/sale/customer';
 import {
   approveSaleQuote,
@@ -1993,7 +1990,7 @@ async function handleItemPageChange(payload: {
           <strong>单据合计</strong>
           <span v-if="isDetailFieldVisible('totalCount')">
             数量
-            <b>{{ erpCountInputFormatter(formData?.totalCount || 0) }}</b>
+            <b>{{ formatSaleDecimal(formData?.totalCount || 0) }}</b>
           </span>
           <span
             v-if="

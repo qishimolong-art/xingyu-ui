@@ -1,4 +1,9 @@
-<script lang="ts" setup>import { financeValue, financeAdd, financeCompare } from '#/views/erp/finance/utils/finance-decimal';
+<script lang="ts" setup>
+import {
+  financeValue,
+  financeAdd,
+  financeCompare,
+} from '#/views/erp/finance/utils/finance-decimal';
 
 import { financeMoney as erpPriceInputFormatter } from '#/views/erp/finance/utils/finance-decimal';
 
@@ -17,8 +22,6 @@ import {
   ref,
   watch,
 } from 'vue';
-
-
 
 import { DatePicker, Input, message, Pagination, Select } from 'ant-design-vue';
 
@@ -133,7 +136,7 @@ const currentTotal = computed(() =>
 const summaries = computed(() => ({
   totalAmount: tableData.value.reduce(
     (sum, item) => financeAdd(sum, financeValue(item.amount || 0)),
-    0,
+    '0',
   ),
 }));
 
@@ -602,7 +605,7 @@ function validate() {
       }
       item.amount = normalizeOtherIncomeAmount(amount.value);
       setAmountText(item);
-      if ((financeCompare(item.amount, 0) <= 0)) {
+      if (financeCompare(item.amount, 0) <= 0) {
         throw new Error(`第 ${i + 1} 行：金额必须大于 0`);
       }
     }

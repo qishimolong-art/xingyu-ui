@@ -1,4 +1,7 @@
-import { financeValue, financeCompare } from '#/views/erp/finance/utils/finance-decimal';
+import {
+  financeValue,
+  financeCompare,
+} from '#/views/erp/finance/utils/finance-decimal';
 import type { ErpPayableReportApi } from '#/api/erp/finance/payable/report';
 
 export type PayableReportAmountField =
@@ -18,6 +21,12 @@ export function getPayableReportDetailState(
 ) {
   const increaseAmount = financeValue(row.increaseAmount || 0);
   const paymentAmount = financeValue(row.paymentAmount || 0);
-  if ((financeCompare(increaseAmount, 0) <= 0) || (financeCompare(paymentAmount, 0) <= 0)) return 'unpaid';
-  return (financeCompare(paymentAmount, increaseAmount) >= 0) ? 'settled' : 'partial';
+  if (
+    financeCompare(increaseAmount, 0) <= 0 ||
+    financeCompare(paymentAmount, 0) <= 0
+  )
+    return 'unpaid';
+  return financeCompare(paymentAmount, increaseAmount) >= 0
+    ? 'settled'
+    : 'partial';
 }

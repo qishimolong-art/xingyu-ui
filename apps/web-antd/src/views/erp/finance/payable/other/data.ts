@@ -99,12 +99,11 @@ export function useFormSchema(
           placeholder: '请输入应付金额',
           disabled,
           class: 'w-full',
-          
+
           inputMode: 'decimal',
         },
         rules: createRequiredNumberRule('应付金额', {
           nonZero: true,
-          
         }),
       },
       {
@@ -115,12 +114,11 @@ export function useFormSchema(
           placeholder: '请输入已付金额',
           disabled,
           class: 'w-full',
-          
+
           inputMode: 'decimal',
         },
         rules: createOptionalNumberRule('已付金额', {
           min: 0,
-          
         }),
         defaultValue: 0,
       },

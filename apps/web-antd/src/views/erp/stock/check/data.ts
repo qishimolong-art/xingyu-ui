@@ -1,3 +1,4 @@
+import { stockMoney } from '#/views/erp/stock/utils/stock-decimal';
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 
@@ -316,7 +317,7 @@ export function useFormItemColumns(
       width: 100,
       sortable: true,
       slots: { default: 'totalPrice' },
-      formatter: ({ cellValue }: any) => stockNatural(cellValue),
+      formatter: ({ cellValue }: any) => stockMoney(cellValue),
     },
     {
       field: 'remark',

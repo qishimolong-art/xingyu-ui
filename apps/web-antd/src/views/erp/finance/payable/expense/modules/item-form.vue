@@ -1,4 +1,8 @@
-<script lang="ts" setup>import { financeValue, financeAdd } from '#/views/erp/finance/utils/finance-decimal';
+<script lang="ts" setup>
+import {
+  financeValue,
+  financeAdd,
+} from '#/views/erp/finance/utils/finance-decimal';
 
 import { useFinanceCandidateFocus } from '#/views/erp/finance/utils/candidate-focus';
 
@@ -124,7 +128,7 @@ const currentTotal = computed(() =>
 const summaries = computed(() => ({
   totalAmount: tableData.value.reduce(
     (sum, item) => financeAdd(sum, financeValue(item.amount || 0)),
-    0,
+    '0',
   ),
 }));
 

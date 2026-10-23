@@ -5,7 +5,7 @@ import type { ErpSaleReturnApi } from '#/api/erp/sale/return';
 
 import { computed, ref, watch } from 'vue';
 
-import { erpCountInputFormatter } from '@vben/utils';
+
 
 import dayjs from 'dayjs';
 import {
@@ -23,7 +23,7 @@ import {
   createPurchaseReturnFromSaleReturn,
   getSaleReturnPurchaseReturnableItemPage,
 } from '#/api/erp/sale/return';
-import {
+import { formatSaleDecimal,
   formatSaleAmount,
   saleDecimalMultiply,
 } from '../../utils/decimal';
@@ -302,7 +302,7 @@ defineExpose({ open });
         <Table.Column title="部门" data-index="deptName" :width="150" />
         <Table.Column title="原退货数" data-index="count" :width="96">
           <template #default="{ record }">
-            {{ erpCountInputFormatter(record.count) }}
+            {{ formatSaleDecimal(record.count) }}
           </template>
         </Table.Column>
         <Table.Column
@@ -311,7 +311,7 @@ defineExpose({ open });
           :width="120"
         >
           <template #default="{ record }">
-            {{ erpCountInputFormatter(record.purchaseReturnedCount) }}
+            {{ formatSaleDecimal(record.purchaseReturnedCount) }}
           </template>
         </Table.Column>
         <Table.Column
@@ -320,7 +320,7 @@ defineExpose({ open });
           :width="96"
         >
           <template #default="{ record }">
-            {{ erpCountInputFormatter(record.purchaseReturnableCount) }}
+            {{ formatSaleDecimal(record.purchaseReturnableCount) }}
           </template>
         </Table.Column>
         <Table.Column

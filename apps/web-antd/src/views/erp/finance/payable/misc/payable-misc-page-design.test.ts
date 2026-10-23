@@ -339,7 +339,7 @@ describe('payable misc page design contract', () => {
     expect(formSource).toContain('Boolean(formData.value.id) &&');
     expect(formSource).toContain('Number(formData.value.status) === 20');
     expect(formSource).toContain('!formData.value.generatedOffset');
-    expect(formSource).toContain('getTransferAvailableAmount() !== 0');
+    expect(formSource).toContain('financeCompare(getTransferAvailableAmount(), 0) !== 0');
     expect(formSource).toContain(
       "hasAccessByCodes(['erp:finance-payment:create'])",
     );

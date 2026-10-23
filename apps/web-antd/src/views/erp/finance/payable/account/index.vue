@@ -1,4 +1,5 @@
-<script lang="ts" setup>import { financeValue } from '#/views/erp/finance/utils/finance-decimal';
+<script lang="ts" setup>
+import { financeValue } from '#/views/erp/finance/utils/finance-decimal';
 
 import { financeListMoney as erpPriceInputFormatter } from '#/views/erp/finance/utils/finance-decimal';
 
@@ -120,7 +121,9 @@ const querySummaryItems = computed(() => {
     {
       key: 'openingPayableBalance',
       label: '此前应付',
-      value: erpPriceInputFormatter(financeValue(value.openingPayableBalance ?? 0)),
+      value: erpPriceInputFormatter(
+        financeValue(value.openingPayableBalance ?? 0),
+      ),
     },
     {
       key: 'miscPayableAmount',

@@ -1,3 +1,4 @@
+import { withSaleDecimalSchemas } from '#/views/erp/sale/utils/decimal-form';
 import { withCandidateFocus } from '#/views/erp/utils/candidate-focus';
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
@@ -60,7 +61,7 @@ export function useFormSchema(
 ): VbenFormSchema[] {
   const disabled = formType === 'detail';
 
-  return withCandidateFocus(
+  return withSaleDecimalSchemas(withCandidateFocus(
     withEnterBlurInputSchemas(
       applySaleFormFieldPermission(
         [
@@ -344,7 +345,7 @@ export function useFormSchema(
         hiddenFields,
       ),
     ),
-  );
+  ));
 }
 
 export function useFormItemColumns(
@@ -408,7 +409,7 @@ export function useFormItemColumns(
         title: '最后一次销售价',
         sortable: true,
         ...columnWidth(140),
-        formatter: 'formatAmount2',
+        formatter: 'formatSaleAmount6',
       },
       {
         field: 'totalPrice',
@@ -418,7 +419,7 @@ export function useFormItemColumns(
         formatter:
           disabled && isSalePriceItemHidden(hiddenFields, 'totalPrice')
             ? () => '****'
-            : 'formatAmount2',
+            : 'formatSaleAmount6',
       },
       {
         field: 'giftFlag',
@@ -473,7 +474,7 @@ export function useFormItemColumns(
         title: '重量',
         sortable: true,
         ...columnWidth(80),
-        formatter: 'formatAmount3',
+        formatter: 'formatSaleDecimal6',
       },
       {
         field: 'packageQty',
@@ -493,7 +494,7 @@ export function useFormItemColumns(
         title: '库存',
         sortable: true,
         ...columnWidth(90),
-        formatter: 'formatAmount3',
+        formatter: 'formatSaleDecimal6',
       },
       {
         field: 'remark',

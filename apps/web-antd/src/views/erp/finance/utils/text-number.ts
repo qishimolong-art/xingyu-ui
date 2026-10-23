@@ -1,8 +1,13 @@
-import { financeDecimal, financeValue, validateFinanceStorage } from './finance-decimal';
+import {
+  financeDecimal,
+  financeValue,
+  validateFinanceStorage,
+} from './finance-decimal';
 import { z } from '#/adapter/form';
 
 export type OptionalNumberRuleOptions = {
   integer?: boolean;
+  integerDigits?: number;
   max?: number;
   min?: number;
   nonZero?: boolean;
@@ -17,8 +22,11 @@ export function parseOptionalNumber(value: unknown): string | undefined {
 
   const text = String(value).trim();
   if (!/^-?\d+(?:\.\d*)?$/.test(text)) return undefined;
-  try { return financeValue(text); } catch { return undefined; }
-
+  try {
+    return financeValue(text);
+  } catch {
+    return undefined;
+  }
 }
 
 export function formatOptionalNumberInput(value: unknown): string | undefined {
@@ -74,8 +82,15 @@ export function createOptionalNumberRule(
       }
 
       if (!options.integer) {
-        try { validateFinanceStorage(value as FinanceDecimalInput, label); }
-        catch (error) { ctx.addIssue({ code: z.ZodIssueCode.custom, message: (error as Error).message }); return; }
+        try {
+          validateFinanceStorage(value as FinanceDecimalInput, label, 6, options.integerDigits ?? 18);
+        } catch (error) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: (error as Error).message,
+          });
+          return;
+        }
       }
       if (typeof value === 'string') {
         const trimmed = value.trim();
@@ -144,7 +159,9 @@ export function normalizeOptionalNumberFields(
   fields: string[],
 ) {
   for (const field of fields) {
-    values[field] = toOptionalNumberValue(values[field]);
+    const value = toOptionalNumberValue(values[field]);
+    values[field] =
+      field === 'sort' && value !== undefined ? Number(value) : value;
   }
 }
 
@@ -159,7 +176,10 @@ export function acceptFinanceDecimalInput(
   precision?: number,
 ): string | undefined {
   const text = value === null || value === undefined ? '' : String(value);
-  const pattern = precision === undefined ? /^-?\d*(?:\.\d*)?$/ : new RegExp(`^-?\\d*(?:\\.\\d{0,${precision}})?$`);
+  const pattern =
+    precision === undefined
+      ? /^-?\d*(?:\.\d*)?$/
+      : new RegExp(`^-?\\d*(?:\\.\\d{0,${precision}})?$`);
   return pattern.test(text) ? text : undefined;
 }
 

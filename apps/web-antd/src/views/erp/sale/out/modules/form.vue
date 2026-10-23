@@ -16,10 +16,7 @@ import {
 import { useAccess } from '@vben/access';
 import { useVbenModal } from '@vben/common-ui';
 import { useAppConfig } from '@vben/hooks';
-import {
-  erpCountInputFormatter,
-  formatDateTime,
-} from '@vben/utils';
+import { formatDateTime } from '@vben/utils';
 
 import {
   Button,
@@ -33,7 +30,7 @@ import {
 } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { formatSaleAmount } from '#/views/erp/sale/utils/decimal';
+import { formatSaleDecimal, formatSaleAmount } from '#/views/erp/sale/utils/decimal';
 import { getCustomerSalePriceLevel } from '#/api/erp/sale/customer';
 import {
   getSaleOut,
@@ -905,7 +902,7 @@ function formatDetailPriceAmount(fieldKey: string, value?: number) {
 }
 
 function formatDetailCount(value?: number | string) {
-  return erpCountInputFormatter(Number(value || 0)) || '0';
+  return formatSaleDecimal(Number(value || 0)) || '0';
 }
 
 function getRowValue(row: any, field: string) {

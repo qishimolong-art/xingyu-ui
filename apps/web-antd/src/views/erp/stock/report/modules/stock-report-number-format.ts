@@ -1,4 +1,7 @@
-import { stockNaturalGrouped, stockMoneyGrouped } from '../../utils/stock-decimal';
+import {
+  stockNaturalGrouped,
+  stockMoneyGrouped,
+} from '../../utils/stock-decimal';
 export function formatStockReportQuantity(
   value: unknown,
   _maximumFractionDigits?: number,

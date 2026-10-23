@@ -1,4 +1,5 @@
-﻿<script lang="ts" setup>import { financeAdd } from '#/views/erp/finance/utils/finance-decimal';
+﻿<script lang="ts" setup>
+import { financeAdd } from '#/views/erp/finance/utils/finance-decimal';
 
 import { financeMoney as erpPriceInputFormatter } from '#/views/erp/finance/utils/finance-decimal';
 
@@ -51,10 +52,10 @@ const summary = computed(() => ({
   count: pageRows.value.length,
   receiptAmount: pageRows.value
     .map((item) => resolveTransactionReceiptAmount(item) || 0)
-    .reduce((sum, amount) => financeAdd(sum, amount), 0),
+    .reduce((sum, amount) => financeAdd(sum, amount), '0'),
   paymentAmount: pageRows.value
     .map((item) => resolveTransactionPaymentAmount(item) || 0)
-    .reduce((sum, amount) => financeAdd(sum, amount), 0),
+    .reduce((sum, amount) => financeAdd(sum, amount), '0'),
   balance: pageRows.value.find((item) => item.balance !== undefined)?.balance,
 }));
 const formattedReceiptAmount = computed(() =>

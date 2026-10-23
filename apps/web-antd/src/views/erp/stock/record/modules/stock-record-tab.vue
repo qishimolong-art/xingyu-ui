@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { stockMoney } from '#/views/erp/stock/utils/stock-decimal';
 import type { StockRecordReportScene } from '../data';
 import type { StockRecordQueryParams } from '../stock-record-query';
 
@@ -199,7 +200,7 @@ function formatQuantity(value: unknown, _precision?: number) {
 }
 
 function formatAmount(value: unknown, _precision?: number) {
-  return stockNatural(value as null | number | string | undefined);
+  return stockMoney(value as null | number | string | undefined);
 }
 
 function isStockRecordSummaryAmountHidden() {

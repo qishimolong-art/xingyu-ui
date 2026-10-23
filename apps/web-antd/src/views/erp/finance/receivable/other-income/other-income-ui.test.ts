@@ -43,14 +43,14 @@ describe('other income UI contract', () => {
     expect(parseOtherIncomeQtyText('12')).toEqual({ ok: true, value: 12 });
     expect(parseOtherIncomeQtyText('1.25')).toMatchObject({ ok: false });
     expect(parseOtherIncomeQtyText('')).toMatchObject({ ok: false });
-    expect(parseOtherIncomeAmountText('20.567')).toMatchObject({ ok: false });
+    expect(parseOtherIncomeAmountText('20.567')).toEqual({ ok: true, value: '20.567' });
     expect(parseOtherIncomeAmountText('20.56')).toEqual({
       ok: true,
-      value: 20.56,
+      value: '20.56',
     });
-    expect(parseOtherIncomeAmountText('1.')).toEqual({ ok: true, value: 1 });
+    expect(parseOtherIncomeAmountText('1.')).toEqual({ ok: true, value: '1' });
     expect(parseOtherIncomeAmountText('-1')).toMatchObject({ ok: false });
-    expect(normalizeOtherIncomeAmount(20.567)).toBe(20.57);
+    expect(normalizeOtherIncomeAmount(20.567)).toBe('20.567');
     expect(formatOtherIncomeQtyInput(12)).toBe('12');
     expect(formatOtherIncomeAmountInput(20)).toBe('20.00');
     expect(formatOtherIncomeAmountInput(20.5)).toBe('20.50');
@@ -71,7 +71,7 @@ describe('other income UI contract', () => {
         { totalAmount: 1200.5 },
         { totalAmount: 99.5 },
       ]),
-    ).toEqual({ documentCount: 2, totalAmount: 1300 });
+    ).toEqual({ documentCount: 2, totalAmount: '1300' });
     expect(formatOtherIncomeAmount(1_234_567.8)).toBe('1,234,567.80');
   });
 

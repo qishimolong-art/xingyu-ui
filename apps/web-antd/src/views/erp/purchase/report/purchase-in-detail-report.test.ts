@@ -103,7 +103,7 @@ describe('配件入库明细查询报表', () => {
     expect(wrapperSource).toContain("pageKey !== 'in-detail'");
   });
 
-  it('单价、含运费单价和上次采购价统一固定显示两位小数', () => {
+  it('单价、含运费单价和上次采购价至少两位最多六位', () => {
     for (const field of [
       'productPrice',
       'freightIncludedPrice',
@@ -115,7 +115,7 @@ describe('配件入库明细查询报表', () => {
       expect(column?.[1]).toBe('moneyFormatter');
     }
     expect(tableSource).not.toContain('preciseMoneyFormatter');
-    expect(tableSource).toContain('minimumFractionDigits: fractionDigits');
+    expect(tableSource).toContain("formatPurchaseAmount(value, '-')");
     expect(tableSource).toContain('maximumFractionDigits: fractionDigits');
   });
 

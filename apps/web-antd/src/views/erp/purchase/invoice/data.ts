@@ -1,3 +1,4 @@
+import { withPurchaseDecimalSchemas } from '#/views/erp/purchase/utils/decimal-form';
 import { withPurchaseCandidateFocus } from '#/views/erp/purchase/utils/candidate-focus';
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
@@ -102,7 +103,7 @@ export function useFormSchema(
   hiddenFields: string[] = [],
   supplierId?: number,
 ): VbenFormSchema[] {
-  return applyPurchaseFormFieldPermission(
+  return withPurchaseDecimalSchemas(applyPurchaseFormFieldPermission(
     withPurchaseCandidateFocus([
       {
         fieldName: 'id',
@@ -278,7 +279,7 @@ export function useFormSchema(
       },
     ]),
     hiddenFields,
-  );
+  ));
 }
 
 export function useFormItemColumns(
@@ -344,7 +345,7 @@ export function useFormItemColumns(
           field: 'taxExclusivePrice',
           title: '不含税金额',
           minWidth: 130,
-          formatter: 'formatPurchaseDecimal6',
+          formatter: 'formatPurchaseAmount6',
         },
         {
           field: 'taxPercent',
@@ -356,7 +357,7 @@ export function useFormItemColumns(
           field: 'taxPrice',
           title: '税额',
           minWidth: 120,
-          formatter: 'formatPurchaseDecimal6',
+          formatter: 'formatPurchaseAmount6',
         },
         {
           field: 'totalPrice',
@@ -366,7 +367,7 @@ export function useFormItemColumns(
             disabled &&
             isPurchaseInvoicePriceItemHidden(hiddenFields, 'totalPrice')
               ? () => '****'
-              : 'formatPurchaseDecimal6',
+              : 'formatPurchaseAmount6',
         },
         {
           field: 'remark',

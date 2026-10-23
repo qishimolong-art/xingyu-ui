@@ -20,12 +20,12 @@ import { useAccess } from '@vben/access';
 import { useVbenModal } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 import { useUserStore } from '@vben/stores';
-import { erpCountInputFormatter } from '@vben/utils';
+
 
 import { Modal as AntdModal, Button, message, Tabs } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import {
+import { formatSaleDecimal,
   formatSaleAmount,
   saleDecimalAdd,
   saleDecimalDivide,
@@ -2131,7 +2131,7 @@ async function handleItemPageChange(payload: {
                 <strong>单据汇总</strong>
                 <span>
                   退货数量：<b>{{
-                    erpCountInputFormatter(documentSummary.totalCount)
+                    formatSaleDecimal(documentSummary.totalCount)
                   }}</b>
                 </span>
                 <span>

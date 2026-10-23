@@ -11,7 +11,10 @@ import {
   isFieldHidden,
   useFieldPermission,
 } from '#/composables/useFieldPermission';
-import { stockNatural, stockMoney } from '#/views/erp/stock/utils/stock-decimal';
+import {
+  stockNatural,
+  stockMoney,
+} from '#/views/erp/stock/utils/stock-decimal';
 import {
   PRICE_REFERENCE_FIELDS,
   PRICE_REFERENCE_MASK,

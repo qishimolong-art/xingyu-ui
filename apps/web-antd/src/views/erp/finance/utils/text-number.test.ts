@@ -23,14 +23,14 @@ describe('finance text number validation', () => {
     expect(rule.safeParse(-0.01).success).toBe(false);
   });
 
-  it('keeps valid decimal intermediate states and rejects invalid precision', () => {
+  it('keeps valid decimal intermediate states and rejects invalid characters', () => {
     expect(acceptFinanceDecimalInput('')).toBe('');
     expect(acceptFinanceDecimalInput('-')).toBe('-');
     expect(acceptFinanceDecimalInput('12.')).toBe('12.');
     expect(acceptFinanceDecimalInput('-12.30')).toBe('-12.30');
     expect(acceptFinanceDecimalInput('1e3')).toBeUndefined();
-    expect(acceptFinanceDecimalInput('12.345')).toBeUndefined();
-    expect(normalizeFinanceDecimalInput('-12.30')).toBe(-12.3);
+    expect(acceptFinanceDecimalInput('12.345')).toBe('12.345');
+    expect(normalizeFinanceDecimalInput('-12.30')).toBe('-12.3');
     expect(normalizeFinanceDecimalInput('-')).toBeUndefined();
   });
 });

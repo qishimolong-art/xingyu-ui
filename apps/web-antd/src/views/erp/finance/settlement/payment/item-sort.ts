@@ -1,4 +1,7 @@
-import { financeValue, financeSubtract } from '#/views/erp/finance/utils/finance-decimal';
+import {
+  financeValue,
+  financeSubtract,
+} from '#/views/erp/finance/utils/finance-decimal';
 export type PaymentItemSortOrder = 'asc' | 'desc' | null;
 
 const NUMERIC_FIELDS = new Set([
@@ -16,8 +19,12 @@ function isBlank(value: unknown) {
 
 function getSortValue(row: Record<string, any>, field: string) {
   if (field === 'unPaymentPrice') {
-    return (
-      financeSubtract(financeSubtract(financeValue(row.totalPrice || 0), financeValue(row.paidPrice || 0)), financeValue(row.paymentPrice || 0))
+    return financeSubtract(
+      financeSubtract(
+        financeValue(row.totalPrice || 0),
+        financeValue(row.paidPrice || 0),
+      ),
+      financeValue(row.paymentPrice || 0),
     );
   }
   return row[field];

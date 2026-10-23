@@ -12,7 +12,7 @@ describe('payable detail sorting', () => {
       rows[1],
       rows[0],
     ]);
-    expect(rows[0]).toEqual({ sourceNo: 'CGDD10', sourceId: 80, balance: 100 });
+    expect(rows[0]).toEqual({ sourceNo: 'CGDD10', sourceId: 80, balance: '100' });
   });
 
   it('compares amount fields numerically', () => {

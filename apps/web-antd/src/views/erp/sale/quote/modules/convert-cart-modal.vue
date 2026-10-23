@@ -1,9 +1,9 @@
 ﻿<script lang="ts" setup>
 import { computed, ref } from 'vue';
 
-import { erpCountInputFormatter } from '@vben/utils';
 
-import { formatSaleAmount } from '../../utils/decimal';
+
+import { formatSaleDecimal, formatSaleAmount } from '../../utils/decimal';
 
 import { Input, message, Modal, Table } from 'ant-design-vue';
 
@@ -67,7 +67,7 @@ function resolveCountValue(row: RowItem) {
 function handleCountBlur(row: Record<string, any>) {
   try {
     row.countValue = parseCountInput(row.count, row.productName);
-    row.count = erpCountInputFormatter(row.countValue);
+    row.count = formatSaleDecimal(row.countValue);
     row.countDirty = false;
   } catch {
     // 输入错误仍由确认动作统一提示，失焦时保留用户原始输入。
@@ -108,7 +108,7 @@ async function open(id: number, fields: string[] = []) {
           quoteCount,
           convertedCount,
           convertibleCount,
-          count: erpCountInputFormatter(convertibleCount),
+          count: formatSaleDecimal(convertibleCount),
           countDirty: false,
           countValue: convertibleCount,
           remark: item.remark,
@@ -142,7 +142,7 @@ async function handleConfirm() {
     }
     if (count > row.convertibleCount) {
       message.warning(
-        `商品[${row.productName}]本次出库数量(${erpCountInputFormatter(count)})超过剩余可出数量(${erpCountInputFormatter(row.convertibleCount)})`,
+        `商品[${row.productName}]本次出库数量(${formatSaleDecimal(count)})超过剩余可出数量(${formatSaleDecimal(row.convertibleCount)})`,
       );
       return;
     }
@@ -262,28 +262,28 @@ defineExpose({ open });
           {{ formatSaleAmount(record.productPrice) }}
         </template>
         <template v-else-if="column.key === 'quoteCount'">
-          {{ erpCountInputFormatter(record.quoteCount) }}
+          {{ formatSaleDecimal(record.quoteCount) }}
         </template>
         <template v-else-if="column.key === 'stockCount'">
-          {{ erpCountInputFormatter(record.stockCount ?? 0) }}
+          {{ formatSaleDecimal(record.stockCount ?? 0) }}
         </template>
         <template v-else-if="column.key === 'availableCount'">
-          {{ erpCountInputFormatter(record.availableCount ?? 0) }}
+          {{ formatSaleDecimal(record.availableCount ?? 0) }}
         </template>
         <template v-else-if="column.key === 'weight'">
-          {{ erpCountInputFormatter(record.weight) }}
+          {{ formatSaleDecimal(record.weight) }}
         </template>
         <template v-else-if="column.key === 'packageQty'">
-          {{ erpCountInputFormatter(record.packageQty) }}
+          {{ formatSaleDecimal(record.packageQty) }}
         </template>
         <template v-else-if="column.key === 'giftFlag'">
           {{ record.giftFlag ? '是' : '否' }}
         </template>
         <template v-else-if="column.key === 'convertedCount'">
-          {{ erpCountInputFormatter(record.convertedCount) }}
+          {{ formatSaleDecimal(record.convertedCount) }}
         </template>
         <template v-else-if="column.key === 'convertibleCount'">
-          {{ erpCountInputFormatter(record.convertibleCount) }}
+          {{ formatSaleDecimal(record.convertibleCount) }}
         </template>
         <template v-else-if="column.key === 'count'">
           <Input

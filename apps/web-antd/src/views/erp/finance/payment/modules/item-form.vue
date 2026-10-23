@@ -1,4 +1,11 @@
-<script lang="ts" setup>import { financeAdd, financeSubtract, financeCompare, financeSign, financeAbs } from '#/views/erp/finance/utils/finance-decimal';
+<script lang="ts" setup>
+import {
+  financeAdd,
+  financeSubtract,
+  financeCompare,
+  financeSign,
+  financeAbs,
+} from '#/views/erp/finance/utils/finance-decimal';
 
 import DecimalAmountInput from '#/views/erp/components/DecimalAmountInput.vue';
 import { financeMoney as erpPriceInputFormatter } from '#/views/erp/finance/utils/finance-decimal';
@@ -10,7 +17,6 @@ import type { ErpPurchaseReturnApi } from '#/api/erp/purchase/return';
 import { computed, nextTick, ref, watch } from 'vue';
 
 import { ErpBizType } from '@vben/constants';
-
 
 import { Input, InputNumber, message } from 'ant-design-vue';
 
@@ -51,15 +57,15 @@ const summaries = computed(() => {
   return {
     totalPrice: tableData.value.reduce(
       (sum, item) => financeAdd(sum, item.totalPrice || 0),
-      0,
+      '0',
     ),
     paidPrice: tableData.value.reduce(
       (sum, item) => financeAdd(sum, item.paidPrice || 0),
-      0,
+      '0',
     ),
     paymentPrice: tableData.value.reduce(
       (sum, item) => financeAdd(sum, item.paymentPrice || 0),
-      0,
+      '0',
     ),
   };
 });
@@ -129,13 +135,16 @@ watch(
     }
     const totalPrice = tableData.value.reduce(
       (prev, curr) => financeAdd(prev, curr.totalPrice || 0),
-      0,
+      '0',
     );
     const paymentPrice = tableData.value.reduce(
       (prev, curr) => financeAdd(prev, curr.paymentPrice || 0),
-      0,
+      '0',
     );
-    const finalPaymentPrice = financeSubtract(paymentPrice, props.discountPrice || 0);
+    const finalPaymentPrice = financeSubtract(
+      paymentPrice,
+      props.discountPrice || 0,
+    );
     // 通知父组件更新
     emit('update:total-price', totalPrice);
     emit('update:payment-price', finalPaymentPrice);
@@ -229,13 +238,17 @@ const validate = () => {
   // 检查每行的付款金额
   for (let i = 0; i < tableData.value.length; i++) {
     const item = tableData.value[i];
-    const remainingPrice = financeSubtract(item?.totalPrice || 0, item?.paidPrice || 0);
+    const remainingPrice = financeSubtract(
+      item?.totalPrice || 0,
+      item?.paidPrice || 0,
+    );
     const paymentPrice = item?.paymentPrice || 0;
     if (
-      (financeCompare(paymentPrice, 0) === 0) ||
-      (financeCompare(remainingPrice, 0) === 0) ||
-      (financeCompare(financeSign(paymentPrice), financeSign(remainingPrice)) !== 0) ||
-      (financeCompare(financeAbs(paymentPrice), financeAbs(remainingPrice)) > 0)
+      financeCompare(paymentPrice, 0) === 0 ||
+      financeCompare(remainingPrice, 0) === 0 ||
+      financeCompare(financeSign(paymentPrice), financeSign(remainingPrice)) !==
+        0 ||
+      financeCompare(financeAbs(paymentPrice), financeAbs(remainingPrice)) > 0
     ) {
       throw new Error(`第 ${i + 1} 行：核销金额必须在未核销金额范围内`);
     }

@@ -7,7 +7,6 @@ import type { PrepareFinanceDocumentItemColumnOptions } from '#/views/erp/financ
 import { DICT_TYPE } from '@vben/constants';
 import { getDictOptions } from '@vben/hooks';
 
-
 import {
   getAccountSimpleList,
   getAccountSimplePage,
@@ -165,7 +164,7 @@ export function useFormSchema(
         componentProps: {
           placeholder: '合计收款',
           class: 'w-full',
-          
+
           inputMode: 'decimal',
           disabled: formType === 'detail',
         },
@@ -179,7 +178,7 @@ export function useFormSchema(
           disabled: formType === 'detail',
           placeholder: '请输入优惠金额',
           class: 'w-full',
-          
+
           inputMode: 'decimal',
         },
         rules: createOptionalNumberRule('优惠金额', { min: 0 }),
@@ -191,7 +190,7 @@ export function useFormSchema(
         componentProps: {
           placeholder: '实际收款',
           class: 'w-full',
-          
+
           inputMode: 'decimal',
           disabled: formType === 'detail',
         },
@@ -742,7 +741,9 @@ export function useSaleOutGridColumns(): NonNullable<
       field: 'unReceiptPrice',
       title: '未收金额',
       formatter: ({ row }) => {
-        return erpPriceInputFormatter(financeSubtract(row.totalPrice, row.receiptPrice) || 0);
+        return erpPriceInputFormatter(
+          financeSubtract(row.totalPrice, row.receiptPrice) || 0,
+        );
       },
       minWidth: 120,
     },
@@ -839,7 +840,9 @@ export function useSaleReturnGridColumns(): NonNullable<
       field: 'unRefundPrice',
       title: '未退金额',
       formatter: ({ row }) => {
-        return erpPriceInputFormatter(financeSubtract(row.totalPrice, row.refundPrice) || 0);
+        return erpPriceInputFormatter(
+          financeSubtract(row.totalPrice, row.refundPrice) || 0,
+        );
       },
       minWidth: 120,
     },

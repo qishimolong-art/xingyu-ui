@@ -1,4 +1,8 @@
-<script lang="ts" setup>import { financeValue, financeCompare } from '#/views/erp/finance/utils/finance-decimal';
+<script lang="ts" setup>
+import {
+  financeValue,
+  financeCompare,
+} from '#/views/erp/finance/utils/finance-decimal';
 
 import { financeMoney as erpPriceInputFormatter } from '#/views/erp/finance/utils/finance-decimal';
 
@@ -388,7 +392,7 @@ async function loadData(options: { resetPage?: boolean } = {}) {
     const data = await getPayableDrilldownPage(queryParams.value);
     if (sequence !== loadSequence) return;
     detailList.value = withDetailRowKeys(data.list || []);
-    detailTotal.value = financeValue(data.total || 0);
+    detailTotal.value = Number(data.total || 0);
     drilldownSummary.value = data.summary || {};
     await renderDetailList();
   } catch {
@@ -464,9 +468,9 @@ function isPaymentDetailRow(row: ErpPayableAccountApi.PayableDetail) {
   return Boolean(
     !row.bizType &&
     row.bizId &&
-    (financeCompare(financeValue(row.paymentAmount || 0), 0) !== 0) &&
-    (financeCompare(financeValue(row.increaseAmount || 0), 0) <= 0) &&
-    (financeCompare(financeValue(row.writeOffAmount || 0), 0) <= 0),
+    financeCompare(financeValue(row.paymentAmount || 0), 0) !== 0 &&
+    financeCompare(financeValue(row.increaseAmount || 0), 0) <= 0 &&
+    financeCompare(financeValue(row.writeOffAmount || 0), 0) <= 0,
   );
 }
 
@@ -489,7 +493,10 @@ async function handleOpenPaymentWriteOff(
   if (!row.bizId) return;
   try {
     const payment = await getFinancePayment(row.bizId);
-    if (!payment || (financeCompare(financeValue(payment.unallocatedPrice || 0), 0) === 0)) {
+    if (
+      !payment ||
+      financeCompare(financeValue(payment.unallocatedPrice || 0), 0) === 0
+    ) {
       message.warning('当前付款单没有未核销金额');
       return;
     }

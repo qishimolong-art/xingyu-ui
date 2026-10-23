@@ -7,11 +7,12 @@ export function formatPickDeliveryQuantity(value: unknown): string {
   return String(value ?? '0').replace(/(\.\d*?[1-9])0+$|\.0+$/, '$1');
 }
 
-// 接口/数据库的整数可能带有 .000000，先规范显示再精确比较。
+// 将六位数量转为百万分之一单位，以 BigInt 精确比较上限。
 export function quantityUnits(value: unknown): bigint | undefined {
   const text = formatPickDeliveryQuantity(value ?? '').trim();
-  if (!/^\d{1,18}$/.test(text)) return undefined;
-  return BigInt(text);
+  if (!/^\d{1,18}(?:\.\d{1,6})?$/.test(text)) return undefined;
+  const [integer, decimal = ""] = text.split(".");
+  return BigInt(integer!) * 1_000_000n + BigInt(decimal.padEnd(6, "0"));
 }
 
 export function usePickDeliveryQuantities(kind: 'delivery' | 'pick') {
@@ -76,13 +77,13 @@ export function usePickDeliveryQuantities(kind: 'delivery' | 'pick') {
         const max = quantityUnits(record && remaining(record));
         if (
           value === undefined ||
-          !/^\d{1,18}$/.test((quantities.value[itemId] ?? '').trim()) ||
+          !/^\d{1,18}(?:\.\d{1,6})?$/.test((quantities.value[itemId] ?? '').trim()) ||
           max === undefined ||
           value <= 0n ||
           value > max
         ) {
           throw new Error(
-            `${record?.productName || record?.productCode || '配件'}：本次数量须为大于0且不超过${kind === 'delivery' ? '当前可送数量' : '剩余数量'}的整数`,
+            `${record?.productName || record?.productCode || '配件'}：本次数量须为大于0且不超过${kind === 'delivery' ? '当前可送数量' : '剩余数量'}的数量（最多6位小数）`,
           );
         }
         return { itemId, quantity: (quantities.value[itemId] ?? '').trim() };

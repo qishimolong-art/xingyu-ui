@@ -9,17 +9,17 @@ import {
 } from './money';
 
 describe('finance settlement money arithmetic', () => {
-  it('removes floating point tails from outstanding amounts', () => {
-    expect(subtractFinanceAmounts(100.01, 0.02)).toBe(99.99);
-    expect(normalizeFinanceAmount(99.99000000000001)).toBe(99.99);
+  it('calculates outstanding amounts without introducing floating point tails', () => {
+    expect(subtractFinanceAmounts(100.01, 0.02)).toBe('99.99');
+    expect(normalizeFinanceAmount('99.990000')).toBe('99.99');
   });
 
   it('keeps signed returns and price adjustments while summing', () => {
-    expect(sumFinanceAmounts([100.01, -20.02, 0.01, -0.01])).toBe(79.99);
+    expect(sumFinanceAmounts([100.01, -20.02, 0.01, -0.01])).toBe('79.99');
     expect(calculateSettlementDocumentAmounts([100.01, 5, -20.02], 0)).toEqual({
-      allocatedPrice: 84.99,
-      totalPrice: 84.99,
-      actualPrice: 84.99,
+      allocatedPrice: '84.99',
+      totalPrice: '84.99',
+      actualPrice: '84.99',
     });
   });
 
@@ -30,20 +30,20 @@ describe('finance settlement money arithmetic', () => {
         totalPriceManuallyEdited: true,
       }),
     ).toEqual({
-      allocatedPrice: 80,
-      totalPrice: 90,
-      actualPrice: 88,
+      allocatedPrice: '80',
+      totalPrice: '90',
+      actualPrice: '88',
     });
   });
 
-  it('normalizes negative amounts to two decimal places', () => {
-    expect(subtractFinanceAmounts(-100.01, -0.02)).toBe(-99.99);
+  it('preserves signed amounts with exact decimal arithmetic', () => {
+    expect(subtractFinanceAmounts(-100.01, -0.02)).toBe('-99.99');
   });
 
   it('recognizes delayed programmatic amount changes without hiding later user edits', () => {
     const guard = createProgrammaticFinanceAmountGuard();
 
-    guard.expect(84.99000000000001);
+    guard.expect('84.990000');
     expect(guard.isExpected(84.99)).toBe(true);
     expect(guard.isExpected(84.99)).toBe(true);
     expect(guard.isExpected(85)).toBe(false);

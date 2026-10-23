@@ -1,3 +1,5 @@
+import { formatPurchaseAmount } from '#/views/erp/purchase/utils/decimal';
+import { formatSaleAmount, formatSaleDecimal } from '#/views/erp/sale/utils/decimal';
 import type { VxeTableGridOptions } from '@vben/plugins/vxe-table';
 import type { Recordable } from '@vben/types';
 
@@ -366,6 +368,9 @@ setupVbenVxeTable({
 
     // 采购业务明细、详情和报表使用：最多展示 6 位有效小数。
     // 主列表仍使用 formatAmount2，避免改变其它业务模块的展示约定。
+    vxeUI.formats.add('formatPurchaseAmount6', { cellFormatMethod: ({ cellValue }) => formatPurchaseAmount(cellValue, '-') });
+    vxeUI.formats.add('formatSaleAmount6', { cellFormatMethod: ({ cellValue }) => formatSaleAmount(cellValue, '-') });
+    vxeUI.formats.add('formatSaleDecimal6', { cellFormatMethod: ({ cellValue }) => formatSaleDecimal(cellValue, '-') });
     vxeUI.formats.add('formatPurchaseDecimal6', {
       tableCellFormatMethod({ cellValue }) {
         if (cellValue === null || cellValue === undefined || cellValue === '') {

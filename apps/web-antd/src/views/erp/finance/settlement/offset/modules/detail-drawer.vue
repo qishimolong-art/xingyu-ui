@@ -1,4 +1,8 @@
-<script lang="ts" setup>import { financeValue, financeAdd } from '#/views/erp/finance/utils/finance-decimal';
+<script lang="ts" setup>
+import {
+  financeValue,
+  financeAdd,
+} from '#/views/erp/finance/utils/finance-decimal';
 
 import { financeMoney as erpPriceInputFormatter } from '#/views/erp/finance/utils/finance-decimal';
 
@@ -60,30 +64,30 @@ const receivableSummary = computed(() => ({
   count: receivableDetails.value.length,
   increase: receivableDetails.value.reduce(
     (sum, row) => financeAdd(sum, financeValue(row.increaseAmount || 0)),
-    0,
+    '0',
   ),
   decrease: receivableDetails.value.reduce(
     (sum, row) => financeAdd(sum, financeValue(row.receiptAmount || 0)),
-    0,
+    '0',
   ),
   writeOff: receivableDetails.value.reduce(
     (sum, row) => financeAdd(sum, financeValue(row.writeOffAmount || 0)),
-    0,
+    '0',
   ),
 }));
 const payableSummary = computed(() => ({
   count: payableDetails.value.length,
   increase: payableDetails.value.reduce(
     (sum, row) => financeAdd(sum, financeValue(row.increaseAmount || 0)),
-    0,
+    '0',
   ),
   decrease: payableDetails.value.reduce(
     (sum, row) => financeAdd(sum, financeValue(row.paymentAmount || 0)),
-    0,
+    '0',
   ),
   writeOff: payableDetails.value.reduce(
     (sum, row) => financeAdd(sum, financeValue(row.writeOffAmount || 0)),
-    0,
+    '0',
   ),
 }));
 

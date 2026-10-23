@@ -1,10 +1,11 @@
 <script lang="ts" setup>
+import { formatSaleDecimal } from '#/views/erp/sale/utils/decimal';
 import type { ErpSaleReturnApi } from '#/api/erp/sale/return';
 import type { ErpWarehouseApi } from '#/api/erp/stock/warehouse';
 
 import { computed, ref } from 'vue';
 
-import { erpCountInputFormatter } from '@vben/utils';
+
 
 import {
   Button,
@@ -476,7 +477,7 @@ defineExpose({ open });
         <Table.Column title="编码" data-index="productCode" :width="120" />
         <Table.Column title="原退货数" data-index="count" :width="96">
           <template #default="{ record }">
-            {{ erpCountInputFormatter(record.count) }}
+            {{ formatSaleDecimal(record.count) }}
           </template>
         </Table.Column>
         <Table.Column
@@ -485,7 +486,7 @@ defineExpose({ open });
           :width="96"
         >
           <template #default="{ record }">
-            {{ erpCountInputFormatter(record.transferredCount) }}
+            {{ formatSaleDecimal(record.transferredCount) }}
           </template>
         </Table.Column>
         <Table.Column
@@ -494,7 +495,7 @@ defineExpose({ open });
           :width="96"
         >
           <template #default="{ record }">
-            {{ erpCountInputFormatter(record.transferOutableCount) }}
+            {{ formatSaleDecimal(record.transferOutableCount) }}
           </template>
         </Table.Column>
         <Table.Column title="调出部门" data-index="fromDeptId" :width="190">

@@ -1,4 +1,8 @@
-<script lang="ts" setup>import { financeValue, financeAdd } from '#/views/erp/finance/utils/finance-decimal';
+<script lang="ts" setup>
+import {
+  financeValue,
+  financeAdd,
+} from '#/views/erp/finance/utils/finance-decimal';
 
 import { financeMoney as erpPriceInputFormatter } from '#/views/erp/finance/utils/finance-decimal';
 
@@ -70,7 +74,7 @@ const pageSummary = computed(() => ({
   documentCount: pageRows.value.length,
   totalAmount: pageRows.value.reduce(
     (sum, row) => financeAdd(sum, financeValue(row.totalAmount || 0)),
-    0,
+    '0',
   ),
 }));
 
@@ -258,7 +262,9 @@ const [Grid, gridApi] = useVbenVxeGrid({
       @keydown.enter.capture="handleSearchEnter"
     >
       <template #toolbar-tools>
-        <Button size="small" :loading="exportLoading" @click="handleExport">导出</Button>
+        <Button size="small" :loading="exportLoading" @click="handleExport"
+          >导出</Button
+        >
       </template>
       <template #status="{ row }">
         <Tag :color="statusTag(row.status).color">

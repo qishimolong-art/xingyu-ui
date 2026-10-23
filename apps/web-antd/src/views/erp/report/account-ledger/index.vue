@@ -193,7 +193,8 @@ const textFormatter = ({ cellValue }: { cellValue: unknown }) =>
 const moneyFormatter = ({ cellValue }: { cellValue: unknown }) =>
   formatMoney(cellValue);
 
-function formatMoney(value: unknown) { return financeMoneyGrouped(value as any);
+function formatMoney(value: unknown) {
+  return financeMoneyGrouped(value as any);
 }
 
 function formatNumber(value: unknown) {

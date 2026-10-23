@@ -1,4 +1,7 @@
-import { financeAdd, financeSubtract } from '#/views/erp/finance/utils/finance-decimal';
+import {
+  financeAdd,
+  financeSubtract,
+} from '#/views/erp/finance/utils/finance-decimal';
 import type { ErpReceivableOtherApi } from '#/api/erp/finance/receivable/other-receivable';
 
 export type OtherReceivableAmountField =
@@ -28,7 +31,7 @@ export function sumOtherReceivableAmount(
   rows: ErpReceivableOtherApi.OtherReceivable[],
   field: OtherReceivableAmountField,
 ) {
-  return rows.reduce((total, row) => financeAdd(total, row[field] || 0), 0);
+  return rows.reduce((total, row) => financeAdd(total, row[field] || 0), '0');
 }
 
 export function getOtherReceivablePageSummary(

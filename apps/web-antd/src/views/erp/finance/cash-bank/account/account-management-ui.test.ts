@@ -203,10 +203,10 @@ describe('account management UI contract', () => {
     const receipt = { amount: 120.5, billType: 'receipt' as const };
     const payment = { amount: 36.2, billType: 'payment' as const };
 
-    expect(resolveTransactionReceiptAmount(receipt)).toBe(120.5);
+    expect(resolveTransactionReceiptAmount(receipt)).toBe('120.5');
     expect(resolveTransactionPaymentAmount(receipt)).toBeUndefined();
     expect(resolveTransactionReceiptAmount(payment)).toBeUndefined();
-    expect(resolveTransactionPaymentAmount(payment)).toBe(-36.2);
+    expect(resolveTransactionPaymentAmount(payment)).toBe('-36.2');
     expect(
       formatTransactionAmountCell(resolveTransactionPaymentAmount(payment)),
     ).toBe('-36.20');

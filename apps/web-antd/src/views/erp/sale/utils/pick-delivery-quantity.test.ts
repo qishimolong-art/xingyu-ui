@@ -15,22 +15,23 @@ const row = (id: number, remaining = '10') => ({
 });
 const enabled = () => true;
 describe('拣货送货分批数量', () => {
-  it('精确校验18位整数，兼容数据库整数尾零但拒绝实际小数', () => {
-    expect(quantityUnits('999999999999999999')).toBe(999_999_999_999_999_999n);
-    expect(quantityUnits('10.000000')).toBe(10n);
+  it('按六位单位精确比较数量，允许正小数并拒绝第七位', () => {
+    expect(quantityUnits('999999999999999999')).toBe(999_999_999_999_999_999_000_000n);
+    expect(quantityUnits('10.000000')).toBe(10_000_000n);
     expect(formatPickDeliveryQuantity('0.000000')).toBe('0');
     expect(formatPickDeliveryQuantity('1.000000')).toBe('1');
     expect(formatPickDeliveryQuantity('999999999999999999.000000')).toBe(
       '999999999999999999',
     );
     expect(formatPickDeliveryQuantity('1.230000')).toBe('1.23');
+    expect(quantityUnits('0.000001')).toBe(1n);
+    expect(quantityUnits('0.5')).toBe(500_000n);
     for (const invalid of [
       '',
       null,
       '-1',
       'abc',
-      '0.000001',
-      '1.5',
+
       '1.0000001',
       '1e3',
       '1000000000000000000',
@@ -56,14 +57,16 @@ describe('拣货送货分批数量', () => {
       expect(draft.getItems()).toEqual([]);
     });
   }
-  it('拒绝空、零、负数、超量、小数，且保留原输入', () => {
+  it('拒绝空、零、负数、超量和第七位，且保留原输入', () => {
     const draft = usePickDeliveryQuantities('pick');
     draft.setSelection([1], [row(1, '3.000000')], enabled);
-    for (const value of ['', '0', '-1', '4', '0.3', '1.0', '0.1234567']) {
+    for (const value of ['', '0', '-1', '4', '0.1234567']) {
       draft.quantities.value[1] = value;
       expect(() => draft.getItems()).toThrow();
       expect(draft.quantities.value[1]).toBe(value);
     }
+    draft.quantities.value[1] = '0.5';
+    expect(draft.getItems()[0]?.quantity).toBe('0.5');
     draft.quantities.value[1] = '3';
     expect(draft.getItems()[0]?.quantity).toBe('3');
   });

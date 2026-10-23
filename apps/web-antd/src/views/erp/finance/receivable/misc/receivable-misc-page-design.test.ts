@@ -348,7 +348,7 @@ describe('receivable misc page design contract', () => {
     expect(formSource).toContain('!detailLoading.value');
     expect(formSource).toContain('!detailLoadError.value');
     expect(formSource).toContain('!formData.value.generatedOffset');
-    expect(formSource).toContain('getTransferAvailableAmount() !== 0');
+    expect(formSource).toContain('financeCompare(getTransferAvailableAmount(), 0) !== 0');
     expect(formSource).toContain(
       'const canShowSettledTransferState = computed',
     );

@@ -1,4 +1,3 @@
-import { financeMax, financeDivide } from '#/views/erp/finance/utils/finance-decimal';
 export interface FinanceRemoteItemPageOptions<T> {
   createdRows: T[];
   pageNo: number;
@@ -18,7 +17,7 @@ export function getFinanceRemoteItemLastPageNo(
   total: number,
   pageSize: number,
 ) {
-  return financeMax(1, Math.ceil(financeDivide(financeMax(0, total), Math.max(1, pageSize))));
+  return Math.max(1, Math.ceil(Math.max(0, total) / Math.max(1, pageSize)));
 }
 
 export function clampFinanceRemoteItemPageNo(

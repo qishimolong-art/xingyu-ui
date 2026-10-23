@@ -21,15 +21,15 @@ describe('sale return item number formatting', () => {
   it.each([
     [20, '20.00'],
     ['20.5', '20.50'],
-    ['20.567', '20.57'],
+    ['20.567', '20.567'],
     [0, '0.00'],
   ])('formats price %s as %s', (value, expected) => {
     expect(formatSaleReturnPriceInput(value)).toBe(expected);
   });
 
-  it('keeps the existing two-decimal input precision', () => {
-    expect(normalizeSaleReturnCount(1.256)).toBe(1.26);
-    expect(normalizeSaleReturnPrice(20.567)).toBe(20.57);
+  it('keeps up to six decimal places without premature rounding', () => {
+    expect(normalizeSaleReturnCount(1.256)).toBe(1.256);
+    expect(normalizeSaleReturnPrice(20.567)).toBe(20.567);
   });
 
   it('allows decimal typing and rejects empty or invalid values', () => {
@@ -49,9 +49,9 @@ describe('sale return item number formatting', () => {
       ok: false,
       message: '单价必须为数字',
     });
-    expect(parseSaleReturnNumberText('1.234', '数量')).toEqual({
+    expect(parseSaleReturnNumberText('1.2345678', '数量')).toEqual({
       ok: false,
-      message: '数量最多保留2位小数',
+      message: '数量最多保留6位小数',
     });
     expect(parseSaleReturnNumberText('1e2', '单价')).toEqual({
       ok: false,

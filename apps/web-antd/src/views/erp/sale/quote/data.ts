@@ -1,3 +1,4 @@
+import { withSaleDecimalSchemas } from '#/views/erp/sale/utils/decimal-form';
 import { withCandidateFocus } from '#/views/erp/utils/candidate-focus';
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
@@ -27,7 +28,7 @@ export function useFormSchema(
   hiddenFields: string[] = [],
   deptOptions: any[] = [],
 ): VbenFormSchema[] {
-  return withCandidateFocus(
+  return withSaleDecimalSchemas(withCandidateFocus(
     withEnterBlurInputSchemas(
       applySaleFormFieldPermission(
         [
@@ -204,7 +205,7 @@ export function useFormSchema(
         hiddenFields,
       ),
     ),
-  );
+  ));
 }
 
 export function useFormItemColumns(
@@ -263,7 +264,7 @@ export function useFormItemColumns(
         field: 'lastSalePrice',
         title: '最后一次销售价',
         minWidth: 130,
-        formatter: 'formatAmount2',
+        formatter: 'formatSaleAmount6',
         sortable: true,
       },
       {
@@ -273,7 +274,7 @@ export function useFormItemColumns(
         formatter:
           disabled && isSalePriceItemHidden(hiddenFields, 'totalPrice')
             ? () => '****'
-            : 'formatAmount2',
+            : 'formatSaleAmount6',
         sortable: true,
       },
       {
@@ -294,7 +295,7 @@ export function useFormItemColumns(
         field: 'stockCount',
         title: '库存',
         minWidth: 90,
-        formatter: 'formatAmount3',
+        formatter: 'formatSaleDecimal6',
         sortable: true,
       },
       {
@@ -314,14 +315,14 @@ export function useFormItemColumns(
         field: 'weight',
         title: '重量',
         minWidth: 80,
-        formatter: 'formatAmount3',
+        formatter: 'formatSaleDecimal6',
         sortable: true,
       },
       {
         field: 'packageQty',
         title: '包装数',
         minWidth: 90,
-        formatter: 'formatAmount3',
+        formatter: 'formatSaleDecimal6',
         sortable: true,
       },
       {
@@ -362,7 +363,7 @@ export function useFormItemColumns(
         field: 'convertedCount',
         title: '已转',
         minWidth: 100,
-        formatter: 'formatAmount3',
+        formatter: 'formatSaleDecimal6',
         sortable: true,
       },
       {

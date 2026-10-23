@@ -1,11 +1,13 @@
-import { financeValue, financeSubtract } from '#/views/erp/finance/utils/finance-decimal';
+import {
+  financeValue,
+  financeSubtract,
+} from '#/views/erp/finance/utils/finance-decimal';
 import { financeMoney as erpPriceInputFormatter } from '#/views/erp/finance/utils/finance-decimal';
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 import type { PrepareFinanceDocumentItemColumnOptions } from '#/views/erp/finance/utils/document-item-table';
 
 import { DICT_TYPE } from '@vben/constants';
-
 
 import {
   getAccountSimpleList,
@@ -145,7 +147,7 @@ export function useFormSchema(
         formItemClass: 'receipt-form__amount-field',
         componentProps: {
           class: 'w-full',
-          
+
           inputMode: 'decimal',
           disabled: formType === 'detail',
         },
@@ -160,7 +162,7 @@ export function useFormSchema(
           disabled: formType === 'detail',
           placeholder: '请输入优惠金额',
           class: 'w-full',
-          
+
           inputMode: 'decimal',
         },
         rules: createOptionalNumberRule('优惠金额', { min: 0 }),
@@ -173,7 +175,7 @@ export function useFormSchema(
           'receipt-form__amount-field receipt-form__amount-field--actual',
         componentProps: {
           class: 'w-full',
-          
+
           inputMode: 'decimal',
           disabled: true,
         },
@@ -299,7 +301,13 @@ export function useFormItemColumns(
           headerAlign: 'right',
           formatter: ({ row }) =>
             erpPriceInputFormatter(
-              financeSubtract(financeSubtract(financeValue(row.totalPrice || 0), financeValue(row.receiptedPrice || 0)), financeValue(row.receiptPrice || 0)),
+              financeSubtract(
+                financeSubtract(
+                  financeValue(row.totalPrice || 0),
+                  financeValue(row.receiptedPrice || 0),
+                ),
+                financeValue(row.receiptPrice || 0),
+              ),
             ),
         },
         {
@@ -680,7 +688,9 @@ export function useSaleOutGridColumns(): NonNullable<
       title: '未收金额',
       minWidth: 110,
       formatter: ({ row }) =>
-        erpPriceInputFormatter(financeSubtract(row.totalPrice || 0, row.receiptPrice || 0)),
+        erpPriceInputFormatter(
+          financeSubtract(row.totalPrice || 0, row.receiptPrice || 0),
+        ),
     },
     {
       field: 'status',
@@ -751,7 +761,9 @@ export function useSaleReturnGridColumns(): NonNullable<
       title: '未退金额',
       minWidth: 110,
       formatter: ({ row }) =>
-        erpPriceInputFormatter(financeSubtract(row.totalPrice || 0, row.refundPrice || 0)),
+        erpPriceInputFormatter(
+          financeSubtract(row.totalPrice || 0, row.refundPrice || 0),
+        ),
     },
     {
       field: 'status',

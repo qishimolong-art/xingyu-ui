@@ -1,3 +1,4 @@
+import { withPurchaseDecimalSchemas } from '#/views/erp/purchase/utils/decimal-form';
 import { withPurchaseCandidateFocus } from '#/views/erp/purchase/utils/candidate-focus';
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
@@ -118,7 +119,7 @@ export function useFormSchema(
 ): VbenFormSchema[] {
   const isDetail = formType === 'detail';
   const isEdit = formType === 'edit';
-  return applyFieldPermission(
+  return withPurchaseDecimalSchemas(applyFieldPermission(
     withPurchaseCandidateFocus([
       {
         fieldName: 'id',
@@ -230,7 +231,7 @@ export function useFormSchema(
       },
     ]),
     hiddenFields,
-  );
+  ));
 }
 
 /** 表单内子表格列定义（adjustType: 10=按入库单，20=添加明细） */
@@ -261,7 +262,7 @@ export function useFormItemColumns(
           disabled &&
           isPurchasePriceAdjustPriceItemHidden(hiddenFields, 'oldPrice')
             ? () => '****'
-            : 'formatPurchaseDecimal6',
+            : 'formatPurchaseAmount6',
       },
       {
         field: 'adjustRatio',
@@ -287,7 +288,7 @@ export function useFormItemColumns(
           disabled &&
           isPurchasePriceAdjustPriceItemHidden(hiddenFields, 'adjustPrice')
             ? () => '****'
-            : 'formatPurchaseDecimal6',
+            : 'formatPurchaseAmount6',
       },
       { field: 'vehicleModel', title: '车型', minWidth: 110 },
       { field: 'standard', title: '规格', minWidth: 110 },

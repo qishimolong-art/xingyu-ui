@@ -116,13 +116,13 @@ function useGridFormSchema(): VbenFormSchema[] {
       fieldName: 'amountMin',
       label: '金额下限',
       component: 'InputNumber',
-      componentProps: {  style: { width: '100%' } },
+      componentProps: { style: { width: '100%' } },
     },
     {
       fieldName: 'amountMax',
       label: '金额上限',
       component: 'InputNumber',
-      componentProps: {  style: { width: '100%' } },
+      componentProps: { style: { width: '100%' } },
     },
     {
       fieldName: 'voucherNo',
@@ -185,7 +185,8 @@ const emptyFormatter = () => '';
 const moneyFormatter = ({ cellValue }: { cellValue: unknown }) =>
   formatMoney(cellValue);
 
-function formatMoney(value: unknown) { return financeMoneyGrouped(value as any);
+function formatMoney(value: unknown) {
+  return financeMoneyGrouped(value as any);
 }
 
 function formatNumber(value: unknown) {

@@ -1,10 +1,13 @@
-import { financeDecimal, financeMoney, financeValue } from '#/views/erp/finance/utils/finance-decimal';
-import { financeMoney as erpPriceInputFormatter } from '#/views/erp/finance/utils/finance-decimal';
+import {
+  financeDecimal,
+  financeMoney,
+  financeValue,
+} from '#/views/erp/finance/utils/finance-decimal';
 import { erpCountInputFormatter } from '@vben/utils';
 
-type ParseNumberResult =
+type ParseNumberResult<T = number> =
   | { ok: false; message: string }
-  | { ok: true; value: number | string };
+  | { ok: true; value: T };
 
 export function parseOtherIncomeQtyText(
   text: unknown,
@@ -27,7 +30,7 @@ export function parseOtherIncomeQtyText(
 export function parseOtherIncomeAmountText(
   text: unknown,
   fieldLabel = '金额',
-): ParseNumberResult {
+): ParseNumberResult<string> {
   const value = String(text ?? '').trim();
   if (!value) {
     return { ok: false, message: `${fieldLabel}不能为空` };
@@ -57,7 +60,5 @@ export function formatOtherIncomeQtyInput(
 export function formatOtherIncomeAmountInput(
   value: null | number | string | undefined,
 ) {
-  return value === null || value === undefined
-    ? ''
-    : financeMoney(value);
+  return value === null || value === undefined ? '' : financeMoney(value);
 }

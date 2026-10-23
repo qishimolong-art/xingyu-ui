@@ -18,7 +18,7 @@ import {
 
 import { useAccess } from '@vben/access';
 import { useVbenModal } from '@vben/common-ui';
-import { erpCountInputFormatter } from '@vben/utils';
+
 
 import {
   Button,
@@ -338,7 +338,7 @@ function setBusinessNumberTexts(row: ErpPurchaseInApi.PurchaseInItem) {
   mutableRow.wholeQtyText =
     row.wholeQty === null || row.wholeQty === undefined
       ? ''
-      : erpCountInputFormatter(row.wholeQty);
+      : formatPurchaseDecimal(row.wholeQty);
   mutableRow.taxPercentText =
     row.taxPercent === null || row.taxPercent === undefined
       ? ''
@@ -2303,7 +2303,7 @@ onBeforeUnmount(() => {
             @press-enter="handleItemInputPressEnter"
             @blur="handleWholeQtyBlur(row)"
           />
-          <span v-else>{{ erpCountInputFormatter(row.wholeQty) || '-' }}</span>
+          <span v-else>{{ formatPurchaseDecimal(row.wholeQty) || '-' }}</span>
         </template>
         <template #warehousePosition="{ row }">
           <Input

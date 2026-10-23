@@ -1,4 +1,12 @@
-<script lang="ts" setup>import { financeValue, financeDivide, financeSubtract, financeCompare, financeSign, financeAbs } from '#/views/erp/finance/utils/finance-decimal';
+<script lang="ts" setup>
+import {
+  financeValue,
+  financeDivide,
+  financeSubtract,
+  financeCompare,
+  financeSign,
+  financeAbs,
+} from '#/views/erp/finance/utils/finance-decimal';
 
 import { useFinanceCandidateFocus } from '#/views/erp/finance/utils/candidate-focus';
 
@@ -227,7 +235,7 @@ function createDefaultFormData(): ErpFinanceReceiptApi.FinanceReceipt {
   };
 }
 
-const transferLimit = ref<null | number>(null);
+const transferLimit = ref<null | number | string>(null);
 const transferLimitError = ref('');
 
 async function refreshTransferLimit() {
@@ -236,7 +244,7 @@ async function refreshTransferLimit() {
   const requestId = openRequestId;
   const documentId = formData.value.id;
   try {
-    let amount: number | undefined;
+    let amount: number | string | null | undefined;
     if (documentId) {
       const document = await getFinanceReceipt(documentId, {
         includeItems: false,
@@ -879,7 +887,7 @@ async function loadFinanceReceiptItemsPage(
     });
     itemPagination.pageNo = pageNo;
     itemPagination.pageSize = pageSize;
-    itemPagination.total = financeValue(page.total || 0);
+    itemPagination.total = Number(page.total || 0);
     formData.value.items = page.list || [];
     await itemFormRef.value?.setImportedItems(formData.value.items);
   } finally {
@@ -899,7 +907,7 @@ async function fetchAllFinanceReceiptItems(id = formData.value.id) {
     mask: false,
   });
   const items = [...(firstPage.list || [])];
-  const total = financeValue(firstPage.total || 0);
+  const total = Number(firstPage.total || 0);
   const pageCount = Math.ceil(financeDivide(total, pageSize));
   for (let pageNo = 2; pageNo <= pageCount; pageNo++) {
     const page = await getFinanceReceiptItemPage({
@@ -1249,13 +1257,15 @@ const [ModalApi, modalApi] = useVbenModal({
           return;
         }
         (formData.value.items || []).forEach((item, index) => {
-          const remaining =
-            financeSubtract(financeValue(item.totalPrice || 0), financeValue(item.receiptedPrice || 0));
+          const remaining = financeSubtract(
+            financeValue(item.totalPrice || 0),
+            financeValue(item.receiptedPrice || 0),
+          );
           const amount = financeValue(item.receiptPrice || 0);
           if (
-            (financeCompare(amount, 0) === 0) ||
-            (financeCompare(financeSign(amount), financeSign(remaining)) !== 0) ||
-            (financeCompare(financeAbs(amount), financeAbs(remaining)) > 0)
+            financeCompare(amount, 0) === 0 ||
+            financeCompare(financeSign(amount), financeSign(remaining)) !== 0 ||
+            financeCompare(financeAbs(amount), financeAbs(remaining)) > 0
           ) {
             throw new Error(
               `第 ${index + 1} 行：核销金额必须在未核销金额范围内`,

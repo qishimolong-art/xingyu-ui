@@ -1,3 +1,4 @@
+import { withSaleDecimalSchemas } from '#/views/erp/sale/utils/decimal-form';
 import { withCandidateFocus } from '#/views/erp/utils/candidate-focus';
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
@@ -93,7 +94,7 @@ export function useFormSchema(
     fileUrl: '\u9644\u4EF6',
   };
 
-  return withCandidateFocus(
+  return withSaleDecimalSchemas(withCandidateFocus(
     withEnterBlurInputSchemas(
       withSelectPopupClassName(
         applySaleFormFieldPermission(
@@ -519,7 +520,7 @@ export function useFormSchema(
         'sale-return-form-select-dropdown',
       ),
     ),
-  );
+  ));
 }
 
 /** 表单的明细表格列 */
@@ -586,14 +587,14 @@ export function useFormItemColumns(
         formatter:
           disabled && isSalePriceItemHidden(hiddenFields, 'totalPrice')
             ? () => '****'
-            : 'formatAmount2',
+            : 'formatSaleAmount6',
         sortable: true,
       },
       {
         field: 'stockCount',
         title: '库存',
         minWidth: 80,
-        formatter: 'formatAmount3',
+        formatter: 'formatSaleDecimal6',
         sortable: true,
       },
       {
@@ -612,7 +613,7 @@ export function useFormItemColumns(
         field: 'weight',
         title: '重量',
         minWidth: 80,
-        formatter: 'formatAmount3',
+        formatter: 'formatSaleDecimal6',
         sortable: true,
       },
       {
@@ -644,7 +645,7 @@ export function useFormItemColumns(
       {
         field: 'outCount',
         title: '已出库',
-        formatter: 'formatAmount3',
+        formatter: 'formatSaleDecimal6',
         minWidth: 120,
         sortable: true,
         visible: formData && formData[0]?.outCount !== undefined,
@@ -652,7 +653,7 @@ export function useFormItemColumns(
       {
         field: 'returnCount',
         title: '已退货',
-        formatter: 'formatAmount3',
+        formatter: 'formatSaleDecimal6',
         minWidth: 120,
         sortable: true,
         visible: formData && formData[0]?.returnCount !== undefined,
@@ -664,7 +665,7 @@ export function useFormItemColumns(
         formatter:
           disabled && isSalePriceItemHidden(hiddenFields, 'totalProductPrice')
             ? () => '****'
-            : 'formatAmount2',
+            : 'formatSaleAmount6',
         sortable: true,
       },
       {
@@ -681,7 +682,7 @@ export function useFormItemColumns(
         formatter:
           disabled && isSalePriceItemHidden(hiddenFields, 'taxPrice')
             ? () => '****'
-            : 'formatAmount2',
+            : 'formatSaleAmount6',
         sortable: true,
       },
       {
@@ -957,7 +958,7 @@ export function useGridColumns(
     {
       field: 'totalCount',
       title: '退货总数量',
-      formatter: 'formatAmount3',
+      formatter: 'formatAmount2',
       width: 88,
       align: 'right',
       sortable: true,
@@ -1005,7 +1006,7 @@ export function useGridColumns(
       title: '总重',
       width: 72,
       align: 'right',
-      formatter: 'formatAmount3',
+      formatter: 'formatAmount2',
     },
     {
       field: 'invoiceType',
@@ -1191,25 +1192,25 @@ export function useOrderGridColumns(): VxeTableGridOptions['columns'] {
     {
       field: 'totalCount',
       title: '总数量',
-      formatter: 'formatAmount3',
+      formatter: 'formatSaleDecimal6',
       minWidth: 120,
     },
     {
       field: 'returnCount',
       title: '已退货数量',
-      formatter: 'formatAmount3',
+      formatter: 'formatSaleDecimal6',
       minWidth: 120,
     },
     {
       field: 'totalProductPrice',
       title: '金额合计',
-      formatter: 'formatAmount2',
+      formatter: 'formatSaleAmount6',
       minWidth: 120,
     },
     {
       field: 'totalPrice',
       title: '含税金额',
-      formatter: 'formatAmount2',
+      formatter: 'formatSaleAmount6',
       minWidth: 120,
     },
   ];

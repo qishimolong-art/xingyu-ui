@@ -1,4 +1,6 @@
-<script lang="ts" setup>import { financeValue } from '#/views/erp/finance/utils/finance-decimal';
+<script lang="ts" setup>
+import { financeCompare } from '#/views/erp/finance/utils/finance-decimal';
+import { financeValue } from '#/views/erp/finance/utils/finance-decimal';
 
 import { financeMoney as erpPriceInputFormatter } from '#/views/erp/finance/utils/finance-decimal';
 
@@ -11,7 +13,6 @@ import { computed, defineAsyncComponent, nextTick, ref } from 'vue';
 import { useAccess } from '@vben/access';
 import { useVbenModal } from '@vben/common-ui';
 import { useUserStore } from '@vben/stores';
-
 
 import { Modal as AntModal, Button, message } from 'ant-design-vue';
 
@@ -163,7 +164,7 @@ const canShowSettledTransferState = computed(
     !formData.value.generatedOffset &&
     formData.value.transferAvailableAmount !== null &&
     formData.value.transferAvailableAmount !== undefined &&
-    getTransferAvailableAmount() === 0 &&
+    financeCompare(getTransferAvailableAmount(), 0) === 0 &&
     hasAccessByCodes(['erp:finance-payment:create']),
 );
 const canTransferToPayable = computed(
@@ -176,7 +177,7 @@ const canTransferToPayable = computed(
     !formData.value.generatedOffset &&
     formData.value.transferAvailableAmount !== null &&
     formData.value.transferAvailableAmount !== undefined &&
-    getTransferAvailableAmount() !== 0 &&
+    financeCompare(getTransferAvailableAmount(), 0) !== 0 &&
     hasAccessByCodes(['erp:finance-payment:create']),
 );
 

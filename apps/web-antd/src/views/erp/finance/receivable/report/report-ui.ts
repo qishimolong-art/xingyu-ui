@@ -1,4 +1,7 @@
-import { financeValue, financeCompare } from '#/views/erp/finance/utils/finance-decimal';
+import {
+  financeValue,
+  financeCompare,
+} from '#/views/erp/finance/utils/finance-decimal';
 import type { ErpReceivableReportApi } from '#/api/erp/finance/receivable/report';
 
 export type ReceivableReportAmountField =
@@ -18,6 +21,12 @@ export function getReceivableReportDetailState(
 ) {
   const increaseAmount = financeValue(row.increaseAmount || 0);
   const receiptAmount = financeValue(row.receiptAmount || 0);
-  if ((financeCompare(increaseAmount, 0) <= 0) || (financeCompare(receiptAmount, 0) <= 0)) return 'unpaid';
-  return (financeCompare(receiptAmount, increaseAmount) >= 0) ? 'settled' : 'partial';
+  if (
+    financeCompare(increaseAmount, 0) <= 0 ||
+    financeCompare(receiptAmount, 0) <= 0
+  )
+    return 'unpaid';
+  return financeCompare(receiptAmount, increaseAmount) >= 0
+    ? 'settled'
+    : 'partial';
 }

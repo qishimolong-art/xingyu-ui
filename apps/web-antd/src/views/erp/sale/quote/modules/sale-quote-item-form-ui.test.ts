@@ -207,9 +207,9 @@ describe('sale quote item form shortcuts', () => {
   });
 
   it('formats editable money to two decimals and compactly displays other numbers', () => {
-    expect(itemFormSource).toContain('erpCountInputFormatter(row.count)');
+    expect(itemFormSource).toContain('formatSaleDecimal(row.count)');
     expect(itemFormSource).toContain(
-      'erpPriceInputFormatter(row.productPrice)',
+      'formatSaleAmount(row.productPrice)',
     );
     expect(itemFormSource).toContain(
       '@update:value="row.countTextDirty = true"',

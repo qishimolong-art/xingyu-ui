@@ -288,7 +288,7 @@ export function useGridColumns(
     {
       field: 'totalCount',
       title: '数量',
-      formatter: 'formatAmount3',
+      formatter: 'formatAmount2',
       width: 72,
       align: 'right',
       sortable: true,
@@ -296,7 +296,7 @@ export function useGridColumns(
     {
       field: 'cancelCount',
       title: '取消数量',
-      formatter: 'formatAmount3',
+      formatter: 'formatAmount2',
       width: 88,
       align: 'right',
       sortable: true,
@@ -341,7 +341,7 @@ export function useGridColumns(
     {
       field: 'totalWeight',
       title: '总重',
-      formatter: 'formatAmount3',
+      formatter: 'formatAmount2',
       width: 76,
       align: 'right',
       sortable: true,
@@ -453,7 +453,7 @@ export function useDetailItemColumns(
         minWidth: 100,
         formatter: isSalePriceItemHidden(hiddenFields, 'totalProductPrice')
           ? () => '****'
-          : 'formatAmount2',
+          : 'formatSaleAmount6',
       },
       {
         field: 'saleCostPrice',
@@ -461,7 +461,7 @@ export function useDetailItemColumns(
         minWidth: 110,
         formatter: isSalePriceItemHidden(hiddenFields, 'saleCostPrice')
           ? () => '****'
-          : 'formatAmount2',
+          : 'formatSaleAmount6',
       },
       {
         field: 'saleCostAmount',
@@ -469,7 +469,7 @@ export function useDetailItemColumns(
         minWidth: 110,
         formatter: isSalePriceItemHidden(hiddenFields, 'saleCostAmount')
           ? () => '****'
-          : 'formatAmount2',
+          : 'formatSaleAmount6',
       },
       {
         field: 'actualSaleAmount',
@@ -477,7 +477,7 @@ export function useDetailItemColumns(
         minWidth: 120,
         formatter: isSalePriceItemHidden(hiddenFields, 'actualSaleAmount')
           ? () => '****'
-          : 'formatAmount2',
+          : 'formatSaleAmount6',
       },
       { field: 'drawingNo', title: '图号', minWidth: 100 },
       { field: 'batchNo', title: '批次', minWidth: 80 },
@@ -498,14 +498,14 @@ export function useDetailItemColumns(
         field: 'stockCount',
         title: '库存',
         minWidth: 90,
-        formatter: 'formatAmount3',
+        formatter: 'formatSaleDecimal6',
       },
       { field: 'warehousePosition', title: '仓位', minWidth: 80 },
       {
         field: 'unitWeight',
         title: '单重',
         minWidth: 80,
-        formatter: 'formatAmount3',
+        formatter: 'formatSaleDecimal6',
       },
       {
         field: 'packageQty',
@@ -522,7 +522,7 @@ export function useDetailItemColumns(
         field: 'totalWeight',
         title: '总重',
         minWidth: 80,
-        formatter: 'formatAmount3',
+        formatter: 'formatSaleDecimal6',
       },
       {
         field: 'afterReductionPrice',
@@ -530,7 +530,7 @@ export function useDetailItemColumns(
         minWidth: 100,
         formatter: isSalePriceItemHidden(hiddenFields, 'afterReductionPrice')
           ? () => '****'
-          : 'formatAmount2',
+          : 'formatSaleAmount6',
       },
       {
         field: 'afterReductionAmount',
@@ -538,7 +538,7 @@ export function useDetailItemColumns(
         minWidth: 100,
         formatter: isSalePriceItemHidden(hiddenFields, 'afterReductionAmount')
           ? () => '****'
-          : 'formatAmount2',
+          : 'formatSaleAmount6',
       },
       { field: 'originPlace', title: '产地', minWidth: 80 },
       {
@@ -547,7 +547,7 @@ export function useDetailItemColumns(
         minWidth: 100,
         formatter: isSalePriceItemHidden(hiddenFields, 'originalProductPrice')
           ? () => '****'
-          : 'formatAmount2',
+          : 'formatSaleAmount6',
       },
       {
         field: 'remark',
@@ -595,7 +595,7 @@ export function useStockOutDetailItemColumns(
         field: 'count',
         title: '销售数量',
         minWidth: 110,
-        formatter: 'formatAmount3',
+        formatter: 'formatSaleDecimal6',
       },
       {
         field: 'stockOutBillNos',
@@ -613,19 +613,19 @@ export function useStockOutDetailItemColumns(
         field: 'stockOutBillCount',
         title: '出仓数量',
         minWidth: 110,
-        formatter: 'formatAmount3',
+        formatter: 'formatSaleDecimal6',
       },
       {
         field: 'stockOutBillPickedCount',
         title: '已拣货',
         minWidth: 100,
-        formatter: 'formatAmount3',
+        formatter: 'formatSaleDecimal6',
       },
       {
         field: 'stockOutBillRemainCount',
         title: '待拣货',
         minWidth: 100,
-        formatter: 'formatAmount3',
+        formatter: 'formatSaleDecimal6',
       },
     ],
     hiddenFields,

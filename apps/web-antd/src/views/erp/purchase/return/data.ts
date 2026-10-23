@@ -1,3 +1,4 @@
+import { withPurchaseDecimalSchemas } from '#/views/erp/purchase/utils/decimal-form';
 import { withPurchaseCandidateFocus } from '#/views/erp/purchase/utils/candidate-focus';
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
@@ -618,7 +619,7 @@ export function useFormSchema(
     };
   });
 
-  return applyPurchaseFormFieldPermission(visibleOnlySchemas, hiddenFields);
+  return withPurchaseDecimalSchemas(applyPurchaseFormFieldPermission(visibleOnlySchemas, hiddenFields));
 }
 
 /** 表单的明细表格列 */
@@ -673,7 +674,7 @@ export function useFormItemColumns(
           disabled &&
           isPurchaseReturnPriceItemHidden(hiddenFields, 'lastPurchasePrice')
             ? () => '****'
-            : 'formatPurchaseDecimal6',
+            : 'formatPurchaseAmount6',
       },
       {
         field: 'totalProductPrice',
@@ -683,7 +684,7 @@ export function useFormItemColumns(
           disabled &&
           isPurchaseReturnPriceItemHidden(hiddenFields, 'totalProductPrice')
             ? () => '****'
-            : 'formatPurchaseDecimal6',
+            : 'formatPurchaseAmount6',
       },
       {
         field: 'batchNo',
@@ -778,7 +779,7 @@ export function useFormItemColumns(
         field: 'taxPrice',
         title: '税额',
         minWidth: 120,
-        formatter: 'formatPurchaseDecimal6',
+        formatter: 'formatPurchaseAmount6',
       },
       {
         field: 'totalPrice',
@@ -788,7 +789,7 @@ export function useFormItemColumns(
           disabled &&
           isPurchaseReturnPriceItemHidden(hiddenFields, 'totalPrice')
             ? () => '****'
-            : 'formatPurchaseDecimal6',
+            : 'formatPurchaseAmount6',
       },
       {
         field: 'remark',
@@ -1153,13 +1154,13 @@ export function useOrderGridColumns(): VxeTableGridOptions['columns'] {
     {
       field: 'totalProductPrice',
       title: '金额合计',
-      formatter: 'formatPurchaseDecimal6',
+      formatter: 'formatPurchaseAmount6',
       minWidth: 120,
     },
     {
       field: 'totalPrice',
       title: '金额',
-      formatter: 'formatPurchaseDecimal6',
+      formatter: 'formatPurchaseAmount6',
       minWidth: 120,
     },
   ];

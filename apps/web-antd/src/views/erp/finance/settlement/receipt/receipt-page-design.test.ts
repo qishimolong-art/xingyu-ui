@@ -191,9 +191,9 @@ describe('finance receipt page design contract', () => {
       ]),
     ).toEqual({
       documentCount: 2,
-      totalPrice: 2000,
-      discountPrice: 20,
-      receiptPrice: 1980,
+      totalPrice: '2000',
+      discountPrice: '20',
+      receiptPrice: '1980',
     });
     expect(formatFinanceReceiptAmount(1_234_567.8)).toBe('1,234,567.80');
   });

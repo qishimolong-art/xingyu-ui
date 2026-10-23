@@ -1,4 +1,8 @@
-<script lang="ts" setup>import { financeValue, financeDivide } from '#/views/erp/finance/utils/finance-decimal';
+<script lang="ts" setup>
+import {
+  financeValue,
+  financeDivide,
+} from '#/views/erp/finance/utils/finance-decimal';
 
 import { financeMoney as erpPriceInputFormatter } from '#/views/erp/finance/utils/finance-decimal';
 
@@ -22,7 +26,6 @@ import { useVbenModal } from '@vben/common-ui';
 import { DICT_TYPE, ErpBizType } from '@vben/constants';
 import { getDictLabel } from '@vben/hooks';
 import { $t } from '@vben/locales';
-
 
 import { Button, Input, message, Modal } from 'ant-design-vue';
 
@@ -185,7 +188,7 @@ function createDefaultFormData(): ErpFinancePaymentApi.FinancePayment {
   };
 }
 
-const transferLimit = ref<null | number>(null);
+const transferLimit = ref<null | number | string>(null);
 const transferLimitError = ref('');
 
 async function refreshTransferLimit() {
@@ -194,7 +197,7 @@ async function refreshTransferLimit() {
   const requestId = openRequestId;
   const documentId = formData.value.id;
   try {
-    let amount: number | undefined;
+    let amount: number | string | null | undefined;
     if (documentId) {
       const document = await getFinancePayment(documentId, {
         includeItems: false,
@@ -768,7 +771,7 @@ async function loadFinancePaymentItemsPage(
     });
     itemPagination.pageNo = pageNo;
     itemPagination.pageSize = pageSize;
-    itemPagination.total = financeValue(page.total || 0);
+    itemPagination.total = Number(page.total || 0);
     formData.value.items = page.list || [];
     await itemFormRef.value?.setImportedItems(formData.value.items);
   } finally {
@@ -788,7 +791,7 @@ async function fetchAllFinancePaymentItems(id = formData.value.id) {
     mask: false,
   });
   const items = [...(firstPage.list || [])];
-  const total = financeValue(firstPage.total || 0);
+  const total = Number(firstPage.total || 0);
   const pageCount = Math.ceil(financeDivide(total, pageSize));
   for (let pageNo = 2; pageNo <= pageCount; pageNo++) {
     const page = await getFinancePaymentItemPage({

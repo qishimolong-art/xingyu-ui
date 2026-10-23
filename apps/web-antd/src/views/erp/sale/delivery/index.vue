@@ -1534,14 +1534,14 @@ onBeforeUnmount(() => {
                     <template v-else-if="column.dataIndex === 'submitQuantity'">
                       <Input
                         v-model:value="quantities[record.id]"
-                        inputmode="numeric"
+                        inputmode="decimal"
                         :aria-label="`${record.productName || '配件'}本次送货数量`"
                         :disabled="
                           submitLoading ||
                           !canSelectDeliveryItem(record) ||
                           !isDetailItemSelected(record.id)
                         "
-                        placeholder="请填写整数数量"
+                        placeholder="最多6位小数"
                         @click.stop
                       />
                     </template>
@@ -1674,14 +1674,14 @@ onBeforeUnmount(() => {
                   <Input
                     v-if="item.id"
                     v-model:value="quantities[item.id]"
-                    inputmode="numeric"
+                    inputmode="decimal"
                     :aria-label="`${item.productName || '配件'}本次送货数量`"
                     :disabled="
                       submitLoading ||
                       !canSelectDeliveryItem(item) ||
                       !isDetailItemSelected(item.id)
                     "
-                    placeholder="请填写整数数量"
+                    placeholder="最多6位小数"
                   />
                 </div>
                 <div>

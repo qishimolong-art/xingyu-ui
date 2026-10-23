@@ -1,4 +1,5 @@
-<script lang="ts" setup>import { financeSubtract } from '#/views/erp/finance/utils/finance-decimal';
+<script lang="ts" setup>
+import { financeSubtract } from '#/views/erp/finance/utils/finance-decimal';
 
 import type { ErpFinancePaymentApi } from '#/api/erp/finance/payment';
 
@@ -199,7 +200,10 @@ const [Form, formApi] = useVbenForm({
         const totalPrice = toOptionalNumberValue(values.totalPrice) || 0;
         formData.value.discountPrice = discountPrice;
         formData.value.totalPrice = totalPrice;
-        formData.value.paymentPrice = financeSubtract(totalPrice, discountPrice);
+        formData.value.paymentPrice = financeSubtract(
+          totalPrice,
+          discountPrice,
+        );
         formApi.setValues({
           paymentPrice: formData.value.paymentPrice,
         });

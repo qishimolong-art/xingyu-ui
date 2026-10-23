@@ -410,7 +410,7 @@ describe('receivable account page UI contract', () => {
     expect(detailSource).toMatch(/receivable-detail--\$\{displayMode\}/);
     expect(detailSource).toContain("'全部部门'");
     expect(detailSource).toContain('getFinanceReceipt(row.bizId)');
-    expect(detailSource).toContain('Number(row.receiptAmount || 0) !== 0');
+    expect(detailSource).toContain('financeCompare(financeValue(row.receiptAmount || 0), 0) !== 0');
     expect(detailSource).toContain(
       '#/views/erp/finance/settlement/receipt/modules/form.vue',
     );

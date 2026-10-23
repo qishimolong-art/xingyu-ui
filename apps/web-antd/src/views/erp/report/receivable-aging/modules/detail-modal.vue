@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { financeMoneyGrouped } from '#/views/erp/finance/utils/finance-decimal';import { financeValue } from '#/views/erp/finance/utils/finance-decimal';
+import { financeMoneyGrouped } from '#/views/erp/finance/utils/finance-decimal';
+import { financeValue } from '#/views/erp/finance/utils/finance-decimal';
 
 import type { TableColumnsType } from 'ant-design-vue';
 import type { ErpReceivableAgingReportApi } from '#/api/erp/report/receivable-aging';
@@ -72,7 +73,8 @@ const documentTypeMap: Record<string, ReportDocumentType> = {
   SALE_RETURN: REPORT_DOCUMENT_TYPES.SALE_RETURN,
 };
 
-function formatMoney(value: unknown) { return financeMoneyGrouped(value as any);
+function formatMoney(value: unknown) {
+  return financeMoneyGrouped(value as any);
 }
 
 function documentTarget(record: Record<string, any>) {
@@ -108,7 +110,7 @@ async function loadRows() {
     });
     if (sequence !== loadSequence) return;
     rows.value = result.list || [];
-    total.value = financeValue(result.total || 0);
+    total.value = Number(result.total || 0);
   } catch {
     if (sequence === loadSequence) {
       rows.value = [];

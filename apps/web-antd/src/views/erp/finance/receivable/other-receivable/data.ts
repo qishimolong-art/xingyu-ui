@@ -106,12 +106,12 @@ export function useFormSchema(
           placeholder: '请输入应收金额',
           disabled,
           class: 'w-full',
-          
+
           inputMode: 'decimal',
         },
         rules: createOptionalNumberRule('应收金额', {
           nonZero: true,
-          
+
           required: true,
         }),
       },
@@ -123,10 +123,10 @@ export function useFormSchema(
           placeholder: '请输入已结金额',
           disabled,
           class: 'w-full',
-          
+
           inputMode: 'decimal',
         },
-        rules: createOptionalNumberRule('已结金额', { min: 0, }),
+        rules: createOptionalNumberRule('已结金额', { min: 0 }),
         defaultValue: 0,
       },
       {
@@ -190,10 +190,10 @@ export function useFormSchema(
           placeholder: '请输入成本金额',
           disabled,
           class: 'w-full',
-          
+
           inputMode: 'decimal',
         },
-        rules: createOptionalNumberRule('成本金额', { min: 0, }),
+        rules: createOptionalNumberRule('成本金额', { min: 0 }),
         defaultValue: 0,
       },
       {

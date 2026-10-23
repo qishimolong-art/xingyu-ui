@@ -1,4 +1,8 @@
-<script lang="ts" setup>import { financeValue, financeAdd } from '#/views/erp/finance/utils/finance-decimal';
+<script lang="ts" setup>
+import {
+  financeValue,
+  financeAdd,
+} from '#/views/erp/finance/utils/finance-decimal';
 
 import { financeMoney as erpPriceInputFormatter } from '#/views/erp/finance/utils/finance-decimal';
 
@@ -129,7 +133,7 @@ const pageSummary = computed(() => ({
   accountCount: pageRows.value.length,
   currentBalance: pageRows.value.reduce(
     (sum, row) => financeAdd(sum, financeValue(row.currentBalance || 0)),
-    0,
+    '0',
   ),
 }));
 

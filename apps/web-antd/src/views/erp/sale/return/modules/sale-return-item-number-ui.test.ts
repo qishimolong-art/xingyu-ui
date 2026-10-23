@@ -50,18 +50,18 @@ describe('sale return item number inputs', () => {
   });
 
   it('keeps readonly count and price formatting unchanged', () => {
-    expect(itemFormSource).toContain('erpCountInputFormatter(row.count)');
+    expect(itemFormSource).toContain("formatSaleDecimal(row.count, '-')");
     expect(itemFormSource).toContain(
-      'erpPriceInputFormatter(row.productPrice)',
+      "formatSaleAmount(row.productPrice, '-')",
     );
   });
 
-  it('keeps the purchase-return conversion unit price at two decimals', () => {
+  it('keeps the purchase-return conversion unit price at up to six decimals', () => {
     expect(purchaseReturnFormSource).toMatch(
-      /v-model:value="record\.productPrice"[\s\S]*?:formatter="erpPriceInputFormatter"[\s\S]*?:precision="2"/,
+      /v-model:value="record\.productPrice"[\s\S]*?:formatter="[\s\S]*?formatSaleAmount[\s\S]*?:precision="6"/,
     );
     expect(purchaseReturnFormSource).toContain(
-      'Number(record.productPrice || 0)',
+      'saleDecimalMultiply(',
     );
   });
 });

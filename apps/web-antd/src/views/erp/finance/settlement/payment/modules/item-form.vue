@@ -1,4 +1,10 @@
-<script lang="ts" setup>import { financeAdd, financeValue, financeSubtract, financeCompare } from '#/views/erp/finance/utils/finance-decimal';
+<script lang="ts" setup>
+import {
+  financeAdd,
+  financeValue,
+  financeSubtract,
+  financeCompare,
+} from '#/views/erp/finance/utils/finance-decimal';
 
 import DecimalAmountInput from '#/views/erp/components/DecimalAmountInput.vue';
 import { useFinanceCandidateFocus } from '#/views/erp/finance/utils/candidate-focus';
@@ -165,15 +171,15 @@ function handlePageChange(pageNo: number, pageSize: number) {
 const summaries = computed(() => ({
   totalPrice: tableData.value.reduce(
     (sum, item) => financeAdd(sum, item.totalPrice || 0),
-    0,
+    '0',
   ),
   paidPrice: tableData.value.reduce(
     (sum, item) => financeAdd(sum, item.paidPrice || 0),
-    0,
+    '0',
   ),
   paymentPrice: tableData.value.reduce(
     (sum, item) => financeAdd(sum, financeValue(item.paymentPrice || 0)),
-    0,
+    '0',
   ),
 }));
 
@@ -258,7 +264,6 @@ function handleRowChange(row: ErpFinancePaymentApi.FinancePaymentItem) {
   }
   lastEmittedItemsSignature = getItemsSignature(tableData.value);
   emit('update:items', [...tableData.value]);
-
 }
 
 function getItemsSignature(
@@ -321,14 +326,20 @@ function validate() {
     if (
       item?.paymentPrice === undefined ||
       item.paymentPrice === null ||
-      (financeCompare(item.paymentPrice, 0) === 0)
+      financeCompare(item.paymentPrice, 0) === 0
     ) {
       throw new Error(`第 ${i + 1} 行：本次结算金额不能为 0`);
     }
-    if ((financeCompare(item.totalPrice || 0, 0) > 0) && (financeCompare(item.paymentPrice, 0) < 0)) {
+    if (
+      financeCompare(item.totalPrice || 0, 0) > 0 &&
+      financeCompare(item.paymentPrice, 0) < 0
+    ) {
       throw new Error(`第 ${i + 1} 行：正向单据的本次付款不能小于 0`);
     }
-    if ((financeCompare(item.totalPrice || 0, 0) < 0) && (financeCompare(item.paymentPrice, 0) > 0)) {
+    if (
+      financeCompare(item.totalPrice || 0, 0) < 0 &&
+      financeCompare(item.paymentPrice, 0) > 0
+    ) {
       throw new Error(`第 ${i + 1} 行：负向单据的本次结算金额不能大于 0`);
     }
   }

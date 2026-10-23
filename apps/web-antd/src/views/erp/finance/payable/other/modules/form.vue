@@ -1,4 +1,5 @@
-<script lang="ts" setup>import { financeValue } from '#/views/erp/finance/utils/finance-decimal';
+<script lang="ts" setup>
+import { financeValue } from '#/views/erp/finance/utils/finance-decimal';
 
 import { useFinanceCandidateFocus } from '#/views/erp/finance/utils/candidate-focus';
 

@@ -1,9 +1,11 @@
 import { financeListMoney } from './finance-decimal';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 
-import { erpCountTableColumnFormatter,
+import {
+  erpCountTableColumnFormatter,
   formatDate,
-  formatDateTime } from '@vben/utils';
+  formatDateTime,
+} from '@vben/utils';
 
 type FinanceListColumn = NonNullable<VxeTableGridOptions['columns']>[number];
 
@@ -390,8 +392,14 @@ export function prepareFinanceDocumentListColumns<
 ): NonNullable<VxeTableGridOptions['columns']> {
   const preparedColumns = columns.map((column) => {
     const { minWidth: _minWidth, ...restColumn } = column as FinanceListColumn;
-    if (/(?:Price|Amount|Balance)$|^(amount|balance)$/.test(String(column.field ?? '')) && !column.slots) {
-      restColumn.formatter = ({ cellValue }: any) => financeListMoney(cellValue);
+    if (
+      /(?:Price|Amount|Balance)$|^(amount|balance)$/.test(
+        String(column.field ?? ''),
+      ) &&
+      !column.slots
+    ) {
+      restColumn.formatter = ({ cellValue }: any) =>
+        financeListMoney(cellValue);
     }
     return {
       ...restColumn,

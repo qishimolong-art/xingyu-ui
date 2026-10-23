@@ -1746,9 +1746,7 @@ async function handleBatchUpdateItemsSuccess(
             :aria-invalid="decimalInvalid(row, 'productPrice')"
             :data-erp-item-row-key="getItemRowKey(row)"
             data-stock-check-productPrice-input="true"
-            @input="
-              handleDecimalInput(row, 'productPrice', $event.target.value ?? '')
-            "
+            @update:value="handleDecimalInput(row, 'productPrice', $event)"
             @blur="handleDecimalBlur(row, 'productPrice')"
             @press-enter="handleItemInputPressEnter"
           />
@@ -1765,9 +1763,7 @@ async function handleBatchUpdateItemsSuccess(
             :aria-invalid="decimalInvalid(row, 'totalPrice')"
             :data-erp-item-row-key="getItemRowKey(row)"
             data-stock-check-total-price-input="true"
-            @input="
-              handleDecimalInput(row, 'totalPrice', $event.target.value ?? '')
-            "
+            @update:value="handleDecimalInput(row, 'totalPrice', $event)"
             @blur="handleDecimalBlur(row, 'totalPrice')"
             @press-enter="handleItemInputPressEnter"
           />

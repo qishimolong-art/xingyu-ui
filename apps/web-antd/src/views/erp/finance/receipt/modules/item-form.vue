@@ -1,4 +1,12 @@
-<script lang="ts" setup>import { financeAdd, financeSubtract, financeValue, financeCompare, financeSign, financeAbs } from '#/views/erp/finance/utils/finance-decimal';
+<script lang="ts" setup>
+import {
+  financeAdd,
+  financeSubtract,
+  financeValue,
+  financeCompare,
+  financeSign,
+  financeAbs,
+} from '#/views/erp/finance/utils/finance-decimal';
 
 import DecimalAmountInput from '#/views/erp/components/DecimalAmountInput.vue';
 import { financeMoney as erpPriceInputFormatter } from '#/views/erp/finance/utils/finance-decimal';
@@ -10,7 +18,6 @@ import type { ErpSaleReturnApi } from '#/api/erp/sale/return';
 import { computed, nextTick, ref, watch } from 'vue';
 
 import { ErpBizType } from '@vben/constants';
-
 
 import { Input, InputNumber, message } from 'ant-design-vue';
 
@@ -51,15 +58,15 @@ const summaries = computed(() => {
   return {
     totalPrice: tableData.value.reduce(
       (sum, item) => financeAdd(sum, item.totalPrice || 0),
-      0,
+      '0',
     ),
     receiptedPrice: tableData.value.reduce(
       (sum, item) => financeAdd(sum, item.receiptedPrice || 0),
-      0,
+      '0',
     ),
     receiptPrice: tableData.value.reduce(
       (sum, item) => financeAdd(sum, item.receiptPrice || 0),
-      0,
+      '0',
     ),
   };
 });
@@ -129,13 +136,16 @@ watch(
     }
     const totalPrice = tableData.value.reduce(
       (prev, curr) => financeAdd(prev, curr.totalPrice || 0),
-      0,
+      '0',
     );
     const receiptPrice = tableData.value.reduce(
       (prev, curr) => financeAdd(prev, curr.receiptPrice || 0),
-      0,
+      '0',
     );
-    const finalReceiptPrice = financeSubtract(receiptPrice, props.discountPrice || 0);
+    const finalReceiptPrice = financeSubtract(
+      receiptPrice,
+      props.discountPrice || 0,
+    );
     // 通知父组件更新
     emit('update:total-price', totalPrice);
     emit('update:receipt-price', finalReceiptPrice);
@@ -231,13 +241,15 @@ function validate() {
   // 检查每行的收款金额
   for (let i = 0; i < tableData.value.length; i++) {
     const item = tableData.value[i];
-    const remaining =
-      financeSubtract(financeValue(item?.totalPrice || 0), financeValue(item?.receiptedPrice || 0));
+    const remaining = financeSubtract(
+      financeValue(item?.totalPrice || 0),
+      financeValue(item?.receiptedPrice || 0),
+    );
     const amount = financeValue(item?.receiptPrice || 0);
     if (
-      (financeCompare(amount, 0) === 0) ||
-      (financeCompare(financeSign(amount), financeSign(remaining)) !== 0) ||
-      (financeCompare(financeAbs(amount), financeAbs(remaining)) > 0)
+      financeCompare(amount, 0) === 0 ||
+      financeCompare(financeSign(amount), financeSign(remaining)) !== 0 ||
+      financeCompare(financeAbs(amount), financeAbs(remaining)) > 0
     ) {
       throw new Error(`第 ${i + 1} 行：核销金额必须在未核销金额范围内`);
     }

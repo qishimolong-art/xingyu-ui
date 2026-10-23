@@ -38,7 +38,10 @@ export function getPayableExpensePageSummary(
 ) {
   return {
     documentCount: rows.length,
-    totalAmount: rows.reduce((sum, row) => financeAdd(sum, row.totalAmount || 0), 0),
+    totalAmount: rows.reduce(
+      (sum, row) => financeAdd(sum, row.totalAmount || 0),
+      '0',
+    ),
   };
 }
 

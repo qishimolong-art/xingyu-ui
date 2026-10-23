@@ -1,3 +1,4 @@
+import { withSaleDecimalSchemas } from '#/views/erp/sale/utils/decimal-form';
 import { withCandidateFocus } from '#/views/erp/utils/candidate-focus';
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
@@ -42,7 +43,7 @@ export function useFormSchema(
   deptOptions: any[] = [],
 ): VbenFormSchema[] {
   const disabled = formType === 'detail';
-  return withCandidateFocus(
+  return withSaleDecimalSchemas(withCandidateFocus(
     withEnterBlurInputSchemas(
       applySaleFormFieldPermission(
         [
@@ -196,7 +197,7 @@ export function useFormSchema(
         hiddenFields,
       ),
     ),
-  );
+  ));
 }
 
 export function useFormItemColumns(
@@ -223,7 +224,7 @@ export function useFormItemColumns(
         formatter:
           disabled && isSalePriceItemHidden(hiddenFields, 'oldPrice')
             ? () => '****'
-            : 'formatAmount2',
+            : 'formatSaleAmount6',
         sortable: true,
       },
       {
@@ -237,14 +238,14 @@ export function useFormItemColumns(
         field: 'outCount',
         title: '出库数',
         width: 88,
-        formatter: 'formatAmount3',
+        formatter: 'formatSaleDecimal6',
         sortable: true,
       },
       {
         field: 'stockCount',
         title: '库存',
         width: 80,
-        formatter: 'formatAmount3',
+        formatter: 'formatSaleDecimal6',
         sortable: true,
       },
       {
@@ -263,7 +264,7 @@ export function useFormItemColumns(
         field: 'weight',
         title: '重量',
         width: 80,
-        formatter: 'formatAmount3',
+        formatter: 'formatSaleDecimal6',
         sortable: true,
       },
       { field: 'packageQty', title: '包装数', width: 90, sortable: true },
@@ -287,7 +288,7 @@ export function useFormItemColumns(
         formatter:
           disabled && isSalePriceItemHidden(hiddenFields, 'adjustPrice')
             ? () => '****'
-            : 'formatAmount2',
+            : 'formatSaleAmount6',
         sortable: true,
       },
       {

@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { financeMoneyGrouped } from '#/views/erp/finance/utils/finance-decimal';import { financeValue } from '#/views/erp/finance/utils/finance-decimal';
+import { financeAdd } from '#/views/erp/finance/utils/finance-decimal';
+
+import { financeMoneyGrouped } from '#/views/erp/finance/utils/finance-decimal';
+import { financeValue } from '#/views/erp/finance/utils/finance-decimal';
 
 import type { TableColumnsType, TablePaginationConfig } from 'ant-design-vue';
 
@@ -116,17 +119,26 @@ const columns = computed<TableColumnsType<Record<string, any>>>(() => [
 ]);
 
 const pageSummary = computed(() => {
-  let totalPrice = 0;
-  let actualPrice = 0;
-  let allocatedPrice = 0;
-  let discountPrice = 0;
-  let unallocatedPrice = 0;
+  let totalPrice = '0';
+  let actualPrice = '0';
+  let allocatedPrice = '0';
+  let discountPrice = '0';
+  let unallocatedPrice = '0';
   for (const row of rows.value as Array<Record<string, any>>) {
-    totalPrice += financeValue(row.totalPrice || 0);
-    actualPrice += Number(row[amountField.value] || 0);
-    allocatedPrice += financeValue(row.allocatedPrice || 0);
-    discountPrice += financeValue(row.discountPrice || 0);
-    unallocatedPrice += financeValue(row.unallocatedPrice || 0);
+    totalPrice = financeAdd(totalPrice, financeValue(row.totalPrice || 0));
+    actualPrice = financeAdd(actualPrice, Number(row[amountField.value] || 0));
+    allocatedPrice = financeAdd(
+      allocatedPrice,
+      financeValue(row.allocatedPrice || 0),
+    );
+    discountPrice = financeAdd(
+      discountPrice,
+      financeValue(row.discountPrice || 0),
+    );
+    unallocatedPrice = financeAdd(
+      unallocatedPrice,
+      financeValue(row.unallocatedPrice || 0),
+    );
   }
   return {
     actualPrice,
@@ -138,7 +150,8 @@ const pageSummary = computed(() => {
   };
 });
 
-function formatMoney(value: unknown) { return financeMoneyGrouped(value as any);
+function formatMoney(value: unknown) {
+  return financeMoneyGrouped(value as any);
 }
 
 function formatDate(value: unknown) {

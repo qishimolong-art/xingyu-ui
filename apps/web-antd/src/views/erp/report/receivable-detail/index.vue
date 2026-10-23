@@ -228,7 +228,8 @@ const textFormatter = ({ cellValue }: { cellValue: unknown }) =>
     : String(cellValue);
 const moneyFormatter = ({ cellValue }: { cellValue: unknown }) =>
   formatMoney(cellValue);
-function formatMoney(value: unknown) { return financeMoneyGrouped(value as any);
+function formatMoney(value: unknown) {
+  return financeMoneyGrouped(value as any);
 }
 function formatNumber(value: unknown) {
   const number = Number(value);

@@ -1,4 +1,14 @@
-<script lang="ts" setup>import { financeValue, financeSubtract, financeCompare } from '#/views/erp/finance/utils/finance-decimal';
+<script lang="ts" setup>
+import {
+  financeSign,
+  financeAbs,
+  financeCompare,
+} from '#/views/erp/finance/utils/finance-decimal';
+import {
+  financeValue,
+  financeSubtract,
+  financeCompare,
+} from '#/views/erp/finance/utils/finance-decimal';
 
 import DecimalAmountInput from '#/views/erp/components/DecimalAmountInput.vue';
 import { financeMoney as erpPriceInputFormatter } from '#/views/erp/finance/utils/finance-decimal';
@@ -9,8 +19,6 @@ import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 import type { ErpFinancePaymentApi } from '#/api/erp/finance/payment';
 
 import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue';
-
-
 
 import { Button, Input, message } from 'ant-design-vue';
 
@@ -110,7 +118,10 @@ function createRow(
     financeValue(row.allocatedPrice || 0),
   );
   const outstandingPrice = normalizeFinanceAmount(
-    financeValue(row.unallocatedPrice ?? financeSubtract(normalizedTotalPrice, normalizedPaidPrice)),
+    financeValue(
+      row.unallocatedPrice ??
+        financeSubtract(normalizedTotalPrice, normalizedPaidPrice),
+    ),
   );
   const paymentPrice = normalizeFinanceAmount(
     current?.paymentPrice ?? outstandingPrice,
@@ -142,11 +153,11 @@ function getOutstandingPrice(row: PurchaseBillRow) {
 }
 
 const autoWriteOffPreviewMap = computed(() => {
-  const result = new Map<string, number>();
+  const result = new Map<string, number | string>();
   if (props.autoWriteOffPreviewDisabled) return result;
   tableRows.value.forEach((row) => {
     const amount = normalizeFinanceAmount(row.autoWriteOffPreviewAmount || 0);
-    if ((financeCompare(amount, 0) !== 0)) result.set(row.clientRowKey, amount);
+    if (financeCompare(amount, 0) !== 0) result.set(row.clientRowKey, amount);
   });
   return result;
 });
@@ -157,13 +168,13 @@ function getAutoWriteOffPreviewAmount(row: PurchaseBillRow) {
 
 function getAutoWriteOffPreviewTitle(row: PurchaseBillRow) {
   const amount = getAutoWriteOffPreviewAmount(row);
-  return (financeCompare(amount, 0) === 0)
+  return financeCompare(amount, 0) === 0
     ? undefined
     : `审核通过后预计由系统自动核销 ￥${erpPriceInputFormatter(amount)}`;
 }
 
 function getPurchaseBillRowClass(row: PurchaseBillRow) {
-  return getAutoWriteOffPreviewAmount(row) === 0
+  return financeCompare(getAutoWriteOffPreviewAmount(row), 0) === 0
     ? ''
     : 'payment-purchase-select__auto-writeoff-row';
 }
@@ -172,9 +183,13 @@ function syncSelectedRowsFromProps() {
   selectedRowMap.clear();
   props.currentItems.forEach((item) => {
     if (!item.bizType || !item.bizId) return;
-    const totalPrice = normalizeFinanceAmount(financeValue(item.totalPrice || 0));
+    const totalPrice = normalizeFinanceAmount(
+      financeValue(item.totalPrice || 0),
+    );
     const paidPrice = normalizeFinanceAmount(financeValue(item.paidPrice || 0));
-    const paymentPrice = normalizeFinanceAmount(financeValue(item.paymentPrice || 0));
+    const paymentPrice = normalizeFinanceAmount(
+      financeValue(item.paymentPrice || 0),
+    );
     const row = {
       ...item,
       id: item.bizId,
@@ -253,7 +268,7 @@ async function loadRows(
       selectedRowMap.set(row.clientRowKey, row);
     });
     tableRows.value = rows;
-    candidateTotal.value = financeValue(response.total || 0);
+    candidateTotal.value = Number(response.total || 0);
     globalAutoWriteOffCount.value = Number(response.autoWriteOffCount || 0);
     globalAutoWriteOffAmount.value = normalizeFinanceAmount(
       response.autoWriteOffAmount || 0,
@@ -410,12 +425,13 @@ function handlePaymentPriceBlur(row: PurchaseBillRow) {
   const outstanding = getOutstandingPrice(row);
   if (
     normalized !== undefined &&
-    (Math.sign(normalized) !== Math.sign(outstanding) ||
-      Math.abs(normalized) > Math.abs(outstanding))
+    (financeSign(normalized) !== financeSign(outstanding) ||
+      financeCompare(financeAbs(normalized), financeAbs(outstanding)) > 0)
   ) {
-    row.paymentPrice = outstanding;
     message.warning('本次付款必须与来源方向一致，且不能超过剩余可核销金额');
+    return;
   } else {
+    if (normalized === undefined) return;
     (row as any).paymentPrice = normalized;
   }
   handleRowChange(row);
@@ -577,7 +593,9 @@ const [BillGrid, billGridApi] = useVbenVxeGrid({
       checkField: 'selected',
       highlight: true,
       checkMethod: ({ row }) =>
-        !props.disabled && Boolean(row.bizId) && getOutstandingPrice(row) !== 0,
+        !props.disabled &&
+        Boolean(row.bizId) &&
+        financeCompare(getOutstandingPrice(row), 0) !== 0,
     },
     sortConfig: {
       remote: true,
@@ -670,7 +688,7 @@ defineExpose({
           </a>
           <span v-else>{{ row.bizNo || '-' }}</span>
           <span
-            v-if="getAutoWriteOffPreviewAmount(row) !== 0"
+            v-if="financeCompare(getAutoWriteOffPreviewAmount(row), 0) !== 0"
             class="payment-purchase-select__auto-tag"
             :title="getAutoWriteOffPreviewTitle(row)"
           >

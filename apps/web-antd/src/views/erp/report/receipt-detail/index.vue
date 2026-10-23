@@ -241,7 +241,8 @@ const rateFormatter = ({ cellValue }: { cellValue: unknown }) => {
   return Number.isFinite(number) ? `${(number * 100).toFixed(2)}%` : '-';
 };
 
-function formatMoney(value: unknown) { return financeMoneyGrouped(value as any);
+function formatMoney(value: unknown) {
+  return financeMoneyGrouped(value as any);
 }
 
 function formatNumber(value: unknown) {

@@ -8,12 +8,13 @@ describe('misc transfer amount', () => {
     [300, 700],
     [-300, -700],
     [0, 0],
-    [0.1 + 0.2, 0.3],
+    ['0.3', '0.3'],
   ])('allows %s within %s', (value, limit) => {
     expect(getTransferAmountError(value, limit)).toBe('');
   });
   it.each([
     [701, 700],
+    ['0.300001', '0.3'],
     [-701, -700],
     [-1, 700],
     [1, -700],

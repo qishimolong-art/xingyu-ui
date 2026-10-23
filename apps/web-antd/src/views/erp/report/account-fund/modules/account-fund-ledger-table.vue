@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { financeMoneyGrouped } from '#/views/erp/finance/utils/finance-decimal';import { financeValue, financeSubtract } from '#/views/erp/finance/utils/finance-decimal';
+import { financeAdd } from '#/views/erp/finance/utils/finance-decimal';
+
+import { financeMoneyGrouped } from '#/views/erp/finance/utils/finance-decimal';
+import {
+  financeValue,
+  financeSubtract,
+} from '#/views/erp/finance/utils/finance-decimal';
 
 import type { TableColumnsType, TablePaginationConfig } from 'ant-design-vue';
 
@@ -88,18 +94,21 @@ const columns: TableColumnsType<Record<string, any>> = [
 ];
 
 const pageSummary = computed(() => {
-  let receiptAmount = 0;
-  let paymentAmount = 0;
-  let discountPrice = 0;
-  let totalPrice = 0;
+  let receiptAmount = '0';
+  let paymentAmount = '0';
+  let discountPrice = '0';
+  let totalPrice = '0';
   for (const row of rows.value) {
     const actualPrice = financeValue(row.actualPrice || 0);
-    totalPrice += financeValue(row.totalPrice || 0);
-    discountPrice += financeValue(row.discountPrice || 0);
+    totalPrice = financeAdd(totalPrice, financeValue(row.totalPrice || 0));
+    discountPrice = financeAdd(
+      discountPrice,
+      financeValue(row.discountPrice || 0),
+    );
     if (row.billType === 'receipt') {
-      receiptAmount += actualPrice;
+      receiptAmount = financeAdd(receiptAmount, actualPrice);
     } else if (row.billType === 'payment') {
-      paymentAmount += actualPrice;
+      paymentAmount = financeAdd(paymentAmount, actualPrice);
     }
   }
   return {
@@ -112,7 +121,8 @@ const pageSummary = computed(() => {
   };
 });
 
-function formatMoney(value: unknown) { return financeMoneyGrouped(value as any);
+function formatMoney(value: unknown) {
+  return financeMoneyGrouped(value as any);
 }
 
 function formatDate(value: unknown) {

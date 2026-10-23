@@ -682,7 +682,9 @@ export type ComponentType =
  * 与 {@link ComponentType} 中注册的组件名一一对应，便于 Schema 上 `component` + `componentProps` 联动提示
  */
 export interface ComponentPropsMap {
-  DecimalAmountInput: Omit<InputProps, 'value'> & { value?: null | number | string };
+  DecimalAmountInput: Omit<InputProps, 'value'> & {
+    value?: null | number | string;
+  };
   ApiCascader: ApiComponentSharedProps & CascaderProps;
   ApiSelect: ApiComponentSharedProps & SelectProps;
   ApiTreeSelect: ApiComponentSharedProps & TreeSelectProps;

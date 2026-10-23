@@ -1,4 +1,7 @@
-import { financeMoney, financeMoneyGrouped } from '#/views/erp/finance/utils/finance-decimal';
+import {
+  financeMoney,
+  financeMoneyGrouped,
+} from '#/views/erp/finance/utils/finance-decimal';
 export const stockMoney = financeMoney;
 export const stockMoneyGrouped = financeMoneyGrouped;
 /* eslint-disable unicorn/require-number-to-fixed-digits-argument -- BigNumber.toFixed() preserves all decimal digits. */

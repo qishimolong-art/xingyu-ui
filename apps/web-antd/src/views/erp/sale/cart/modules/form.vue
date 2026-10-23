@@ -9,15 +9,12 @@ import { computed, defineAsyncComponent, h, nextTick, ref, provide } from 'vue';
 import { useAccess } from '@vben/access';
 import { useVbenModal } from '@vben/common-ui';
 import { useUserStore } from '@vben/stores';
-import {
-  erpCountInputFormatter,
-  formatDateTime,
-} from '@vben/utils';
+import { formatDateTime } from '@vben/utils';
 
 import { Modal as AntdModal, Button, Empty, message } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { formatSaleAmount } from '#/views/erp/sale/utils/decimal';
+import { formatSaleDecimal, formatSaleAmount } from '#/views/erp/sale/utils/decimal';
 import { getAccountSimpleList } from '#/api/erp/finance/account';
 import {
   cancelFirstApproveSaleCart,
@@ -3069,7 +3066,7 @@ async function handleItemPageChange(payload: {
           <strong>单据合计</strong>
           <span v-if="isDetailFieldVisible('totalCount')">
             数量
-            <b>{{ erpCountInputFormatter(formData?.totalCount || 0) }}</b>
+            <b>{{ formatSaleDecimal(formData?.totalCount || 0) }}</b>
           </span>
           <span
             v-if="

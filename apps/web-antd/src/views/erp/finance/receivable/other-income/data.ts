@@ -125,7 +125,7 @@ export function useFormSchema(
         componentProps: {
           placeholder: '总金额',
           class: 'w-full',
-          
+
           inputMode: 'decimal',
           disabled: true,
         },

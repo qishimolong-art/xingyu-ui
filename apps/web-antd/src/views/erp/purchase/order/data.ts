@@ -1,3 +1,4 @@
+import { withPurchaseDecimalSchemas } from '#/views/erp/purchase/utils/decimal-form';
 import { withPurchaseCandidateFocus } from '#/views/erp/purchase/utils/candidate-focus';
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
@@ -119,7 +120,7 @@ export function useFormSchema(
   formType: string,
   hiddenFields: string[] = [],
 ): VbenFormSchema[] {
-  return applyPurchaseFormFieldPermission(
+  return withPurchaseDecimalSchemas(applyPurchaseFormFieldPermission(
     withPurchaseCandidateFocus([
       {
         fieldName: 'id',
@@ -247,7 +248,7 @@ export function useFormSchema(
       },
     ]),
     hiddenFields,
-  );
+  ));
 }
 
 /** 表单的明细表格列 */
@@ -330,7 +331,7 @@ export function useFormItemColumns(
           disabled &&
           isPurchaseOrderPriceItemHidden(hiddenFields, 'lastPurchasePrice')
             ? () => '****'
-            : 'formatPurchaseDecimal6',
+            : 'formatPurchaseAmount6',
         sortable: true,
       },
       {
@@ -341,7 +342,7 @@ export function useFormItemColumns(
           disabled &&
           isPurchaseOrderPriceItemHidden(hiddenFields, 'totalProductPrice')
             ? () => '****'
-            : 'formatPurchaseDecimal6',
+            : 'formatPurchaseAmount6',
         sortable: true,
       },
       {

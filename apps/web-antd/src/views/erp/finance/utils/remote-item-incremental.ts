@@ -1,3 +1,4 @@
+import { financeValue } from './finance-decimal';
 type RemoteItem = Record<string, any>;
 
 const DEFAULT_IGNORED_KEYS = new Set([
@@ -50,7 +51,15 @@ export function normalizeRemoteItemForCompare(
   return Object.fromEntries(
     Object.entries(item)
       .filter(([key]) => !ignoredKeys.has(key))
-      .map(([key, value]) => [key, normalizeRemoteComparableValue(value)])
+      .map(([key, value]) => [
+        key,
+        /(?:Price|Amount|Balance)$|^amount$/.test(key) &&
+        value != null &&
+        value !== '' &&
+        value !== '****'
+          ? financeValue(value)
+          : normalizeRemoteComparableValue(value),
+      ])
       .filter(([, value]) => value !== null)
       .toSorted(([first], [second]) => first.localeCompare(second)),
   );

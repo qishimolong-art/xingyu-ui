@@ -35,9 +35,9 @@ describe('other payable page design contract', () => {
       ]),
     ).toEqual({
       documentCount: 2,
-      outstandingAmount: 1500.25,
-      payableAmount: 2000.5,
-      settledAmount: 500.25,
+      outstandingAmount: '1500.25',
+      payableAmount: '2000.5',
+      settledAmount: '500.25',
     });
     expect(formatOtherPayableAmount(1_234_567.8)).toBe('1,234,567.80');
   });

@@ -2,7 +2,10 @@
 import { computed } from 'vue';
 
 import ErpDocumentSummaryBar from '#/views/erp/components/ErpDocumentSummaryBar.vue';
-import { stockNatural as erpCountInputFormatter } from '#/views/erp/stock/utils/stock-decimal';
+import {
+  stockNatural as erpCountInputFormatter,
+  stockMoney,
+} from '#/views/erp/stock/utils/stock-decimal';
 
 import { formatStockNaturalNumber } from '../utils/document-number';
 
@@ -23,7 +26,7 @@ function formatValue(entry: SummaryEntry) {
   if (entry.value === '****') return '****';
   if (entry.value === null || entry.value === undefined) return '-';
   if (entry.format === 'price') {
-    return `¥${formatStockNaturalNumber(entry.value)}`;
+    return `¥${stockMoney(entry.value)}`;
   }
   return props.naturalNumbers
     ? formatStockNaturalNumber(entry.value)

@@ -204,7 +204,8 @@ function useGridFormSchema(): VbenFormSchema[] {
   });
 }
 
-function formatMoney(value: unknown) { return financeMoneyGrouped(value as any);
+function formatMoney(value: unknown) {
+  return financeMoneyGrouped(value as any);
 }
 const textFormatter = ({ cellValue }: { cellValue: unknown }) =>
   cellValue === null || cellValue === undefined || cellValue === ''

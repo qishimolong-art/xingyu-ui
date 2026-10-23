@@ -1,3 +1,7 @@
+import {
+  financeValue,
+  financeDecimal,
+} from '#/views/erp/finance/utils/finance-decimal';
 import { financeAbs } from '#/views/erp/finance/utils/finance-decimal';
 import { financeMoney as erpPriceInputFormatter } from '#/views/erp/finance/utils/finance-decimal';
 import type { VbenFormSchema } from '#/adapter/form';
@@ -6,7 +10,6 @@ import type { ErpAccountApi } from '#/api/erp/finance/account';
 
 import { CommonStatusEnum, DICT_TYPE } from '@vben/constants';
 import { getDictOptions } from '@vben/hooks';
-
 
 import { z } from '#/adapter/form';
 import { getAccountDeptSimplePage } from '#/api/erp/finance/account';
@@ -39,12 +42,8 @@ export const ACCOUNT_TRANSACTION_SORT_FIELD_MAP = {
   bizNo: 'bizNo',
 } as const;
 
-function toNumber(value: number | string | undefined) {
-  if (value === undefined || value === null || value === '') {
-    return undefined;
-  }
-  const numberValue = Number(value);
-  return Number.isFinite(numberValue) ? numberValue : undefined;
+function toNumber(value: number | string | null | undefined) {
+  return value == null || value === '' ? undefined : financeValue(value);
 }
 
 export function resolveTransactionReceiptAmount(
@@ -63,7 +62,7 @@ export function resolveTransactionPaymentAmount(
 }
 
 export function formatTransactionAmountCell(
-  value: number | string | undefined,
+  value: number | string | null | undefined,
 ) {
   const numberValue = toNumber(value);
   return numberValue === undefined ? '-' : erpPriceInputFormatter(numberValue);

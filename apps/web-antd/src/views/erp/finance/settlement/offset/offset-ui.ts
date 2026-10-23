@@ -1,4 +1,9 @@
-import { financeCompare, financeValue, financeAbs, financeAdd } from '#/views/erp/finance/utils/finance-decimal';
+import {
+  financeCompare,
+  financeValue,
+  financeAbs,
+  financeAdd,
+} from '#/views/erp/finance/utils/finance-decimal';
 export type OffsetDirection = 'balanced' | 'payable' | 'receivable';
 export type OffsetSettlementState = 'partial' | 'settled' | 'unsettled';
 
@@ -9,8 +14,8 @@ export interface OffsetSettlementStateMeta {
 
 export function getOffsetDirection(value: unknown): OffsetDirection {
   const amount = Number(value || 0);
-  if ((financeCompare(amount, 0) > 0)) return 'receivable';
-  if ((financeCompare(amount, 0) < 0)) return 'payable';
+  if (financeCompare(amount, 0) > 0) return 'receivable';
+  if (financeCompare(amount, 0) < 0) return 'payable';
   return 'balanced';
 }
 
@@ -24,8 +29,10 @@ function getSettlementState(
   settledAmount: number | string | null,
   balance: unknown,
 ): OffsetSettlementState {
-  if ((financeCompare(settledAmount, 0) <= 0)) return 'unsettled';
-  return (financeCompare(financeValue(balance ?? 0), 0) <= 0) ? 'settled' : 'partial';
+  if (financeCompare(settledAmount, 0) <= 0) return 'unsettled';
+  return financeCompare(financeValue(balance ?? 0), 0) <= 0
+    ? 'settled'
+    : 'partial';
 }
 
 export function getReceivableSettlementState(row: {
@@ -40,13 +47,23 @@ export function getReceivableSettlementState(row: {
     const allocatedAmount = financeAbs(financeValue(row.allocatedAmount || 0));
     const documentAmount =
       row.writeOffBaseAmount === undefined || row.writeOffBaseAmount === null
-        ? financeAbs(financeAdd(financeValue(row.increaseAmount || 0), financeValue(row.receiptAmount || 0)))
+        ? financeAbs(
+            financeAdd(
+              financeValue(row.increaseAmount || 0),
+              financeValue(row.receiptAmount || 0),
+            ),
+          )
         : financeAbs(financeValue(row.writeOffBaseAmount || 0));
-    if ((financeCompare(allocatedAmount, 0) <= 0)) return 'unsettled';
-    return (financeCompare(allocatedAmount, documentAmount) >= 0) ? 'settled' : 'partial';
+    if (financeCompare(allocatedAmount, 0) <= 0) return 'unsettled';
+    return financeCompare(allocatedAmount, documentAmount) >= 0
+      ? 'settled'
+      : 'partial';
   }
   return getSettlementState(
-    financeAdd(financeValue(row.receiptAmount ?? 0), financeValue(row.writeOffAmount ?? 0)),
+    financeAdd(
+      financeValue(row.receiptAmount ?? 0),
+      financeValue(row.writeOffAmount ?? 0),
+    ),
     row.balance,
   );
 }
@@ -63,13 +80,23 @@ export function getPayableSettlementState(row: {
     const allocatedAmount = financeAbs(financeValue(row.allocatedAmount || 0));
     const documentAmount =
       row.writeOffBaseAmount === undefined || row.writeOffBaseAmount === null
-        ? financeAbs(financeAdd(financeValue(row.increaseAmount || 0), financeValue(row.paymentAmount || 0)))
+        ? financeAbs(
+            financeAdd(
+              financeValue(row.increaseAmount || 0),
+              financeValue(row.paymentAmount || 0),
+            ),
+          )
         : financeAbs(financeValue(row.writeOffBaseAmount || 0));
-    if ((financeCompare(allocatedAmount, 0) <= 0)) return 'unsettled';
-    return (financeCompare(allocatedAmount, documentAmount) >= 0) ? 'settled' : 'partial';
+    if (financeCompare(allocatedAmount, 0) <= 0) return 'unsettled';
+    return financeCompare(allocatedAmount, documentAmount) >= 0
+      ? 'settled'
+      : 'partial';
   }
   return getSettlementState(
-    financeAdd(financeValue(row.paymentAmount ?? 0), financeValue(row.writeOffAmount ?? 0)),
+    financeAdd(
+      financeValue(row.paymentAmount ?? 0),
+      financeValue(row.writeOffAmount ?? 0),
+    ),
     row.balance,
   );
 }

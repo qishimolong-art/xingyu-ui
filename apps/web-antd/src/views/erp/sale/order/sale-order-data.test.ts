@@ -56,10 +56,10 @@ describe('sale order grid data', () => {
     ).toBeTruthy();
     expect(
       columns.find((column) => column.field === 'totalProductPrice')?.formatter,
-    ).toBe('formatAmount2');
+    ).toBe('formatSaleAmount6');
     expect(
       columns.find((column) => column.field === 'totalPrice')?.formatter,
-    ).toBe('formatAmount2');
+    ).toBe('formatSaleAmount6');
   });
 
   it('uses lightweight search controls for list performance', () => {

@@ -1,4 +1,8 @@
-<script lang="ts" setup>import { financeValue, financeCompare } from '#/views/erp/finance/utils/finance-decimal';
+<script lang="ts" setup>
+import {
+  financeValue,
+  financeCompare,
+} from '#/views/erp/finance/utils/finance-decimal';
 
 import { financeMoney as erpPriceInputFormatter } from '#/views/erp/finance/utils/finance-decimal';
 
@@ -394,7 +398,7 @@ async function loadData(options: { resetPage?: boolean } = {}) {
     const data = await getReceivableDrilldownPage(queryParams.value);
     if (sequence !== loadSequence) return;
     detailList.value = withDetailRowKeys(data.list || []);
-    detailTotal.value = financeValue(data.total || 0);
+    detailTotal.value = Number(data.total || 0);
     drilldownSummary.value = data.summary || {};
     await renderDetailList();
   } catch {
@@ -470,9 +474,9 @@ function isReceiptDetailRow(row: ErpReceivableAccountApi.ReceivableDetail) {
   return Boolean(
     !row.bizType &&
     row.bizId &&
-    (financeCompare(financeValue(row.receiptAmount || 0), 0) !== 0) &&
-    (financeCompare(financeValue(row.increaseAmount || 0), 0) <= 0) &&
-    (financeCompare(financeValue(row.writeOffAmount || 0), 0) <= 0),
+    financeCompare(financeValue(row.receiptAmount || 0), 0) !== 0 &&
+    financeCompare(financeValue(row.increaseAmount || 0), 0) <= 0 &&
+    financeCompare(financeValue(row.writeOffAmount || 0), 0) <= 0,
   );
 }
 
@@ -495,7 +499,10 @@ async function handleOpenReceiptWriteOff(
   if (!row.bizId) return;
   try {
     const receipt = await getFinanceReceipt(row.bizId);
-    if (!receipt || (financeCompare(financeValue(receipt.unallocatedPrice || 0), 0) === 0)) {
+    if (
+      !receipt ||
+      financeCompare(financeValue(receipt.unallocatedPrice || 0), 0) === 0
+    ) {
       message.warning('当前收款单没有未核销金额');
       return;
     }

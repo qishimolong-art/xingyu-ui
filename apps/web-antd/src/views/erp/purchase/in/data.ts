@@ -1,3 +1,4 @@
+import { withPurchaseDecimalSchemas } from '#/views/erp/purchase/utils/decimal-form';
 import { withPurchaseCandidateFocus } from '#/views/erp/purchase/utils/candidate-focus';
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
@@ -72,7 +73,7 @@ export function useFormSchema(
   formType: string,
   hiddenFields: string[] = [],
 ): VbenFormSchema[] {
-  return applyPurchaseFormFieldPermission(
+  return withPurchaseDecimalSchemas(applyPurchaseFormFieldPermission(
     withPurchaseCandidateFocus([
       {
         fieldName: 'id',
@@ -242,7 +243,7 @@ export function useFormSchema(
       },
     ]),
     hiddenFields,
-  );
+  ));
 }
 
 export function useFormItemColumns(
@@ -298,7 +299,7 @@ export function useFormItemColumns(
           disabled &&
           isPurchaseInPriceItemHidden(hiddenFields, 'lastPurchasePrice')
             ? () => '****'
-            : 'formatPurchaseDecimal6',
+            : 'formatPurchaseAmount6',
       },
       {
         field: 'totalProductPrice',
@@ -308,7 +309,7 @@ export function useFormItemColumns(
           disabled &&
           isPurchaseInPriceItemHidden(hiddenFields, 'totalProductPrice')
             ? () => '****'
-            : 'formatPurchaseDecimal6',
+            : 'formatPurchaseAmount6',
       },
       {
         field: 'productCostPrice',
@@ -318,7 +319,7 @@ export function useFormItemColumns(
           disabled &&
           isPurchaseInPriceItemHidden(hiddenFields, 'productCostPrice')
             ? () => '****'
-            : 'formatPurchaseDecimal6',
+            : 'formatPurchaseAmount6',
       },
       {
         field: 'productCostAmount',
@@ -328,7 +329,7 @@ export function useFormItemColumns(
           disabled &&
           isPurchaseInPriceItemHidden(hiddenFields, 'productCostAmount')
             ? () => '****'
-            : 'formatPurchaseDecimal6',
+            : 'formatPurchaseAmount6',
       },
       {
         field: 'adjustStatus',
@@ -444,7 +445,7 @@ export function useFormItemColumns(
         field: 'taxPrice',
         title: '税额',
         minWidth: 120,
-        formatter: 'formatPurchaseDecimal6',
+        formatter: 'formatPurchaseAmount6',
       },
       {
         field: 'totalPrice',
@@ -453,7 +454,7 @@ export function useFormItemColumns(
         formatter:
           disabled && isPurchaseInPriceItemHidden(hiddenFields, 'totalPrice')
             ? () => '****'
-            : 'formatPurchaseDecimal6',
+            : 'formatPurchaseAmount6',
       },
       {
         field: 'remark',
@@ -877,13 +878,13 @@ export function useOrderGridColumns(): VxeTableGridOptions['columns'] {
     {
       field: 'totalProductPrice',
       title: '金额合计',
-      formatter: 'formatPurchaseDecimal6',
+      formatter: 'formatPurchaseAmount6',
       minWidth: 120,
     },
     {
       field: 'totalPrice',
       title: '金额',
-      formatter: 'formatPurchaseDecimal6',
+      formatter: 'formatPurchaseAmount6',
       minWidth: 120,
     },
   ];

@@ -23,7 +23,7 @@ const frameRef = ref<HTMLIFrameElement>();
 const accessStore = useAccessStore();
 const cacheVersion = import.meta.env.DEV
   ? `&t=${Date.now()}`
-  : '&v=20261023-stock-decimal-display';
+  : '&v=20261023b-stock-decimal-display';
 
 const moduleKey = computed(() => modalData.value.moduleKey || 'purchase_order');
 const moduleName = computed(() => modalData.value.moduleName || '打印单据');
@@ -40,6 +40,15 @@ const templateUrl = computed(() => {
   });
   if (
     [
+      'finance_payment',
+      'finance_receipt',
+      'finance_transfer',
+      'payable_expense',
+      'payable_misc',
+      'payable_other',
+      'receivable_misc',
+      'receivable_other',
+      'receivable_other_income',
       'stock_check',
       'stock_in',
       'stock_move',

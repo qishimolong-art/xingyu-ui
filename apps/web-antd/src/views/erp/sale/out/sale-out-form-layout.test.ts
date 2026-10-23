@@ -352,7 +352,7 @@ describe('sale out detail layout contract', () => {
   it('formats normal and adjusted sale-out item prices to two decimals', () => {
     expect(formSource).toContain('function formatItemPrice(value: unknown)');
     expect(formSource).toContain(
-      "return erpPriceInputFormatter(value as number | string) || '-';",
+      "return formatSaleAmount(value, '-');",
     );
     expect(formSource).toContain(
       "formatItemPrice(getRowValue(row, 'productPrice'))",

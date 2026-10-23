@@ -1,4 +1,9 @@
-import { financeValue, financeCompare, financeAbs, financeAdd } from '#/views/erp/finance/utils/finance-decimal';
+import {
+  financeValue,
+  financeCompare,
+  financeAbs,
+  financeAdd,
+} from '#/views/erp/finance/utils/finance-decimal';
 import type { ErpPayableAccountApi } from '#/api/erp/finance/payable/account';
 
 export type PayableDetailPaymentState = 'partial' | 'settled' | 'unpaid';
@@ -6,9 +11,9 @@ export type PayableDetailPaymentState = 'partial' | 'settled' | 'unpaid';
 function isPaymentDetailRow(row: ErpPayableAccountApi.PayableDetail) {
   return Boolean(
     !row.bizType &&
-    (financeCompare(financeValue(row.paymentAmount || 0), 0) !== 0) &&
-    (financeCompare(financeValue(row.increaseAmount || 0), 0) <= 0) &&
-    (financeCompare(financeValue(row.writeOffAmount || 0), 0) <= 0),
+    financeCompare(financeValue(row.paymentAmount || 0), 0) !== 0 &&
+    financeCompare(financeValue(row.increaseAmount || 0), 0) <= 0 &&
+    financeCompare(financeValue(row.writeOffAmount || 0), 0) <= 0,
   );
 }
 
@@ -24,10 +29,16 @@ export function getPayableDetailPaymentState(
       row.allocatedAmount === undefined || row.allocatedAmount === null
         ? undefined
         : financeAbs(financeValue(row.allocatedAmount || 0));
-    if (allocatedAmount === undefined || (financeCompare(allocatedAmount, 0) <= 0)) {
+    if (
+      allocatedAmount === undefined ||
+      financeCompare(allocatedAmount, 0) <= 0
+    ) {
       return 'partial';
     }
-    return (financeCompare(allocatedAmount, financeAbs(financeValue(row.paymentAmount || 0))) >= 0)
+    return financeCompare(
+      allocatedAmount,
+      financeAbs(financeValue(row.paymentAmount || 0)),
+    ) >= 0
       ? 'settled'
       : 'partial';
   }
@@ -36,15 +47,26 @@ export function getPayableDetailPaymentState(
     const allocatedAmount = financeAbs(financeValue(row.allocatedAmount || 0));
     const documentAmount =
       row.writeOffBaseAmount === undefined || row.writeOffBaseAmount === null
-        ? financeAbs(financeAdd(financeValue(row.increaseAmount || 0), financeValue(row.paymentAmount || 0)))
+        ? financeAbs(
+            financeAdd(
+              financeValue(row.increaseAmount || 0),
+              financeValue(row.paymentAmount || 0),
+            ),
+          )
         : financeAbs(financeValue(row.writeOffBaseAmount || 0));
-    if ((financeCompare(allocatedAmount, 0) <= 0)) return 'unpaid';
-    return (financeCompare(allocatedAmount, documentAmount) >= 0) ? 'settled' : 'partial';
+    if (financeCompare(allocatedAmount, 0) <= 0) return 'unpaid';
+    return financeCompare(allocatedAmount, documentAmount) >= 0
+      ? 'settled'
+      : 'partial';
   }
-  const settledAmount =
-    financeAdd(financeValue(row.paymentAmount ?? 0), financeValue(row.writeOffAmount ?? 0));
-  if ((financeCompare(settledAmount, 0) <= 0)) return 'unpaid';
-  return (financeCompare(financeValue(row.balance ?? 0), 0) <= 0) ? 'settled' : 'partial';
+  const settledAmount = financeAdd(
+    financeValue(row.paymentAmount ?? 0),
+    financeValue(row.writeOffAmount ?? 0),
+  );
+  if (financeCompare(settledAmount, 0) <= 0) return 'unpaid';
+  return financeCompare(financeValue(row.balance ?? 0), 0) <= 0
+    ? 'settled'
+    : 'partial';
 }
 
 export function sumPayableAccountAmount(

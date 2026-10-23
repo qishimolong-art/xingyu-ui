@@ -1,4 +1,5 @@
-import { erpCountInputFormatter } from '@vben/utils';
+import { formatSaleDecimal } from '#/views/erp/sale/utils/decimal';
+
 
 export interface SaleCartStockShortageMessageItem {
   productCode?: string;
@@ -16,7 +17,7 @@ export function buildSaleCartStockShortageText(
   const lines = shortages.slice(0, limit).map((item) => {
     const productName = item.productName || item.productCode || '未命名产品';
     const warehouseName = item.warehouseName || '当前仓库';
-    return `${productName}（${warehouseName}）：需要 ${erpCountInputFormatter(item.requiredCount)}，库存 ${erpCountInputFormatter(item.stockCount)}，缺 ${erpCountInputFormatter(item.shortageCount)}`;
+    return `${productName}（${warehouseName}）：需要 ${formatSaleDecimal(item.requiredCount)}，库存 ${formatSaleDecimal(item.stockCount)}，缺 ${formatSaleDecimal(item.shortageCount)}`;
   });
   if (shortages.length > limit) {
     lines.push(`另有 ${shortages.length - limit} 项库存不足`);

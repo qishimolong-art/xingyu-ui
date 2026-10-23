@@ -894,7 +894,7 @@ describe('sale quote item form product selection', () => {
     expect(testState.openProductForm).not.toHaveBeenCalled();
   });
 
-  it('金额固定两位、其他数字去尾零且未编辑原值保持不变', async () => {
+  it('金额至少两位最多六位、数量自然小数且原值保持不变', async () => {
     const container = document.createElement('div');
     const app = createApp(ItemForm, {
       compact: true,
@@ -931,7 +931,7 @@ describe('sale quote item form product selection', () => {
     expect(testState.renderedRows[0]).toEqual(
       expect.objectContaining({
         countText: '1.25',
-        productPriceText: '20.57',
+        productPriceText: '20.567',
       }),
     );
     expect(testState.renderedRows[1]).toEqual(

@@ -1,4 +1,8 @@
-<script lang="ts" setup>import { financeValue, financeAdd } from '#/views/erp/finance/utils/finance-decimal';
+<script lang="ts" setup>
+import {
+  financeValue,
+  financeAdd,
+} from '#/views/erp/finance/utils/finance-decimal';
 
 import { financeMoney as erpPriceInputFormatter } from '#/views/erp/finance/utils/finance-decimal';
 
@@ -55,7 +59,7 @@ const summary = computed(() => ({
   count: detailList.value.length,
   increaseAmount: detailList.value.reduce(
     (sum, item) => financeAdd(sum, financeValue(item.increaseAmount || 0)),
-    0,
+    '0',
   ),
 }));
 
